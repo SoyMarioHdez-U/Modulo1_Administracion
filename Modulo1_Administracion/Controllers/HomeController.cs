@@ -12,7 +12,8 @@ namespace Modulo1_Administracion.Controllers
         {
             _logger = logger;
         }
-
+        
+       
         public IActionResult Index()
         {
             return View();
