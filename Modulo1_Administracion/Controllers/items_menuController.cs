@@ -36,11 +36,10 @@ namespace Modulo1_Administracion.Controllers
                                     select new
                                     {
                                         nombre = e.nombre,
-                                        descripcion = e.descripcion,
-                                        estado_id = e.id_estado,
-                                        estado_nombre = m.nombre
+                                        estado = m.nombre,
+                                        
                                     }
-                                   ).ToList();
+                                    ).ToList();
             ViewData["listadoDeItems"] = listadoDeItems;
 
 

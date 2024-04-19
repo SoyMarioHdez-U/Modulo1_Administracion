@@ -108,6 +108,24 @@
     <div class="tablas">
         <h5 style="font-family: 'Amaranth';">Listado de ítems actual:</h5>
         <!-- Aquí puedes añadir las tablas u otro contenido relacionado -->
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var equipo in (IEnumerable<dynamic>)ViewData["listadoDeItems"])
+                {
+                    <tr>
+                        <td>@equipo.nombre</td>
+                        <td>@equipo.estado</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
        
     </div>
 </div>
