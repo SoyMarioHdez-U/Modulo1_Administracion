@@ -20,3 +20,111 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*INICIO PAGINA COMBOS*/
+.amaranth-regular {
+    font-family: "Amaranth", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.amaranth-bold {
+    font-family: "Amaranth", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.amaranth-regular-italic {
+    font-family: "Amaranth", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.amaranth-bold-italic {
+    font-family: "Amaranth", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+body {
+    background-color: #D0D3D9;
+}
+
+.hrHorizontal {
+    color: #a60c18;
+    border-width: 0.3vw;
+    margin: 0;
+    width: 95%;
+    opacity: 1;
+}
+
+.icono img {
+    width: 80px;
+}
+
+.size-area {
+    width: 100%;
+    height: 130px;
+    border-style: none;
+    font-size: 1.3vw;
+    padding-left: 15px;
+}
+
+.size-text {
+    width: 100%;
+    height: 30px;
+    border-style: none;
+    font-size: 1.3vw;
+    padding-left: 15px;
+}
+
+.size-combo {
+    width: 100%;
+    height: 30px;
+    border-style: none;
+    font-size: 1.3vw;
+    padding-left: 15px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url('https://firebasestorage.googleapis.com/v0/b/dulcesabor-imagenes.appspot.com/o/icono_abajo.png?alt=media&token=27a6418a-59b4-4543-9c59-8d2fff171362'), linear-gradient(to bottom, #ffffff 0%,#f7f7f7 100%);
+    background-repeat: no-repeat, repeat;
+    background-position: right 0 top 0, 0 0;
+    background-size: 30px, 100%;
+}
+
+.botones {
+    color: white;
+    background-color: #a60c18;
+    border-style: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 45px;
+    font-size: 1.3vw;
+}
+
+.navPaginacion {
+    display: flex;
+    justify-content: space-around;
+    padding: 1px 0px 1px 0px;
+    list-style: none;
+    font-size: 1.2vw;
+}
+
+.page-item {
+    border-left: solid grey;
+    width: 70px;
+    text-align: center;
+    border-width: 1px;
+}
+
+table a {
+    text-decoration: none;
+}
+
+.navPaginacion a {
+    text-decoration: none;
+    color: black;
+    align-items: center;
+}
+/*FIN PAGINA COMBOS*/
