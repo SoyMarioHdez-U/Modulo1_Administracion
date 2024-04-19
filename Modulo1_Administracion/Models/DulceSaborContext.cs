@@ -5,7 +5,7 @@ namespace Modulo1_Administracion.Models
     public class DulceSaborContext : DbContext
     {
         public DulceSaborContext(DbContextOptions options) : base(options) {
-        
+            
         }
 
         public DbSet<cargos> cargos { get; set; }
@@ -14,6 +14,7 @@ namespace Modulo1_Administracion.Models
         public DbSet<items_combo> items_combo { get; set; }
         public DbSet<items_promo> items_promo { get; set; }
         public DbSet<mesas> mesas { get; set; }
+        public DbSet<estados> estados { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

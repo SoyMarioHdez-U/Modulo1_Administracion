@@ -3,8 +3,32 @@
 *@
 @{
 }
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif; /* Aplica Montserrat a todo el cuerpo */
+        background-color: #F5F5F5; /* Establece el color de fondo del cuerpo */
+    }
+    .primario {
+        display: flex;
+        justify-content: space-between; /* Esto distribuye los elementos horizontalmente */
+    }
+
+    .formulario,
+    .tablas {
+        width: 48%; /* Para dejar un pequeño espacio entre los divs */
+    }
+
+    .ancho-80 {
+        width: 80%;
+        margin: 0 auto; /* Centra el contenedor horizontalmente */
+    }
+</style>
+
 <header>
     <div>
+        <div class="imagen">
+            <a class="imagen"><img src="https://cdn-icons-png.flaticon.com/512/1175/1175770.png" height="70px" width="70px" style="float: left; margin-right: 10px;" /></a>
+        </div>
         <div>
             <h3 style="font-family: 'Amaranth'">Items menú</h3>
             <p>Administración de los ítems del menú</p>
@@ -15,9 +39,75 @@
 </header>
 <div class="primario">
     <div class="formulario">
-        <h3 style="font-family: 'Amaranth';"></h3>
+        <h5 style="font-family: 'Amaranth';">Agregue nuevos ítems al menú:</h5>
+        <!-- Aquí puedes añadir el formulario u otro contenido relacionado -->
+        <form asp-action="CrearItem">
+            @*Inicio del Formulario*@
+            <div class="formulario ancho-80">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group mb-4">
+                            <label>Nombre:</label>
+                            @Html.TextBox("nombre", "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group mb-4">
+                            @Html.Label("lblDescripcion", "Descripción:")
+                            @Html.TextArea("descripcion", "", new { @class = "form-control", @placeHolder = "Ingrese la descripción" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group mb-4">
+                            @Html.Label("lblPrecio", "Precio:")
+                            @Html.TextArea("precio", "", new { @class = "form-control", @placeHolder = "$" })
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group mb-4">
+                            @Html.Label("lblImagen", "Imagen:")
+                            @Html.TextArea("imagen", "", new { @class = "form-control", @placeHolder = "URL" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group mb-4">
+                            @Html.Label("lblEstado", "Estado:")
+                            @Html.DropDownList("estado_id", ViewData["listadoDeEstados"] as SelectList, "Seleccione un estado", new { @class = "form-control" })
+                            
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group mb-4">
+                            @Html.Label("lblCategoria", "Categoría:")
+                            @Html.DropDownList("categoria_id", ViewData["listadoDeCategorias"] as SelectList, "Seleccione una categoría", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-group mb-4">
+                            <input type="submit" class="btn btn-primary" value="Guardar" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*Fin del Formulario*@
+        </form>
+
+
+
+
     </div>
     <div class="tablas">
-
+        <h5 style="font-family: 'Amaranth';">Listado de ítems actual:</h5>
+        <!-- Aquí puedes añadir las tablas u otro contenido relacionado -->
+       
     </div>
 </div>

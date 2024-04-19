@@ -16,17 +16,38 @@ namespace Modulo1_Administracion.Controllers
         public items_menuController(DulceSaborContext context)
         {
             _context = context;
+            
         }
 
         [HttpGet]
         public ActionResult items_menuNew()
         {
-            // Puedes hacer cualquier procesamiento adicional si es necesario
-            // Por ejemplo, validar el URL de la imagen
+            var listaDeCategorias = (from c in _context.categorias
+                                     select c).ToList();
+            ViewData["listadoDeCategorias"] = new SelectList(listaDeCategorias, "id_categoria", "categoria");
 
-            // Puedes pasar el URL de la imagen a la vista como parte del modelo
-            return View(); // Puedes pasar el URL de la imagen como parte del modelo
+            var listaDeEstados = (from e in _context.estados
+                                  where e.tipo_estado == "Menu"
+                                  select e).ToList();
+            ViewData["listadoDeEstados"] = new SelectList(listaDeEstados, "id_estado", "nombre");
+
+            var listadoDeItems = (from e in _context.items_menu
+                                    join m in _context.estados on e.id_estado equals m.id_estado
+                                    select new
+                                    {
+                                        nombre = e.nombre,
+                                        descripcion = e.descripcion,
+                                        estado_id = e.id_estado,
+                                        estado_nombre = m.nombre
+                                    }
+                                   ).ToList();
+            ViewData["listadoDeItems"] = listadoDeItems;
+
+
+
+            return View();
         }
+
 
         // GET: items_menu
         public async Task<IActionResult> Index()
@@ -90,6 +111,13 @@ namespace Modulo1_Administracion.Controllers
             return View(items_menu);
         }
 
+        public IActionResult CrearItem(items_menu nuevoItem)
+        {
+            _context.Add(nuevoItem);
+            _context.SaveChanges();
+
+            return RedirectToAction("items_menuNew");
+        }
         // POST: items_menu/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
