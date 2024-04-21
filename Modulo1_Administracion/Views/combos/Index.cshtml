@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<Modulo1_Administracion.Models.combos>
 
+
 @{
-    ViewData["Title"] = "Crear Combos";
+    ViewData["Title"] = "Create";
 }
 
-<hr class="hrHorizontal">
+ <hr class="hrHorizontal">
 
 <div class="d-flex ms-5 mt-3">
     <div class="icono">
-        <img src="https://firebasestorage.googleapis.com/v0/b/dulcesabor-imagenes.appspot.com/o/hamburguesa.png?alt=media&token=4d72cf41-4b0c-454e-b959-82ee2f77e9d4" alt="">
+        <img src="" alt="">
     </div>
 
     <div class="tituloTexto align-middle ms-3">
@@ -23,11 +24,11 @@
     <div class="d-flex w-100 ">
         <h4 class="ms-2">Administración del combos</h4>
         <h4 style="margin-left: 360px;">Listado de combos</h4>
-    </div>
+    </div> 
 
     @* INICIO DE LA SECCION CREAR COMBO (FORMULARIO) *@
-    <form asp-action="Create">
-    <div class="d-flex">
+    
+     <div class="d-flex">
         <div class="container mt-4 w-50 align-middle">
             <div class="row align-items-start mb-2">
                 <div class="col-3">
@@ -44,8 +45,9 @@
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        <textarea class="size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
+                            <textarea class="size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
                                   id="floatingTextarea"></textarea>
+                            
                     </div>
                 </div>
             </div>
@@ -63,6 +65,7 @@
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                     </select>
+                        
                 </div>
             </div>
 
@@ -71,7 +74,8 @@
                     <h5>Imagen (URL):</h5>
                 </div>
                 <div class="col">
-                    <input type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text">
+                        <input type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text">
+                        
                 </div>
             </div>
 
@@ -98,11 +102,11 @@
                     <input type="submit" value="Crear combo" class="botones">
                 </div>
             </div>
-        </div>
-    </form>
+        </div> 
+    
     @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
 
-        <hr class="position-absolute " style="height: 50%; top: 20%; left: 50.5%; border-left: solid #000;">
+         <hr class="position-absolute " style="height: 50%; top: 20%; left: 50.5%; border-left: solid #000;">
 
         <div class="ms-5 mt-4 w-50">
             <table class="w-100" style="font-size: 1.3vw;">
@@ -116,9 +120,9 @@
                 </thead>
                 <tbody>
                     <tr style="background-color: white;">
-                        <td scope="row" class="text-center ">1</td>
-                        <td>Combo BeefStar</td>
-                        <td>10.49</td>
+                        <td scope="row" class="text-center ">@Html.DisplayNameFor(model => model.id_combo)</td>
+                        <td>@Html.DisplayNameFor(model => model.descripcion)</td>
+                        <td>@Html.DisplayNameFor(model => model.precio)</td>
                         <td><a href="#">Detalles</a></td>
                     </tr>
                     <tr style="height: 3px;">
@@ -191,9 +195,10 @@
 
 </div>
 
-<h1>Index</h1>
 
-<p>
+ <h1>Index</h1> 
+
+ <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -237,4 +242,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table> 

@@ -45,7 +45,12 @@ namespace Modulo1_Administracion.Controllers
         // GET: combos/Create
         public IActionResult Create()
         {
-            return View();
+
+
+            IEnumerable<combos> listaCombos = (from e in _context.combos
+                                        select e).ToList();
+
+            return View(listaCombos);
         }
 
         // POST: combos/Create

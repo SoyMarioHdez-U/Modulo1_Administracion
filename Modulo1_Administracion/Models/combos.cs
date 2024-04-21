@@ -3,7 +3,7 @@ namespace Modulo1_Administracion.Models
 {
     public class combos
     {
-        [Key]
+        [Key]   
         public int id_combo {  get; set; }
         public string? descripcion { get; set; }
         public decimal? precio { get; set; }
