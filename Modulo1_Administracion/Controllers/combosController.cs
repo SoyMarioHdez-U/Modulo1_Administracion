@@ -40,26 +40,14 @@ namespace Modulo1_Administracion.Controllers
 
 
             //Aquí estamos solicitando el listado de los Departamentos en la bd
-            //var listadoDeDeClientes = (from c in _DulceSaborContext.clientes
-            //                           join d in _DulceSaborContext.departamentos on c.id_departamento equals d.id
-            //                           join p in _DulceSaborContext.puestos on c.id_puesto equals p.id
-            //                           select new
-            //                           {
-            //                               id = c.id,
-
-            //                               nombre = c.nombre,
-            //                               apellido = c.apellido,
-            //                               email = c.email,
-            //                               direccion = c.direccion,
-            //                               genero = c.genero,
-            //                               id_departamento = d.departamento,
-            //                               id_puesto = p.puesto,
-            //                               estado_registro = c.estado_registro,
-            //                               created_at = c.created_at,
-            //                               updated_at = c.updated_at
-
-            //                           }).ToList();
-            //ViewData["listadoDeClientes"] = listadoDeDeClientes;
+            var listadoDeCombos = (from c in _DulceSaborContext.combos
+                                       select new
+                                       {
+                                           id = c.id_combo,
+                                           nombre = c.descripcion,
+                                           precio = c.precio
+                                       }).ToList();
+            ViewData["listadoDeCombos"] = listadoDeCombos;
 
 
 
@@ -73,9 +61,12 @@ namespace Modulo1_Administracion.Controllers
         }
 
         // GET: combos/Create
-        public IActionResult CreateCombo(combos nuevoCombos)
+        public IActionResult CreateCombo(combos nuevoCombos, items_combo nuevoItemsCombo)
         {
             _DulceSaborContext.Add(nuevoCombos);
+            _DulceSaborContext.SaveChanges();
+
+            _DulceSaborContext.Add(nuevoItemsCombo);
             _DulceSaborContext.SaveChanges();
 
             return RedirectToAction("Index");
