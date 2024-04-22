@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Modulo1_Administracion.Models.items_combo_menu
+
+@{
     ViewData["Title"] = "Index";
 }
 
@@ -46,9 +48,9 @@
                     </div>
                     <div class="col">
                         <div class="d-flex">
-                            @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana." })
-                            @* <textarea asp-for="descripcion" class="size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
-                                      id="floatingTextarea"></textarea> *@
+                            @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana." }) *@
+                            <textarea asp-for="descripcion" class="size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
+                                      id="floatingTextarea"></textarea>
 
                         </div>
                     </div>
@@ -59,16 +61,17 @@
                         <h5>Precio:</h5>
                     </div>
                     <div class="col d-flex ">
-                        @Html.TextBox("precio", "", new { @class = "size-text" })
-                        @* <input asp-for="precio" type="text" class="size-text" placeholder="10.49"> *@
+                        @* @Html.TextBox("precio", "", new { @class = "size-text" }) *@
+                        <input asp-for="precio" type="text" class="size-text" placeholder="10.49">
                         <h5 class="ms-3 me-3 ">Estado:</h5>
-                        @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" })
-                        @* <select class="size-combo" aria-label="Default select example">
-                            <option selected style="color: #D0D3D9; font-size: 1.3vw;">Activo</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select> *@
+                        @* @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
+                        <select class="size-combo" asp-for="id_estado" aria-label="Default select example">
+                            <option selected style="color: #D0D3D9; font-size: 1.3vw;">(Seleccionar estado...)</option>
+                            @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
+                            {
+                                <option value="@item.id_estado">@item.nombre</option>
+                            }
+                        </select>
 
                     </div>
                 </div>
@@ -78,8 +81,8 @@
                         <h5>Imagen (URL):</h5>
                     </div>
                     <div class="col">
-                        <input type="file" name="imagen" id="imagen" class="form-control" value="" />
-                        @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text"> *@
+                        <input type="file" asp-for="imagen" name="imagen" id="imagen" class="form-control" value="" />
+                        @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text">*@
 
                     </div>
                 </div>
@@ -90,12 +93,13 @@
                     </div>
                     <div class="col">
                         @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
-                        @* <select class="size-combo" aria-label="Default select example">
+                        <select asp-for="id_items_menu" class="size-combo" aria-label="Default select example">
                             <option selected>(Seleccionar items...)</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select> *@
+                            @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
+                            {
+                                <option value="@item.id_item_menu">@item.nombre</option>
+                            }
+                        </select>
                     </div>
                 </div>
 

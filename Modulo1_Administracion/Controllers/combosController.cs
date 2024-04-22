@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Firebase.Auth;
+using Firebase.Storage;
 using Modulo1_Administracion.Models;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Modulo1_Administracion.Controllers
 {
@@ -26,11 +30,11 @@ namespace Modulo1_Administracion.Controllers
             //Aquí estamos invocando el listado de puestos de la tabla puestos
             var listaDePlatos = (from m in _DulceSaborContext.items_menu
                                   select m).ToList();
-            ViewData["listadoDePlatos"] = new SelectList(listaDePlatos, "id_item_menu", "nombre");
+            ViewData["listadoDePlatos"] = listaDePlatos;
 
             var listaDeEstados = (from m in _DulceSaborContext.estados
                                  select m).ToList();
-            ViewData["listadoDeEstados"] = new SelectList(listaDeEstados, "id_estado", "nombre");
+            ViewData["listadoDeEstados"] = listaDeEstados;
 
             //Aquí estamos invocando el listado de departamentos de la tabla departamentos
             //var listaDeDepartamentos = (from m in _DulceSaborContext.departamentos
@@ -49,10 +53,38 @@ namespace Modulo1_Administracion.Controllers
                                        }).ToList();
             ViewData["listadoDeCombos"] = listadoDeCombos;
 
-
-
             return View();
         }
+
+        [HttpPost]
+        //public async Task<ActionResult> SubirArchivo(IFormFile archivo)
+        //{
+        //    //Leemos el archivo subido
+        //    Stream archivoASubir = archivo.OpenReadStream();
+
+        //    //Configuramos la conexion hacia FireBase
+        //    string email = "carlos.murga1@catolica.edu.sv";
+        //    string clave = "h1n12002";
+        //    string ruta = "dulcesabor-imagenes.appspot.com";
+        //    string api_key = "AIzaSyCUmhGjhkkuvkE5S5bnPXjTHIYn9qW5pl4";
+
+        //    var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
+        //    var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
+
+        //    var cancellation = new CancellationTokenSource();
+        //    var tokenUser = autenticarFireBase.FirebaseToken;
+
+        //    var tareaCargarArchivo = new FirebaseStorage(ruta,
+        //        new FirebaseStorageOptions
+        //        {
+        //            AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
+        //            ThrowOnCancel = true
+        //        }).Child("Combos").Child(archivo.FileName).PutAsync(archivoASubir, cancellation.Token);
+
+        //    var urlArchivoCargado = await tareaCargarArchivo;
+
+        //    return urlArchivoCargado;
+        //}
 
         // GET: combos/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -61,12 +93,46 @@ namespace Modulo1_Administracion.Controllers
         }
 
         // GET: combos/Create
-        public IActionResult CreateCombo(combos nuevoCombos, items_combo nuevoItemsCombo)
+        public IActionResult CreateCombo(items_combo_menu combo_menu)
         {
-            _DulceSaborContext.Add(nuevoCombos);
+            int id_combo = 0;
+            combos combosObj = new combos();
+            items_combo_dos items = new items_combo_dos();
+
+            try
+            {
+                
+
+            } catch (Exception ex) { ex.ToString(); }
+
+            
+
+            combosObj.descripcion = combo_menu.descripcion;
+            combosObj.precio = combo_menu.precio;
+            combosObj.imagen = combo_menu.imagen;
+            combosObj.id_estado = combo_menu.id_estado;
+
+            _DulceSaborContext.combos.Add(combosObj);
             _DulceSaborContext.SaveChanges();
 
-            _DulceSaborContext.Add(nuevoItemsCombo);
+            var listadoDeCombos = (from c in _DulceSaborContext.combos
+                                   select new
+                                   {
+                                       id = c.id_combo,
+                                       nombre = c.descripcion,
+                                       precio = c.precio
+                                   }).ToList();
+            ViewData["listadoDeCombos"] = listadoDeCombos;
+
+            foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCombos"])
+            {
+                id_combo = item.id;
+            }
+
+            items.id_combo = id_combo;
+            items.id_items_menu = combo_menu.id_items_menu;
+
+            _DulceSaborContext.items_combo_dos.Add(items);
             _DulceSaborContext.SaveChanges();
 
             return RedirectToAction("Index");
