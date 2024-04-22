@@ -29,16 +29,25 @@
     </div>
 
     @* INICIO DE LA SECCION CREAR COMBO (FORMULARIO) *@
+    <script>
+        function addPlato() 
+        {
+            var plato = document.querySelector(".item_combo").value;
+            var desc = document.querySelector(".desc_area");
+
+            desc.append(plato + ",");
+        }
+    </script>
 
     <div class="d-flex">
-        <form asp-action="CreateCombo">
+        <form asp-action="CreateCombo" method="post" enctype="multipart/form-data">
             <div class="container mt-4 w-100 align-middle">
                 <div class="row align-items-start mb-2">
                     <div class="col-3">
                         <h5>Nombre:</h5>
                     </div>
                     <div class="col">
-                        <input type="text" placeholder="Combo PolloCrisp" class="size-text">
+                        <input type="text" asp-for="nombre" placeholder="Combo PolloCrisp" class="size-text">
                     </div>
                 </div>
 
@@ -49,7 +58,7 @@
                     <div class="col">
                         <div class="d-flex">
                             @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana." }) *@
-                            <textarea asp-for="descripcion" class="size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
+                            <textarea asp-for="descripcion" class="desc_area size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
                                       id="floatingTextarea"></textarea>
 
                         </div>
@@ -81,8 +90,8 @@
                         <h5>Imagen (URL):</h5>
                     </div>
                     <div class="col">
-                        <input type="file" asp-for="imagen" name="imagen" id="imagen" class="form-control" value="" />
-                        @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text">*@
+                        <input type="file" asp-for="imagen" class="form-control" />
+                        @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text"> *@
 
                     </div>
                 </div>
@@ -93,7 +102,7 @@
                     </div>
                     <div class="col">
                         @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
-                        <select asp-for="id_items_menu" class="size-combo" aria-label="Default select example">
+                        <select asp-for="id_items_menu" class="item_combo size-combo" onchange="addPlato()" aria-label="Default select example">
                             <option selected>(Seleccionar items...)</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
                             {

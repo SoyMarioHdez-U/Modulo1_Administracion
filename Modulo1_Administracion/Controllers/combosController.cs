@@ -10,6 +10,7 @@ using Firebase.Auth;
 using Firebase.Storage;
 using Modulo1_Administracion.Models;
 using static System.Formats.Asn1.AsnWriter;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Modulo1_Administracion.Controllers
 {
@@ -57,34 +58,34 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpPost]
-        //public async Task<ActionResult> SubirArchivo(IFormFile archivo)
-        //{
-        //    //Leemos el archivo subido
-        //    Stream archivoASubir = archivo.OpenReadStream();
+        public async Task<ActionResult> SubirArchivo(IFormFile archivo)
+        {
+            //Leemos el archivo subido
+            Stream archivoASubir = archivo.OpenReadStream();
 
-        //    //Configuramos la conexion hacia FireBase
-        //    string email = "carlos.murga1@catolica.edu.sv";
-        //    string clave = "h1n12002";
-        //    string ruta = "dulcesabor-imagenes.appspot.com";
-        //    string api_key = "AIzaSyCUmhGjhkkuvkE5S5bnPXjTHIYn9qW5pl4";
+            //Configuramos la conexion hacia FireBase
+            string email = "carlos.murga1@catolica.edu.sv";
+            string clave = "h1n12002";
+            string ruta = "dulcesabor-imagenes.appspot.com/";
+            string api_key = "AIzaSyCUmhGjhkkuvkE5S5bnPXjTHIYn9qW5pl4";
 
-        //    var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
-        //    var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
+            var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
+            var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
 
-        //    var cancellation = new CancellationTokenSource();
-        //    var tokenUser = autenticarFireBase.FirebaseToken;
+            var cancellation = new CancellationTokenSource();
+            var tokenUser = autenticarFireBase.FirebaseToken;
 
-        //    var tareaCargarArchivo = new FirebaseStorage(ruta,
-        //        new FirebaseStorageOptions
-        //        {
-        //            AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
-        //            ThrowOnCancel = true
-        //        }).Child("Combos").Child(archivo.FileName).PutAsync(archivoASubir, cancellation.Token);
+            var tareaCargarArchivo = new FirebaseStorage(ruta,
+                new FirebaseStorageOptions
+                {
+                    AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
+                    ThrowOnCancel = true
+                }).Child("Combos").Child(archivo.FileName).PutAsync(archivoASubir, cancellation.Token);
 
-        //    var urlArchivoCargado = await tareaCargarArchivo;
+            var urlArchivoCargado = await tareaCargarArchivo;
 
-        //    return urlArchivoCargado;
-        //}
+            return RedirectToAction(/*"VerImagen", new { imagen = urlArchivoCargado }*/);
+        }
 
         // GET: combos/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -97,19 +98,18 @@ namespace Modulo1_Administracion.Controllers
         {
             int id_combo = 0;
             combos combosObj = new combos();
-            items_combo_dos items = new items_combo_dos();
+            
 
             try
             {
-                
 
-            } catch (Exception ex) { ex.ToString(); }
 
-            
+            }
+            catch (Exception ex) { ex.ToString(); }
 
-            combosObj.descripcion = combo_menu.descripcion;
+            combosObj.descripcion = combo_menu.nombre;
             combosObj.precio = combo_menu.precio;
-            combosObj.imagen = combo_menu.imagen;
+            //combosObj.imagen = combo_menu.imagen;
             combosObj.id_estado = combo_menu.id_estado;
 
             _DulceSaborContext.combos.Add(combosObj);
@@ -129,14 +129,26 @@ namespace Modulo1_Administracion.Controllers
                 id_combo = item.id;
             }
 
-            items.id_combo = id_combo;
-            items.id_items_menu = combo_menu.id_items_menu;
+            
+            
+            string numPlatos = combo_menu.descripcion.ToString();
+            string[] numArrayPlatos = numPlatos.TrimEnd(',').Split(',');
+            int[] numIntPlatos = new int[numArrayPlatos.Length];
 
-            _DulceSaborContext.items_combo_dos.Add(items);
-            _DulceSaborContext.SaveChanges();
+            for (int i = 0; i < numArrayPlatos.Length; i++)
+            {
+                items_combo_dos items = new items_combo_dos();
+
+                numIntPlatos[i] = Int32.Parse(numArrayPlatos[i]);
+
+                items.id_combo = id_combo;
+                items.id_items_menu = numIntPlatos[i];
+
+                _DulceSaborContext.items_combo_dos.Add(items);
+                _DulceSaborContext.SaveChanges();
+            }
 
             return RedirectToAction("Index");
-
         }
 
         // POST: combos/Create
