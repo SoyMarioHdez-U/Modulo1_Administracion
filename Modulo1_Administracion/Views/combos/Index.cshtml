@@ -1,11 +1,11 @@
-﻿@model IEnumerable<Modulo1_Administracion.Models.combos>
-
-
-@{
-    ViewData["Title"] = "Create";
+﻿@{
+    ViewData["Title"] = "Index";
 }
 
- <hr class="hrHorizontal">
+@* INDEX *@
+
+
+<hr class="hrHorizontal">
 
 <div class="d-flex ms-5 mt-3">
     <div class="icono">
@@ -24,89 +24,96 @@
     <div class="d-flex w-100 ">
         <h4 class="ms-2">Administración del combos</h4>
         <h4 style="margin-left: 360px;">Listado de combos</h4>
-    </div> 
+    </div>
 
     @* INICIO DE LA SECCION CREAR COMBO (FORMULARIO) *@
-    
-     <div class="d-flex">
-        <div class="container mt-4 w-50 align-middle">
-            <div class="row align-items-start mb-2">
-                <div class="col-3">
-                    <h5>Nombre:</h5>
-                </div>
-                <div class="col">
-                    <input type="text" placeholder="Combo PolloCrisp" class="size-text">
-                </div>
-            </div>
 
-            <div class="row align-items-start mt-3 ">
-                <div class="col-3">
-                    <h5>Descripción:</h5>
+    <div class="d-flex">
+        <form asp-action="CreateCombo">
+            <div class="container mt-4 w-100 align-middle">
+                <div class="row align-items-start mb-2">
+                    <div class="col-3">
+                        <h5>Nombre:</h5>
+                    </div>
+                    <div class="col">
+                        <input type="text" placeholder="Combo PolloCrisp" class="size-text">
+                    </div>
                 </div>
-                <div class="col">
-                    <div class="form-floating">
-                            <textarea class="size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
-                                  id="floatingTextarea"></textarea>
-                            
+
+                <div class="row align-items-start mt-3 ">
+                    <div class="col-3">
+                        <h5>Descripción:</h5>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex">
+                            @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana." })
+                            @* <textarea asp-for="descripcion" class="size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
+                                      id="floatingTextarea"></textarea> *@
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 ">
+                    <div class="col-3">
+                        <h5>Precio:</h5>
+                    </div>
+                    <div class="col d-flex ">
+                        @Html.TextBox("precio", "", new { @class = "size-text" })
+                        @* <input asp-for="precio" type="text" class="size-text" placeholder="10.49"> *@
+                        <h5 class="ms-3 me-3 ">Estado:</h5>
+                        @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" })
+                        @* <select class="size-combo" aria-label="Default select example">
+                            <option selected style="color: #D0D3D9; font-size: 1.3vw;">Activo</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select> *@
+
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 mb-2">
+                    <div class="col-3">
+                        <h5>Imagen (URL):</h5>
+                    </div>
+                    <div class="col">
+                        <input type="file" name="imagen" id="imagen" class="form-control" value="" />
+                        @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text"> *@
+
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 mb-2">
+                    <div class="col-3">
+                        <h5>Items</h5>
+                    </div>
+                    <div class="col">
+                        @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
+                        @* <select class="size-combo" aria-label="Default select example">
+                            <option selected>(Seleccionar items...)</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select> *@
+                    </div>
+                </div>
+
+                <a href="#">Agregar nuevo item</a>
+
+                <div class="row mt-3 mb-2">
+                    <div class="col-3">
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <input type="submit" value="Crear combo" class="botones">
                     </div>
                 </div>
             </div>
+        </form>
 
-            <div class="row align-items-start mt-3 ">
-                <div class="col-3">
-                    <h5>Precio:</h5>
-                </div>
-                <div class="col d-flex ">
-                    <input type="number" class="size-text" placeholder="10.49" name="" id="">
-                    <h5 class="ms-3 me-3 ">Estado:</h5>
-                    <select class="size-combo" aria-label="Default select example">
-                        <option selected style="color: #D0D3D9; font-size: 1.3vw;">Activo</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                        
-                </div>
-            </div>
+        @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
 
-            <div class="row align-items-start mt-3 mb-2">
-                <div class="col-3">
-                    <h5>Imagen (URL):</h5>
-                </div>
-                <div class="col">
-                        <input type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text">
-                        
-                </div>
-            </div>
-
-            <div class="row align-items-start mt-3 mb-2">
-                <div class="col-3">
-                    <h5>Items</h5>
-                </div>
-                <div class="col">
-                    <select class="size-combo" aria-label="Default select example">
-                        <option selected>(Seleccionar items...)</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                </div>
-            </div>
-
-            <a href="#">Agregar nuevo item</a>
-
-            <div class="row mt-3 mb-2">
-                <div class="col-3">
-                </div>
-                <div class="col d-flex justify-content-end">
-                    <input type="submit" value="Crear combo" class="botones">
-                </div>
-            </div>
-        </div> 
-    
-    @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
-
-         <hr class="position-absolute " style="height: 50%; top: 20%; left: 50.5%; border-left: solid #000;">
+        <hr class="position-absolute " style="height: 50%; top: 20%; left: 50.5%; border-left: solid #000;">
 
         <div class="ms-5 mt-4 w-50">
             <table class="w-100" style="font-size: 1.3vw;">
@@ -119,61 +126,64 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="background-color: white;">
-                        <td scope="row" class="text-center ">@Html.DisplayNameFor(model => model.id_combo)</td>
-                        <td>@Html.DisplayNameFor(model => model.descripcion)</td>
-                        <td>@Html.DisplayNameFor(model => model.precio)</td>
-                        <td><a href="#">Detalles</a></td>
-                    </tr>
-                    <tr style="height: 3px;">
-                        <!-- Espacio -->
-                    </tr>
-                    <tr style="background-color: white; margin-top: 200%;">
-                        <td scope="row" class="text-center ">2</td>
-                        <td>TripleCheese Combo</td>
-                        <td>12.99</td>
-                        <td><a href="#">Detalles</a></td>
-                    </tr>
-
-                    <tr style="height: 3px;">
-                        <!-- Espacio -->
-                    </tr>
-                    <tr style="background-color: white; margin-top: 200%;">
-                        <td scope="row" class="text-center ">3</td>
-                        <td>MexiWrap</td>
-                        <td>9.99</td>
-                        <td><a href="#">Detalles</a></td>
+                   @*  @foreach (var item in Model)
+                    {
+                        <tr style="background-color: white;">
+                            <td scope="row" class="text-center ">@Html.DisplayFor(modelItem => item.id_combo)</td>
+                            <td>@Html.DisplayFor(modelItem => item.descripcion)</td>
+                            <td>@Html.DisplayFor(modelItem => item.precio)</td>
+                            <td><a href="#">Detalles</a></td>
+                        </tr>
+                        <tr style="height: 3px;">
+                            <!-- Espacio -->
+                        </tr>
+                    } *@
+                    @* <tr style="background-color: white; margin-top: 200%;">
+                    <td scope="row" class="text-center ">2</td>
+                    <td>TripleCheese Combo</td>
+                    <td>12.99</td>
+                    <td><a href="#">Detalles</a></td>
                     </tr>
 
                     <tr style="height: 3px;">
-                        <!-- Espacio -->
+                    <!-- Espacio -->
                     </tr>
                     <tr style="background-color: white; margin-top: 200%;">
-                        <td scope="row" class="text-center ">4</td>
-                        <td>Papas Monstruosas</td>
-                        <td>11.49</td>
-                        <td><a href="#">Detalles</a></td>
+                    <td scope="row" class="text-center ">3</td>
+                    <td>MexiWrap</td>
+                    <td>9.99</td>
+                    <td><a href="#">Detalles</a></td>
                     </tr>
 
                     <tr style="height: 3px;">
-                        <!-- Espacio -->
+                    <!-- Espacio -->
                     </tr>
                     <tr style="background-color: white; margin-top: 200%;">
-                        <td scope="row" class="text-center ">5</td>
-                        <td>BBQ Feast Combo</td>
-                        <td>20.99</td>
-                        <td><a href="#">Detalles</a></td>
+                    <td scope="row" class="text-center ">4</td>
+                    <td>Papas Monstruosas</td>
+                    <td>11.49</td>
+                    <td><a href="#">Detalles</a></td>
                     </tr>
 
                     <tr style="height: 3px;">
-                        <!-- Espacio -->
+                    <!-- Espacio -->
                     </tr>
                     <tr style="background-color: white; margin-top: 200%;">
-                        <td scope="row" class="text-center ">6</td>
-                        <td>CrispyCrunch Combo</td>
-                        <td>14.99</td>
-                        <td><a href="#">Detalles</a></td>
+                    <td scope="row" class="text-center ">5</td>
+                    <td>BBQ Feast Combo</td>
+                    <td>20.99</td>
+                    <td><a href="#">Detalles</a></td>
                     </tr>
+
+                    <tr style="height: 3px;">
+                    <!-- Espacio -->
+                    </tr>
+                    <tr style="background-color: white; margin-top: 200%;">
+                    <td scope="row" class="text-center ">6</td>
+                    <td>CrispyCrunch Combo</td>
+                    <td>14.99</td>
+                    <td><a href="#">Detalles</a></td>
+                    </tr> *@
                 </tbody>
             </table>
 
@@ -196,7 +206,7 @@
 </div>
 
 
- <h1>Index</h1> 
+ @* <h1>Index</h1> 
 
  <p>
     <a asp-action="Create">Create New</a>
@@ -242,4 +252,4 @@
         </tr>
 }
     </tbody>
-</table> 
+</table>  *@

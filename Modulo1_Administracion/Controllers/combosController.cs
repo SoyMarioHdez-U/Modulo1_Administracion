@@ -11,46 +11,75 @@ namespace Modulo1_Administracion.Controllers
 {
     public class combosController : Controller
     {
-        private readonly DulceSaborContext _context;
+        private readonly DulceSaborContext _DulceSaborContext;
 
         public combosController(DulceSaborContext context)
         {
-            _context = context;
+            _DulceSaborContext = context;
         }
 
         // GET: combos
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+
         {
-            return View(await _context.combos.ToListAsync());
+
+            //Aquí estamos invocando el listado de puestos de la tabla puestos
+            var listaDePlatos = (from m in _DulceSaborContext.items_menu
+                                  select m).ToList();
+            ViewData["listadoDePlatos"] = new SelectList(listaDePlatos, "id_item_menu", "nombre");
+
+            var listaDeEstados = (from m in _DulceSaborContext.estados
+                                 select m).ToList();
+            ViewData["listadoDeEstados"] = new SelectList(listaDeEstados, "id_estado", "nombre");
+
+            //Aquí estamos invocando el listado de departamentos de la tabla departamentos
+            //var listaDeDepartamentos = (from m in _DulceSaborContext.departamentos
+            //                            select m).ToList();
+            //ViewData["listadoDeDepartamentos"] = new SelectList(listaDeDepartamentos, "id", "departamento");
+
+
+
+            //Aquí estamos solicitando el listado de los Departamentos en la bd
+            //var listadoDeDeClientes = (from c in _DulceSaborContext.clientes
+            //                           join d in _DulceSaborContext.departamentos on c.id_departamento equals d.id
+            //                           join p in _DulceSaborContext.puestos on c.id_puesto equals p.id
+            //                           select new
+            //                           {
+            //                               id = c.id,
+
+            //                               nombre = c.nombre,
+            //                               apellido = c.apellido,
+            //                               email = c.email,
+            //                               direccion = c.direccion,
+            //                               genero = c.genero,
+            //                               id_departamento = d.departamento,
+            //                               id_puesto = p.puesto,
+            //                               estado_registro = c.estado_registro,
+            //                               created_at = c.created_at,
+            //                               updated_at = c.updated_at
+
+            //                           }).ToList();
+            //ViewData["listadoDeClientes"] = listadoDeDeClientes;
+
+
+
+            return View();
         }
 
         // GET: combos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var combos = await _context.combos
-                .FirstOrDefaultAsync(m => m.id_combo == id);
-            if (combos == null)
-            {
-                return NotFound();
-            }
-
-            return View(combos);
+            return View();
         }
 
         // GET: combos/Create
-        public IActionResult Create()
+        public IActionResult CreateCombo(combos nuevoCombos)
         {
+            _DulceSaborContext.Add(nuevoCombos);
+            _DulceSaborContext.SaveChanges();
 
+            return RedirectToAction("Index");
 
-            IEnumerable<combos> listaCombos = (from e in _context.combos
-                                        select e).ToList();
-
-            return View(listaCombos);
         }
 
         // POST: combos/Create
@@ -60,29 +89,14 @@ namespace Modulo1_Administracion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_combo,descripcion,precio,imagen,id_estado")] combos combos)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(combos);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(combos);
+            
+            return View();
         }
 
         // GET: combos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var combos = await _context.combos.FindAsync(id);
-            if (combos == null)
-            {
-                return NotFound();
-            }
-            return View(combos);
+            return View();
         }
 
         // POST: combos/Edit/5
@@ -92,50 +106,13 @@ namespace Modulo1_Administracion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id_combo,descripcion,precio,imagen,id_estado")] combos combos)
         {
-            if (id != combos.id_combo)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(combos);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!combosExists(combos.id_combo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
             return View(combos);
         }
 
         // GET: combos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var combos = await _context.combos
-                .FirstOrDefaultAsync(m => m.id_combo == id);
-            if (combos == null)
-            {
-                return NotFound();
-            }
-
-            return View(combos);
+            return View();
         }
 
         // POST: combos/Delete/5
@@ -143,19 +120,7 @@ namespace Modulo1_Administracion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var combos = await _context.combos.FindAsync(id);
-            if (combos != null)
-            {
-                _context.combos.Remove(combos);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool combosExists(int id)
-        {
-            return _context.combos.Any(e => e.id_combo == id);
+            return RedirectToAction();
         }
     }
 }
