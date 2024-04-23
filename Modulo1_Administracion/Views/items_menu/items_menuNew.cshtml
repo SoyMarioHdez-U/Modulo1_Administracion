@@ -41,7 +41,7 @@
     <div class="formulario">
         <h5 style="font-family: 'Amaranth';">Agregue nuevos ítems al menú:</h5>
         <!-- Aquí puedes añadir el formulario u otro contenido relacionado -->
-        <form asp-action="CrearItem">
+        <form asp-action="CrearItem" method="post" enctype="multipart/form-data">
             @*Inicio del Formulario*@
             <div class="formulario ancho-80">
                 <div class="row">
@@ -69,7 +69,8 @@
                     <div class="col-xs-12">
                         <div class="form-group mb-4">
                             @Html.Label("lblImagen", "Imagen:")
-                            @Html.TextArea("imagen", "", new { @class = "form-control", @placeHolder = "URL" })
+                            <input type="file" class="form-control" id="imagen" name="imagen" />
+                            @*@Html.TextArea("imagen", "", new { @class = "form-control", @placeHolder = "URL" })*@
                         </div>
                     </div>
                 </div>
@@ -93,7 +94,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="form-group mb-4">
-                            <input type="submit" class="btn btn-primary" value="Guardar" />
+                            <input type="submit" class="btn btn-danger btn-lg btn-block" value="Guardar" />
                         </div>
                     </div>
                 </div>
