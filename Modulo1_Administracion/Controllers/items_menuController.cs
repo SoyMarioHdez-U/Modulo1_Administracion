@@ -56,45 +56,52 @@ namespace Modulo1_Administracion.Controllers
         [HttpPost]
         public async  Task<ActionResult> CrearItem(items_menu nuevoItem, IFormFile imagen)
         {
+            if (imagen != null)
+            {
+                // Leemos el archivo subido
+                Stream archivoASubir = imagen.OpenReadStream();
 
-            // Leemos el archivo subido
-            Stream archivoASubir = imagen.OpenReadStream();
+                // Configuramos la conexión hacia Firebase
+                string email = "soymariohdez@gmail.com";
+                string clave = "catolica";
+                string ruta = "dulcesabor-c6f5a.appspot.com";
+                string api_key = "AIzaSyDCBa09cv8YGDb8dc7loaIh-D9eG5XGXjI";
 
-            // Configuramos la conexión hacia Firebase
-            string email = "soymariohdez@gmail.com";
-            string clave = "catolica";
-            string ruta = "dulcesabor-c6f5a.appspot.com";
-            string api_key = "AIzaSyDCBa09cv8YGDb8dc7loaIh-D9eG5XGXjI";
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
+                var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
+                var cancellation = new CancellationTokenSource();
+                var tokenUser = autenticarFireBase.FirebaseToken;
 
-            var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
-            var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
-            var cancellation = new CancellationTokenSource();
-            var tokenUser = autenticarFireBase.FirebaseToken;
+                // Subir archivo a Firebase
+                var tareaCargarArchivo = new FirebaseStorage(ruta,
+                                                            new FirebaseStorageOptions
+                                                            {
+                                                                AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
+                                                                ThrowOnCancel = true
+                                                            }
+                                                            ).Child("ItemsMenu").Child(imagen.FileName).PutAsync(archivoASubir, cancellation.Token);
 
-            // Subir archivo a Firebase
-            var tareaCargarArchivo = new FirebaseStorage(ruta,
-                                                        new FirebaseStorageOptions
-                                                        {
-                                                            AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
-                                                            ThrowOnCancel = true
-                                                        }
-                                                        ).Child("ItemsMenu").Child(imagen.FileName).PutAsync(archivoASubir, cancellation.Token);
-
-            // Esperar a que se complete la tarea de cargar el archivo
-            var urlArchivoCargado = await tareaCargarArchivo;
-
-
-            //Se agrega a la base de datos
+                // Esperar a que se complete la tarea de cargar el archivo
+                var urlArchivoCargado = await tareaCargarArchivo;
 
 
-            _context.Add(nuevoItem);
-            nuevoItem.imagen = urlArchivoCargado;
-            _context.SaveChanges();
+                //Se agrega a la base de datos
+
+
+                _context.Add(nuevoItem);
+                nuevoItem.imagen = urlArchivoCargado;
+                _context.SaveChanges();
+            }
+            else
+            {
+                _context.Add(nuevoItem);
+                _context.SaveChanges();
+
+            }
+            
 
             return RedirectToAction("items_menuNew");
         }
-
-
 
 
 
@@ -161,20 +168,71 @@ namespace Modulo1_Administracion.Controllers
             return View(items_menu);
         }
 
-        
+
         // POST: items_menu/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id_item_menu,nombre,descripcion,precio,imagen,id_estado,id_categoria")] items_menu items_menu)
+        public async Task<IActionResult> Edit(int id, [Bind("id_item_menu,nombre,descripcion,precio, imagen, id_estado,id_categoria")] items_menu items_menu, IFormFile imagen)
         {
             if (id != items_menu.id_item_menu)
             {
                 return NotFound();
             }
+            
+            if (imagen != null)
+            {
+                //Leer lo de la imagen
+                // Leemos el archivo subido
+                Stream archivoASubir = imagen.OpenReadStream();
 
-            if (ModelState.IsValid)
+                // Configuramos la conexión hacia Firebase
+                string email = "soymariohdez@gmail.com";
+                string clave = "catolica";
+                string ruta = "dulcesabor-c6f5a.appspot.com";
+                string api_key = "AIzaSyDCBa09cv8YGDb8dc7loaIh-D9eG5XGXjI";
+
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
+                var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
+                var cancellation = new CancellationTokenSource();
+                var tokenUser = autenticarFireBase.FirebaseToken;
+
+                // Subir archivo a Firebase
+                var tareaCargarArchivo = new FirebaseStorage(ruta,
+                                                            new FirebaseStorageOptions
+                                                            {
+                                                                AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
+                                                                ThrowOnCancel = true
+                                                            }
+                                                            ).Child("ItemsMenu").Child(imagen.FileName).PutAsync(archivoASubir, cancellation.Token);
+
+                // Esperar a que se complete la tarea de cargar el archivo
+                var urlArchivoCargado = await tareaCargarArchivo;
+
+
+                //Se agrega a la base de datos
+
+                try
+                {
+                    _context.Update(items_menu);
+                    items_menu.imagen = urlArchivoCargado;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!items_menuExists(items_menu.id_item_menu))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(items_menuNew));
+            }
+            else
             {
                 try
                 {
@@ -197,6 +255,7 @@ namespace Modulo1_Administracion.Controllers
 
             return View(items_menu);
         }
+
 
         //POST: Editar estado a inactivo
         [HttpPost]
