@@ -115,12 +115,26 @@
                     @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeItems"])
                     {
                         <tr style="background-color: white;">
-                            <td scope="row" class="text-center ">@item.id</td>
+                            <td scope="row" class="text-center">@item.id</td>
                             <td>@item.nombre</td>
                             <td>@item.estado</td>
                             <td>
+                                @{
+                                    string estadoText = "";
+                                    if (item.estado == "Inactivo")
+                                    {
+                                        estadoText = "Activar";
+                                    }
+                                    else if (item.estado == "Activo")
+                                    {
+                                        estadoText = "Desactivar";
+                                    }
+                                }
                                 <a asp-action="Details" asp-route-id="@item.id_item_menu">Detalle</a> |
-                                <a asp-action="Edit" asp-route-id="@item.id_item_menu">Editar</a>
+                                <a href="#" onclick="editarEstado(@item.id_item_menu, '@estadoText')">@(estadoText)</a>
+                                <form id="form-@item.id_item_menu" method="post" asp-action="EditarEstado" asp-route-id="@item.id_item_menu">
+                                    <button type="submit" style="display: none;"></button>
+                                </form>
                             </td>
                         </tr>
                         <tr style="height: 3px;">
@@ -149,3 +163,12 @@
 
 </div>
 
+@section Scripts {
+    @{
+        <script>
+            function editarEstado(itemId, estado) {
+                document.getElementById("form-" + itemId).submit();
+            }
+        </script>
+    }
+}
