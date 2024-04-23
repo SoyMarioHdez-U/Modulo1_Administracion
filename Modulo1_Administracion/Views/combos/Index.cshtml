@@ -1,4 +1,6 @@
-﻿@model Modulo1_Administracion.Models.items_combo_menu
+﻿@using Modulo1_Administracion.Data
+
+@model Paginacion<combos>
 
 @{
     ViewData["Title"] = "Index";
@@ -41,7 +43,7 @@
 
     <div class="d-flex justify-content-between">
         <form asp-action="CreateCombo" method="post" enctype="multipart/form-data">
-            <div class="container mt-4 align-middle" style="width: 105%;">
+            @* <div class="container mt-4 align-middle" style="width: 105%;">
                 <div class="row align-items-start mb-2">
                     <div class="col-3">
                         <h5>Nombre:</h5>
@@ -57,7 +59,7 @@
                     </div>
                     <div class="col">
                         <div class="d-flex">
-                            @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Los items seleccionados aparecerán aquí" }) *@
+                            @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Los items seleccionados aparecerán aquí" }) 
                             <textarea asp-for="descripcion" class="desc_area size-area" placeholder="Los items seleccionados aparecerán aquí"
                                       id="floatingTextarea"></textarea>
 
@@ -70,10 +72,10 @@
                         <h5>Precio:</h5>
                     </div>
                     <div class="col d-flex ">
-                        @* @Html.TextBox("precio", "", new { @class = "size-text" }) *@
+                         @Html.TextBox("precio", "", new { @class = "size-text" }) 
                         <input asp-for="precio" type="text" class="size-text" placeholder="10.49">
                         <h5 class="ms-3 me-3 ">Estado:</h5>
-                        @* @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
+                         @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" }) 
                         <select class="size-combo" asp-for="id_estado" aria-label="Default select example">
                             <option selected style="color: #D0D3D9; font-size: 1.3vw;">Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
@@ -91,7 +93,7 @@
                     </div>
                     <div class="col">
                         <input type="file" name="archivo" id="archivo" class="form-control" />
-                        @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text"> *@
+                         <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text"> 
 
                     </div>
                 </div>
@@ -101,7 +103,7 @@
                         <h5>Items</h5>
                     </div>
                     <div class="col">
-                        @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
+                        @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" }) 
                         <select asp-for="id_items_menu" class="item_combo size-combo" onchange="addPlato()" aria-label="Default select example">
                             <option selected >Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
@@ -121,7 +123,7 @@
                         <input type="submit" value="Crear combo" class="botones">
                     </div>
                 </div>
-            </div>
+            </div> *@
         </form>
 
         @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
@@ -140,13 +142,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCombos"])
+                        @foreach (var item in Model)
                         {
                             <tr style="background-color: white;">
-                                <td scope="row" class="text-center ">@item.id</td>
-                                <td>@item.nombre</td>
+                                <td scope="row" class="text-center ">@item.id_combo</td>
+                                <td>@item.descripcion</td>
                                 <td>@item.precio</td>
-                                <td><a asp-action="Details" asp-route-id="@item.id">Detalles</a></td>
+                                <td><a asp-action="Details" asp-route-id="@item.id_combo">Detalles</a></td>
                             </tr>
                             <tr style="height: 3px;">
                                 <!-- Espacio -->
@@ -156,19 +158,25 @@
                 </table>
             </div>
 
+            @{
+                var anteriorDesabilitado = !Model.PaginasAnteriores ? "disabled" : "";
+                var siguienteDesabilitado = !Model.PaginasPosteriores ? "disabled" : "";
+            }
+
             <nav style="margin-top: 2px;">
                 <ul class="navPaginacion bg-light w-100">
-                    <li class="page-item1"><a href="#">&lt; Anterior</a></li>
-                    <div class="d-flex ">
-                    <li class="page-item"><a href="#">1</a></li>
-                    <li class="page-item"><a href="#">2</a></li>
-                    <li class="page-item"><a href="#">3</a></li>
-                    <li class="page-item"><a href="#">4</a></li>
-                    <li class="page-item" style="border-right: solid grey; border-width: 1px;"><a href="#">5</a></li>
-        </div>
-        <li class="page-item1"><a href="#">Siguiente &gt;</a></li>
-        </ul>
-        </nav>
+                    <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio-1)" class="@anteriorDesabilitado">&lt; Anterior</a></li>
+                        <div class="d-flex ">
+                            @for (var i=1; i<=Model.PaginasTotales; i++)
+                            {
+                                var paginaActiva = (i == Model.PaginaInicio) ? "active" : "";
+
+                                <li class="page-item"><a asp-action="Index" asp-route-numpag="@i" class="@paginaActiva">@i</a></li>
+                            }
+                        </div>
+                    <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio+1)" class="@siguienteDesabilitado">Siguiente &gt;</a></li>
+                </ul>
+            </nav>
     </div>
 </div>
 

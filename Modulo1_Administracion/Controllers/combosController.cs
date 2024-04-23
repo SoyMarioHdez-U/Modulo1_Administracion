@@ -11,6 +11,7 @@ using Firebase.Storage;
 using Modulo1_Administracion.Models;
 using static System.Formats.Asn1.AsnWriter;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Modulo1_Administracion.Data;
 
 namespace Modulo1_Administracion.Controllers
 {
@@ -24,7 +25,7 @@ namespace Modulo1_Administracion.Controllers
         }
 
         // GET: combos
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? numPag)
         {
             //Aquí estamos invocando el listado de puestos de la tabla puestos
             var listaDePlatos = (from m in _DulceSaborContext.items_menu
@@ -43,16 +44,22 @@ namespace Modulo1_Administracion.Controllers
 
 
             //Aquí estamos solicitando el listado de los Departamentos en la bd
+            var combosL = (from m in _DulceSaborContext.combos
+                                  select m);
+            ViewData["combosL"] = combosL;
+
             var listadoDeCombos = (from c in _DulceSaborContext.combos
                                        select new
                                        {
                                            id = c.id_combo,
                                            nombre = c.descripcion,
                                            precio = c.precio
-                                       }).ToList();
-            ViewData["listadoDeCombos"] = listadoDeCombos;
+                                       });
+            ViewData["listadoDeCombos"] = listadoDeCombos.ToList();
 
-            return View();
+            int cantidadRegistros = 15;
+
+            return View(await Paginacion<combos>.CrearPaginacion(combosL.AsNoTracking(), numPag?? 1, cantidadRegistros));
         }
 
         // GET: combos/Create
