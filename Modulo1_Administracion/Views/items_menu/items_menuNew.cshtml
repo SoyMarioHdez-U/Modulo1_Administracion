@@ -6,127 +6,143 @@
 <style>
     body {
         font-family: 'Montserrat', sans-serif; /* Aplica Montserrat a todo el cuerpo */
-        background-color: #F5F5F5; /* Establece el color de fondo del cuerpo */
-    }
-    .primario {
-        display: flex;
-        justify-content: space-between; /* Esto distribuye los elementos horizontalmente */
     }
 
-    .formulario,
-    .tablas {
-        width: 48%; /* Para dejar un pequeño espacio entre los divs */
-    }
-
-    .ancho-80 {
-        width: 80%;
-        margin: 0 auto; /* Centra el contenedor horizontalmente */
-    }
 </style>
+<hr class="hrHorizontal">
 
-<header>
-    <div>
+<div class="d-flex ms-5 mt-3">
+    <div class="icono">
+        <img src="" alt="">
+    </div>
+
+    <div class="tituloTexto align-middle ms-3">
         <div class="imagen">
             <a class="imagen"><img src="https://cdn-icons-png.flaticon.com/512/1175/1175770.png" height="70px" width="70px" style="float: left; margin-right: 10px;" /></a>
         </div>
         <div>
-            <h3 style="font-family: 'Amaranth'">Items menú</h3>
-            <p>Administración de los ítems del menú</p>
+            <b><h3 style="font-family: 'Amaranth'">Items menú</h3></b>
+            <p style="width: 400px;">Administración de los ítems del menú</p>
         </div>
-        <hr />
-        <br />
     </div>
-</header>
-<div class="primario">
-    <div class="formulario">
-        <h5 style="font-family: 'Amaranth';">Agregue nuevos ítems al menú:</h5>
-        <!-- Aquí puedes añadir el formulario u otro contenido relacionado -->
+</div>
+
+<hr class="hrHorizontal">
+
+<div class="mt-3" style="margin-left: 140px; width: 83%;">
+    <div class="d-flex">
         <form asp-action="CrearItem" method="post" enctype="multipart/form-data">
-            @*Inicio del Formulario*@
-            <div class="formulario ancho-80">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group mb-4">
-                            <label>Nombre:</label>
-                            @Html.TextBox("nombre", "", new { @class = "form-control" })
-                        </div>
+            <div class="container mt-4 w-100 align-middle">
+                <h5 style="font-family: 'Amaranth';">Agregue nuevos ítems al menú:</h5>
+                <div class="row align-items-start mb-2">
+                    <div class="col-3">
+                        @Html.Label("lblNombre", "Nombre:")
                     </div>
-                    <div class="col-xs-12">
-                        <div class="form-group mb-4">
-                            @Html.Label("lblDescripcion", "Descripción:")
+                    <div class="col">
+                        @Html.TextBox("nombre", "", new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 ">
+                    <div class="col-3">
+                        @Html.Label("lblDescripcion", "Descripción:")
+                    </div>
+                    <div class="col">
+                        <div class="d-flex">
                             @Html.TextArea("descripcion", "", new { @class = "form-control", @placeHolder = "Ingrese la descripción" })
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group mb-4">
-                            @Html.Label("lblPrecio", "Precio:")
-                            @Html.TextArea("precio", "", new { @class = "form-control", @placeHolder = "$" })
-                        </div>
+                <div class="row align-items-start mt-3 ">
+                    <div class="col-3">
+                        @Html.Label("lblPrecio", "Precio:")
                     </div>
-                    <div class="col-xs-12">
-                        <div class="form-group mb-4">
-                            @Html.Label("lblImagen", "Imagen:")
-                            <input type="file" class="form-control" id="imagen" name="imagen" />
-                            @*@Html.TextArea("imagen", "", new { @class = "form-control", @placeHolder = "URL" })*@
-                        </div>
+                    <div class="col d-flex ">
+                        @Html.TextBox("precio", "", new { @class = "form-control", @placeHolder = "$" })
+                        @Html.Label("lblEstado", "Estado:")
+                        @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione estado", new { @class = "form-control" })
+
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group mb-4">
-                            @Html.Label("lblEstado", "Estado:")
-                            @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione un estado", new { @class = "form-control" })
-                            
-                        </div>
+                <div class="row align-items-start mt-3 mb-2">
+                    <div class="col-3">
+                        @Html.Label("lblImagen", "Imagen:")
                     </div>
-                    <div class="col-xs-12">
-                        <div class="form-group mb-4">
-                            @Html.Label("lblCategoria", "Categoría:")
-                            @Html.DropDownList("id_categoria", ViewData["listadoDeCategorias"] as SelectList, "Seleccione una categoría", new { @class = "form-control" })
-                        </div>
+                    <div class="col">
+                        <input type="file" class="form-control" id="imagen" name="imagen" />
+
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="form-group mb-4">
-                            <input type="submit" class="btn btn-danger btn-lg btn-block" value="Guardar" />
-                        </div>
+                <div class="row align-items-start mt-3 mb-2">
+                    <div class="col-3">
+                        @Html.Label("lblCategoria", "Categoría:")
+                    </div>
+                    <div class="col">
+                        @Html.DropDownList("id_categoria", ViewData["listadoDeCategorias"] as SelectList, "Seleccione una categoría", new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="row mt-3 mb-2">
+                    <div class="col-3">
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <input type="submit" value="Crear ítem" class="botones">
                     </div>
                 </div>
             </div>
-            @*Fin del Formulario*@
         </form>
 
+        @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
 
+        <hr class="position-absolute " style="height: 50%; top: 26%; left: 50.5%; border-left: solid #000;">
 
-
-    </div>
-    <div class="tablas">
-        <h5 style="font-family: 'Amaranth';">Listado de ítems actual:</h5>
-        <!-- Aquí puedes añadir las tablas u otro contenido relacionado -->
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var equipo in (IEnumerable<dynamic>)ViewData["listadoDeItems"])
-                {
-                    <tr>
-                        <td>@equipo.nombre</td>
-                        <td>@equipo.estado</td>
+        <div class="ms-5 mt-4 w-50">
+            <h5 style="font-family: 'Amaranth';">Listado actual de ítems:</h5>
+            <table class="w-100" style="font-size: 1.3vw;">
+                <thead>
+                    <tr style="color: white; background-color: #a60c18;">
+                        <th width="8%" scope="col" class="text-center ">Id</th>
+                        <th width="45%" scope="col">Nombre</th>
+                        <th width="30%" scope="col">Estado</th>
+                        <th scope="col"></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-       
+                </thead>
+                <tbody>
+                    @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeItems"])
+                    {
+                        <tr style="background-color: white;">
+                            <td scope="row" class="text-center ">@item.id</td>
+                            <td>@item.nombre</td>
+                            <td>@item.estado</td>
+                            <td><a href="#">Detalles</a></td>
+                        </tr>
+                        <tr style="height: 3px;">
+                            <!-- Espacio -->
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+
+            <nav style="margin-top: 2px;">
+                <ul class="navPaginacion bg-light w-100">
+                    <li class="page-item1"><a href="#">&lt; Anterior</a></li>
+                    <div class="d-flex ">
+                    <li class="page-item"><a href="#">1</a></li>
+                    <li class="page-item"><a href="#">2</a></li>
+                    <li class="page-item"><a href="#">3</a></li>
+                    <li class="page-item"><a href="#">4</a></li>
+                    <li class="page-item" style="border-right: solid grey; border-width: 1px;"><a href="#">5</a></li>
+        </div>
+        <li class="page-item1"><a href="#">Siguiente &gt;</a></li>
+        </ul>
+        </nav>
     </div>
 </div>
+
+</div>
+

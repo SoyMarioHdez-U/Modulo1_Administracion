@@ -38,6 +38,7 @@ namespace Modulo1_Administracion.Controllers
                                     join m in _context.estados on e.id_estado equals m.id_estado
                                     select new
                                     {
+                                        id = e.id_item_menu,
                                         nombre = e.nombre,
                                         estado = m.nombre,
                                         
