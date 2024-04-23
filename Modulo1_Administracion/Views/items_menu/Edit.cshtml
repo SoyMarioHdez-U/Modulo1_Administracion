@@ -1,58 +1,88 @@
 ﻿@model Modulo1_Administracion.Models.items_menu
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Edit</h1>
 
-<h4>items_menu</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="id_item_menu" />
-            <div class="form-group">
-                <label asp-for="nombre" class="control-label"></label>
-                <input asp-for="nombre" class="form-control" />
-                <span asp-validation-for="nombre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="descripcion" class="control-label"></label>
-                <input asp-for="descripcion" class="form-control" />
-                <span asp-validation-for="descripcion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="precio" class="control-label"></label>
-                <input asp-for="precio" class="form-control" />
-                <span asp-validation-for="precio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="imagen" class="control-label"></label>
-                <input asp-for="imagen" class="form-control" />
-                <span asp-validation-for="imagen" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="id_estado" class="control-label"></label>
-                <input asp-for="id_estado" class="form-control" />
-                <span asp-validation-for="id_estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="id_categoria" class="control-label"></label>
-                <input asp-for="id_categoria" class="form-control" />
-                <span asp-validation-for="id_categoria" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif; /* Aplica Montserrat a todo el cuerpo */
+    }
+
+</style>
+<hr class="hrHorizontal">
+
+<div class="d-flex ms-5 mt-3">
+    <div class="icono">
+        <img src="" alt="">
+    </div>
+
+    <div class="tituloTexto align-middle ms-3">
+        <div class="imagen">
+            <a class="imagen"><img src="https://cdn-icons-png.flaticon.com/512/1175/1175770.png" height="70px" width="70px" style="float: left; margin-right: 10px;" /></a>
+        </div>
+        <div>
+            <b><h3 style="font-family: 'Amaranth'">Editar</h3></b>
+            <p style="width: 400px;">Administración de los ítems del menú</p>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<hr class="hrHorizontal">
+
+<div style="margin-left: 140px;">
+    <h4>Ítem del menú</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="id_item_menu" />
+                <div class="form-group">
+                    <label asp-for="nombre" class="control-label"></label>
+                    <input asp-for="nombre" class="form-control" />
+                    <span asp-validation-for="nombre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="descripcion" class="control-label"></label>
+                    <input asp-for="descripcion" class="form-control" />
+                    <span asp-validation-for="descripcion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="precio" class="control-label"></label>
+                    <input asp-for="precio" class="form-control" />
+                    <span asp-validation-for="precio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="imagen" class="control-label"></label>
+                    <input asp-for="imagen" class="form-control" />
+                    <span asp-validation-for="imagen" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="id_estado" class="control-label"></label>
+                    <input asp-for="id_estado" class="form-control" />
+                    <span asp-validation-for="id_estado" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="id_categoria" class="control-label"></label>
+                    <input asp-for="id_categoria" class="form-control" />
+                    <span asp-validation-for="id_categoria" class="text-danger"></span>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="items_menuNew">Back to List</a>
+    </div>
 </div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

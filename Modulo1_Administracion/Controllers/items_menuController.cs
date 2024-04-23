@@ -38,6 +38,7 @@ namespace Modulo1_Administracion.Controllers
                                     join m in _context.estados on e.id_estado equals m.id_estado
                                     select new
                                     {
+                                        id_item_menu = e.id_item_menu,
                                         id = e.id_item_menu,
                                         nombre = e.nombre,
                                         estado = m.nombre,
@@ -118,6 +119,7 @@ namespace Modulo1_Administracion.Controllers
                 return NotFound();
             }
 
+
             return View(items_menu);
         }
 
@@ -190,10 +192,32 @@ namespace Modulo1_Administracion.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(items_menuNew));
             }
+
             return View(items_menu);
         }
+
+        //POST: Editar estado a inactivo
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditarEstado(int id)
+        {
+            var item = await _context.items_menu.FindAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            // Cambia el valor de id_estado entre 1 y 2
+            item.id_estado = (item.id_estado == 1) ? 2 : 1;
+
+            // Guarda los cambios en la base de datos
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(items_menuNew));
+        }
+
 
         // GET: items_menu/Delete/5
         public async Task<IActionResult> Delete(int? id)
