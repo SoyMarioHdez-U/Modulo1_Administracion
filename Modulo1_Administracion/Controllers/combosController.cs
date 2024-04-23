@@ -25,9 +25,7 @@ namespace Modulo1_Administracion.Controllers
 
         // GET: combos
         public IActionResult Index()
-
         {
-
             //Aquí estamos invocando el listado de puestos de la tabla puestos
             var listaDePlatos = (from m in _DulceSaborContext.items_menu
                                   select m).ToList();
@@ -57,16 +55,20 @@ namespace Modulo1_Administracion.Controllers
             return View();
         }
 
+        // GET: combos/Create
         [HttpPost]
-        public async Task<ActionResult> SubirArchivo(IFormFile archivo)
+        public async Task<ActionResult> CreateCombo(IFormFile archivo, items_combo_menu combo_menu)
         {
+            int id_combo = 0;
+            combos combosObj = new combos();
+
             //Leemos el archivo subido
             Stream archivoASubir = archivo.OpenReadStream();
 
             //Configuramos la conexion hacia FireBase
             string email = "carlos.murga1@catolica.edu.sv";
             string clave = "h1n12002";
-            string ruta = "dulcesabor-imagenes.appspot.com/";
+            string ruta = "dulcesabor-imagenes.appspot.com";
             string api_key = "AIzaSyCUmhGjhkkuvkE5S5bnPXjTHIYn9qW5pl4";
 
             var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
@@ -84,21 +86,6 @@ namespace Modulo1_Administracion.Controllers
 
             var urlArchivoCargado = await tareaCargarArchivo;
 
-            return RedirectToAction(/*"VerImagen", new { imagen = urlArchivoCargado }*/);
-        }
-
-        // GET: combos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            return View();
-        }
-
-        // GET: combos/Create
-        public IActionResult CreateCombo(items_combo_menu combo_menu)
-        {
-            int id_combo = 0;
-            combos combosObj = new combos();
-            
 
             try
             {
@@ -109,7 +96,7 @@ namespace Modulo1_Administracion.Controllers
 
             combosObj.descripcion = combo_menu.nombre;
             combosObj.precio = combo_menu.precio;
-            //combosObj.imagen = combo_menu.imagen;
+            combosObj.imagen = urlArchivoCargado;
             combosObj.id_estado = combo_menu.id_estado;
 
             _DulceSaborContext.combos.Add(combosObj);
@@ -129,8 +116,7 @@ namespace Modulo1_Administracion.Controllers
                 id_combo = item.id;
             }
 
-            
-            
+
             string numPlatos = combo_menu.descripcion.ToString();
             string[] numArrayPlatos = numPlatos.TrimEnd(',').Split(',');
             int[] numIntPlatos = new int[numArrayPlatos.Length];
@@ -151,45 +137,56 @@ namespace Modulo1_Administracion.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: combos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_combo,descripcion,precio,imagen,id_estado")] combos combos)
+        public async Task<IActionResult> Details(int? id)
         {
-            
-            return View();
-        }
+            var listaDeEstados = (from m in _DulceSaborContext.estados
+                                  select m).ToList();
+            ViewData["listadoDeEstados"] = listaDeEstados;
 
-        // GET: combos/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            return View();
-        }
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        // POST: combos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id_combo,descripcion,precio,imagen,id_estado")] combos combos)
-        {
+            var combo = (from c in _DulceSaborContext.combos
+                                   .Where(c => c.id_combo == id)
+                                   select new
+                                   {
+                                       id = c.id_combo,
+                                       nombre = c.descripcion,
+                                       precio = c.precio
+                                   }).ToList();
+
+            var itemsCombo = (from ic in _DulceSaborContext.items_combo_dos
+                              .Where(c => c.id_combo == id)
+                              join c in _DulceSaborContext.combos on ic.id_combo equals c.id_combo
+                              join im in _DulceSaborContext.items_menu on ic.id_items_menu equals im.id_item_menu
+                              select new
+                              {
+                                id = ic.id_items_combo,
+                                nombre_plato = im.nombre
+                              }).ToList();
+
+            ViewData["itemsCombo"] = itemsCombo;
+
+            var combos = await _DulceSaborContext.combos
+                .FirstOrDefaultAsync(m => m.id_combo == id);
+            if (combos == null)
+            {
+                return NotFound();
+            }
+
             return View(combos);
         }
 
-        // GET: combos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            return View();
-        }
-
-        // POST: combos/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> EditCombo(int id, [Bind("id_combo, descripcion, precio, id_estado")] combos combos)
         {
-            return RedirectToAction();
+            _DulceSaborContext.Update(combos);
+            await _DulceSaborContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

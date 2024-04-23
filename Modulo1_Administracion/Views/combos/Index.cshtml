@@ -11,7 +11,7 @@
 
 <div class="d-flex ms-5 mt-3">
     <div class="icono">
-        <img src="" alt="">
+        <img src="https://firebasestorage.googleapis.com/v0/b/dulcesabor-imagenes.appspot.com/o/hamburguesa.png?alt=media&token=4d72cf41-4b0c-454e-b959-82ee2f77e9d4" alt="">
     </div>
 
     <div class="tituloTexto align-middle ms-3">
@@ -25,7 +25,7 @@
 <div class="mt-3" style="margin-left: 140px; width: 83%;">
     <div class="d-flex w-100 ">
         <h4 class="ms-2">Administración del combos</h4>
-        <h4 style="margin-left: 360px;">Listado de combos</h4>
+        <h4 class="mt-2" style="margin-left: 360px;">Listado de combos</h4>
     </div>
 
     @* INICIO DE LA SECCION CREAR COMBO (FORMULARIO) *@
@@ -39,9 +39,9 @@
         }
     </script>
 
-    <div class="d-flex">
+    <div class="d-flex justify-content-between">
         <form asp-action="CreateCombo" method="post" enctype="multipart/form-data">
-            <div class="container mt-4 w-100 align-middle">
+            <div class="container mt-4 align-middle" style="width: 105%;">
                 <div class="row align-items-start mb-2">
                     <div class="col-3">
                         <h5>Nombre:</h5>
@@ -57,8 +57,8 @@
                     </div>
                     <div class="col">
                         <div class="d-flex">
-                            @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana." }) *@
-                            <textarea asp-for="descripcion" class="desc_area size-area" placeholder="Disfruta de nuestro combo de comida hamburguesa de pollo jugoso acompañada papas, con una soda de naranja, pie de manzana."
+                            @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Los items seleccionados aparecerán aquí" }) *@
+                            <textarea asp-for="descripcion" class="desc_area size-area" placeholder="Los items seleccionados aparecerán aquí"
                                       id="floatingTextarea"></textarea>
 
                         </div>
@@ -75,7 +75,7 @@
                         <h5 class="ms-3 me-3 ">Estado:</h5>
                         @* @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
                         <select class="size-combo" asp-for="id_estado" aria-label="Default select example">
-                            <option selected style="color: #D0D3D9; font-size: 1.3vw;">(Seleccionar estado...)</option>
+                            <option selected style="color: #D0D3D9; font-size: 1.3vw;">Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
                             {
                                 <option value="@item.id_estado">@item.nombre</option>
@@ -90,7 +90,7 @@
                         <h5>Imagen (URL):</h5>
                     </div>
                     <div class="col">
-                        <input type="file" asp-for="imagen" class="form-control" />
+                        <input type="file" name="archivo" id="archivo" class="form-control" />
                         @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text"> *@
 
                     </div>
@@ -103,7 +103,7 @@
                     <div class="col">
                         @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" }) *@
                         <select asp-for="id_items_menu" class="item_combo size-combo" onchange="addPlato()" aria-label="Default select example">
-                            <option selected>(Seleccionar items...)</option>
+                            <option selected >Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
                             {
                                 <option value="@item.id_item_menu">@item.nombre</option>
@@ -126,79 +126,35 @@
 
         @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
 
-        <hr class="position-absolute " style="height: 50%; top: 20%; left: 50.5%; border-left: solid #000;">
+        <hr class="position-absolute " style="height: 59%; top: 25%; left: 51%; border-left: solid #000;"/>
 
-        <div class="ms-5 mt-4 w-50">
-            <table class="w-100" style="font-size: 1.3vw;">
-                <thead>
-                    <tr style="color: white; background-color: #a60c18;">
-                        <th width="8%" scope="col" class="text-center ">Id</th>
-                        <th width="45%" scope="col">Combo</th>
-                        <th width="30%" scope="col">Precio</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCombos"])
-                    {
-                        <tr style="background-color: white;">
-                            <td scope="row" class="text-center ">@item.id</td>
-                            <td>@item.nombre</td>
-                            <td>@item.precio</td>
-                            <td><a href="#">Detalles</a></td>
+        <div class="mt-4" style="width: 46%; ">
+            <div class="overflow-auto" style="height: 300px;">
+                <table class="w-100" style="font-size: 1.3vw;">
+                    <thead>
+                        <tr style="color: white; background-color: #a60c18;">
+                            <th width="8%" scope="col" class="text-center ">Id</th>
+                            <th width="45%" scope="col">Combo</th>
+                            <th width="30%" scope="col">Precio</th>
+                            <th scope="col"></th>
                         </tr>
-                        <tr style="height: 3px;">
-                            <!-- Espacio -->
-                        </tr>
-                    }
-                    @* <tr style="background-color: white; margin-top: 200%;">
-                    <td scope="row" class="text-center ">2</td>
-                    <td>TripleCheese Combo</td>
-                    <td>12.99</td>
-                    <td><a href="#">Detalles</a></td>
-                    </tr>
-
-                    <tr style="height: 3px;">
-                    <!-- Espacio -->
-                    </tr>
-                    <tr style="background-color: white; margin-top: 200%;">
-                    <td scope="row" class="text-center ">3</td>
-                    <td>MexiWrap</td>
-                    <td>9.99</td>
-                    <td><a href="#">Detalles</a></td>
-                    </tr>
-
-                    <tr style="height: 3px;">
-                    <!-- Espacio -->
-                    </tr>
-                    <tr style="background-color: white; margin-top: 200%;">
-                    <td scope="row" class="text-center ">4</td>
-                    <td>Papas Monstruosas</td>
-                    <td>11.49</td>
-                    <td><a href="#">Detalles</a></td>
-                    </tr>
-
-                    <tr style="height: 3px;">
-                    <!-- Espacio -->
-                    </tr>
-                    <tr style="background-color: white; margin-top: 200%;">
-                    <td scope="row" class="text-center ">5</td>
-                    <td>BBQ Feast Combo</td>
-                    <td>20.99</td>
-                    <td><a href="#">Detalles</a></td>
-                    </tr>
-
-                    <tr style="height: 3px;">
-                    <!-- Espacio -->
-                    </tr>
-                    <tr style="background-color: white; margin-top: 200%;">
-                    <td scope="row" class="text-center ">6</td>
-                    <td>CrispyCrunch Combo</td>
-                    <td>14.99</td>
-                    <td><a href="#">Detalles</a></td>
-                    </tr> *@
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCombos"])
+                        {
+                            <tr style="background-color: white;">
+                                <td scope="row" class="text-center ">@item.id</td>
+                                <td>@item.nombre</td>
+                                <td>@item.precio</td>
+                                <td><a asp-action="Details" asp-route-id="@item.id">Detalles</a></td>
+                            </tr>
+                            <tr style="height: 3px;">
+                                <!-- Espacio -->
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
             <nav style="margin-top: 2px;">
                 <ul class="navPaginacion bg-light w-100">
