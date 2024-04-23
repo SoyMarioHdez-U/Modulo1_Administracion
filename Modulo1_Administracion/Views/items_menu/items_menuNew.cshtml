@@ -118,7 +118,10 @@
                             <td scope="row" class="text-center ">@item.id</td>
                             <td>@item.nombre</td>
                             <td>@item.estado</td>
-                            <td><a href="#">Detalles</a></td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.id_item_menu">Detalle</a> |
+                                <a asp-action="Edit" asp-route-id="@item.id_item_menu">Editar</a>
+                            </td>
                         </tr>
                         <tr style="height: 3px;">
                             <!-- Espacio -->

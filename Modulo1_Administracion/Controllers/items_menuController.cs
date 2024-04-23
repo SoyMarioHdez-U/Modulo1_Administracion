@@ -38,6 +38,7 @@ namespace Modulo1_Administracion.Controllers
                                     join m in _context.estados on e.id_estado equals m.id_estado
                                     select new
                                     {
+                                        id_item_menu = e.id_item_menu,
                                         id = e.id_item_menu,
                                         nombre = e.nombre,
                                         estado = m.nombre,
@@ -118,6 +119,7 @@ namespace Modulo1_Administracion.Controllers
                 return NotFound();
             }
 
+
             return View(items_menu);
         }
 
@@ -190,8 +192,9 @@ namespace Modulo1_Administracion.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(items_menuNew));
             }
+
             return View(items_menu);
         }
 

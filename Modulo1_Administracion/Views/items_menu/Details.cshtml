@@ -1,54 +1,89 @@
 ﻿@model Modulo1_Administracion.Models.items_menu
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
-<h1>Details</h1>
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif; /* Aplica Montserrat a todo el cuerpo */
+    }
 
-<div>
-    <h4>items_menu</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.precio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.precio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.imagen)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.imagen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.id_categoria)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.id_categoria)
-        </dd>
-    </dl>
+</style>
+<hr class="hrHorizontal">
+
+<div class="d-flex ms-5 mt-3">
+    <div class="icono">
+        <img src="" alt="">
+    </div>
+
+    <div class="tituloTexto align-middle ms-3">
+        <div class="imagen">
+            <a class="imagen"><img src="https://cdn-icons-png.flaticon.com/512/1175/1175770.png" height="70px" width="70px" style="float: left; margin-right: 10px;" /></a>
+        </div>
+        <div>
+            <b><h3 style="font-family: 'Amaranth'">Detalles</h3></b>
+            <p style="width: 400px;">Administración de los ítems del menú</p>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.id_item_menu">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<hr class="hrHorizontal">
+
+<div class="mt-3" style="margin-left: 140px; width: 83%;">
+    <div class="d-flex">
+        <div>
+            <h4>Ítem del menú</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.nombre):
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.nombre)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.descripcion):
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.descripcion)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.precio):
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.precio)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.imagen):
+                </dt>
+                <dd class="col-sm-10">
+                    <img src="@Model.imagen" style="max-width: 200px; max-height: 200px;" />
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.id_estado):
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.id_estado)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.id_categoria):
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.id_categoria)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model?.id_item_menu">Editar</a> |
+            <a asp-action="items_menuNew">Volver</a>
+        </div>
+    </div>
 </div>
+
+</div>
+
+
+
+
+
