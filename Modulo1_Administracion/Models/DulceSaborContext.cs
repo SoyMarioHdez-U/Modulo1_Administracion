@@ -16,14 +16,16 @@ namespace Modulo1_Administracion.Models
         public DbSet<items_promo> items_promo { get; set; }
         public DbSet<mesas> mesas { get; set; }
         public DbSet<estados> estados { get; set; }
+        public DbSet<obj_items_combo> obj_items_combos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<items_combo>().HasNoKey();
             modelBuilder.Entity<items_promo>().HasNoKey();
             // Otras configuraciones de tu modelo
+
+            modelBuilder.Entity<obj_items_combo>().HasNoKey();
         }
         public DbSet<Modulo1_Administracion.Models.items_menu> items_menu { get; set; } = default!;
-
     }
 }

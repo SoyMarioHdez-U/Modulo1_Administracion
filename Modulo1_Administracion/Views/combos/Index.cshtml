@@ -43,13 +43,13 @@
 
     <div class="d-flex justify-content-between">
         <form asp-action="CreateCombo" method="post" enctype="multipart/form-data">
-            @* <div class="container mt-4 align-middle" style="width: 105%;">
+            <div class="container mt-4 align-middle" style="width: 105%;">
                 <div class="row align-items-start mb-2">
                     <div class="col-3">
                         <h5>Nombre:</h5>
                     </div>
                     <div class="col">
-                        <input type="text" asp-for="nombre" placeholder="Combo PolloCrisp" class="size-text">
+                        <input type="text" id="nombre" name="nombre" placeholder="Combo PolloCrisp" class="size-text">
                     </div>
                 </div>
 
@@ -59,8 +59,8 @@
                     </div>
                     <div class="col">
                         <div class="d-flex">
-                            @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Los items seleccionados aparecerán aquí" }) 
-                            <textarea asp-for="descripcion" class="desc_area size-area" placeholder="Los items seleccionados aparecerán aquí"
+                            @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Los items seleccionados aparecerán aquí" })  *@
+                            <textarea class="desc_area size-area" id="platos" name="platos" placeholder="Los items seleccionados aparecerán aquí"
                                       id="floatingTextarea"></textarea>
 
                         </div>
@@ -72,11 +72,11 @@
                         <h5>Precio:</h5>
                     </div>
                     <div class="col d-flex ">
-                         @Html.TextBox("precio", "", new { @class = "size-text" }) 
-                        <input asp-for="precio" type="text" class="size-text" placeholder="10.49">
+                         @* @Html.TextBox("precio", "", new { @class = "size-text" })  *@
+                        <input type="text" id="precio" name="precio" class="size-text" placeholder="10.49">
                         <h5 class="ms-3 me-3 ">Estado:</h5>
-                         @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" }) 
-                        <select class="size-combo" asp-for="id_estado" aria-label="Default select example">
+                         @* @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
+                        <select class="size-combo" id="id_estado" name="id_estado" aria-label="Default select example">
                             <option selected style="color: #D0D3D9; font-size: 1.3vw;">Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
                             {
@@ -93,7 +93,7 @@
                     </div>
                     <div class="col">
                         <input type="file" name="archivo" id="archivo" class="form-control" />
-                         <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text"> 
+                         @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text">  *@
 
                     </div>
                 </div>
@@ -103,8 +103,8 @@
                         <h5>Items</h5>
                     </div>
                     <div class="col">
-                        @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" }) 
-                        <select asp-for="id_items_menu" class="item_combo size-combo" onchange="addPlato()" aria-label="Default select example">
+                        @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
+                        <select class="item_combo size-combo" onchange="addPlato()" aria-label="Default select example">
                             <option selected >Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
                             {
@@ -123,7 +123,7 @@
                         <input type="submit" value="Crear combo" class="botones">
                     </div>
                 </div>
-            </div> *@
+            </div>
         </form>
 
         @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@

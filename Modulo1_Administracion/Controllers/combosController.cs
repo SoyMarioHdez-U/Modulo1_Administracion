@@ -12,6 +12,11 @@ using Modulo1_Administracion.Models;
 using static System.Formats.Asn1.AsnWriter;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Modulo1_Administracion.Data;
+using Azure.Identity;
+using System.Diagnostics.Metrics;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Modulo1_Administracion.Controllers
 {
@@ -64,7 +69,7 @@ namespace Modulo1_Administracion.Controllers
 
         // GET: combos/Create
         [HttpPost]
-        public async Task<ActionResult> CreateCombo(IFormFile archivo, items_combo_menu combo_menu)
+        public async Task<ActionResult> CreateCombo(IFormFile archivo, string nombre, string platos, decimal precio, int id_estado)
         {
             int id_combo = 0;
             combos combosObj = new combos();
@@ -101,10 +106,10 @@ namespace Modulo1_Administracion.Controllers
             }
             catch (Exception ex) { ex.ToString(); }
 
-            combosObj.descripcion = combo_menu.nombre;
-            combosObj.precio = combo_menu.precio;
+            combosObj.descripcion = nombre;
+            combosObj.precio = precio;
             combosObj.imagen = urlArchivoCargado;
-            combosObj.id_estado = combo_menu.id_estado;
+            combosObj.id_estado = id_estado;
 
             _DulceSaborContext.combos.Add(combosObj);
             _DulceSaborContext.SaveChanges();
@@ -124,7 +129,7 @@ namespace Modulo1_Administracion.Controllers
             }
 
 
-            string numPlatos = combo_menu.descripcion.ToString();
+            string numPlatos = platos.ToString();
             string[] numArrayPlatos = numPlatos.TrimEnd(',').Split(',');
             int[] numIntPlatos = new int[numArrayPlatos.Length];
 
@@ -144,50 +149,45 @@ namespace Modulo1_Administracion.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public IConfiguration Configuration { get; }
+
+        public async Task<IActionResult> Details(int? id, int? numPag)
         {
             var listaDeEstados = (from m in _DulceSaborContext.estados
                                   select m).ToList();
             ViewData["listadoDeEstados"] = listaDeEstados;
 
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var combo = (from c in _DulceSaborContext.combos
-                                   .Where(c => c.id_combo == id)
-                                   select new
-                                   {
-                                       id = c.id_combo,
-                                       nombre = c.descripcion,
-                                       precio = c.precio
-                                   }).ToList();
+                         .Where(c => c.id_combo == id)
+                         join e in _DulceSaborContext.estados on c.id_estado equals e.id_estado
+                         select new
+                         {
+                             id = c.id_combo,
+                             nombre = c.descripcion,
+                             precio = c.precio,
+                             estado = e.nombre
+                         }).ToList();
 
-            var itemsCombo = (from ic in _DulceSaborContext.items_combo_dos
-                              .Where(c => c.id_combo == id)
-                              join c in _DulceSaborContext.combos on ic.id_combo equals c.id_combo
-                              join im in _DulceSaborContext.items_menu on ic.id_items_menu equals im.id_item_menu
-                              select new
-                              {
-                                id = ic.id_items_combo,
-                                nombre_plato = im.nombre
-                              }).ToList();
-
-            ViewData["itemsCombo"] = itemsCombo;
-
-            var combos = await _DulceSaborContext.combos
-                .FirstOrDefaultAsync(m => m.id_combo == id);
-            if (combos == null)
+            ViewData["infoCombo"] = new obj_combo_estado()
             {
-                return NotFound();
-            }
+                id_combo = combo.AsEnumerable().FirstOrDefault().id,
+                nombre = combo.AsEnumerable().FirstOrDefault().nombre,
+                precio = combo.AsEnumerable().FirstOrDefault().precio,
+                estado = combo.AsEnumerable().FirstOrDefault().estado
+            };
 
-            return View(combos);
+            var listadoDeItemsCombos = (from otc in _DulceSaborContext.obj_items_combos
+                                        where otc.id_combo == id
+                                        select otc);
+
+            ViewData["listadoDeItemsCombos"] = listadoDeItemsCombos;
+
+            int cantidadRegistros = 6;
+
+            return View(await Paginacion<obj_items_combo>.CrearPaginacion(listadoDeItemsCombos.AsNoTracking(), numPag ?? 1, cantidadRegistros));
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCombo(int id, [Bind("id_combo, descripcion, precio, id_estado")] combos combos)
         {
             _DulceSaborContext.Update(combos);
