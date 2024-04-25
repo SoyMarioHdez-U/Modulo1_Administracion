@@ -71,6 +71,7 @@
                 var siguienteDesabilitado = !Model.PaginasPosteriores ? "disabled" : "";
             }
 
+            @* Botones que controlan la paginación *@
             <nav style="margin-top: 2px;">
                 <ul class="navPaginacion bg-light w-100">
                     <li class="page-item1"><a asp-action="Details" asp-route-numpag="@(Model.PaginaInicio-1)" class="@anteriorDesabilitado">&lt; Anterior</a></li>
@@ -138,8 +139,5 @@
                 </div>
             </div>
         </form>
-    </div>
-
-
     </div>
 </div>
