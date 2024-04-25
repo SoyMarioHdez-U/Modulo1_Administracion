@@ -27,6 +27,7 @@ namespace Modulo1_Administracion.Models
             // Otras configuraciones de tu modelo
 
             modelBuilder.Entity<obj_items_combo>().HasNoKey();
+            modelBuilder.Entity<obj_items_promo>().HasNoKey();
         }
         public DbSet<Modulo1_Administracion.Models.items_menu> items_menu { get; set; } = default!;
     }

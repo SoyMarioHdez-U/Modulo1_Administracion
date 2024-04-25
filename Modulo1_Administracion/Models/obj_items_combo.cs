@@ -1,5 +1,8 @@
-﻿namespace Modulo1_Administracion.Models
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Modulo1_Administracion.Models
 {
+    [Keyless]
     public class obj_items_combo
     {
         public int id_combo { get; set; }
