@@ -18,7 +18,7 @@ namespace Modulo1_Administracion.Controllers
         }
 
         // GET: combos
-        public async Task<IActionResult> Index(int? numPag)
+        public async Task<IActionResult> Index(int? numPag, string error)
         {
             //Llama a todos los registros de la tabla items_menu para mostrarlas en el combobox "Items".
             var listaDePlatos = (from m in _DulceSaborContext.items_menu
@@ -49,106 +49,113 @@ namespace Modulo1_Administracion.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateCombo(IFormFile archivo, string nombre, string platos, decimal precio, int id_estado)
         {
-            /*  INICIO GUARDADO DE LA IMAGEN EN FIREBASE STORAGE   */
-
-            //Leemos el archivo subido
-            Stream archivoASubir = archivo.OpenReadStream();
-
-            //Configuramos la conexion hacia FireBase
-            string email = "carlos.murga1@catolica.edu.sv";
-            string clave = "h1n12002";
-            string ruta = "dulcesabor-imagenes.appspot.com";
-            string api_key = "AIzaSyCUmhGjhkkuvkE5S5bnPXjTHIYn9qW5pl4";
-
-            var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
-            var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
-
-            var cancellation = new CancellationTokenSource();
-            var tokenUser = autenticarFireBase.FirebaseToken;
-
-            var tareaCargarArchivo = new FirebaseStorage(ruta,
-                new FirebaseStorageOptions
-                {
-                    AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
-                    ThrowOnCancel = true
-                }).Child("Combos").Child(archivo.FileName).PutAsync(archivoASubir, cancellation.Token);
-
-            var urlArchivoCargado = await tareaCargarArchivo;
-
-            /*  FIN GUARDADO DE LA IMAGEN EN FIREBASE STORAGE   */
-
-            /*  INICIO GUARDADO DEL NUEVO REGISTRO "COMBO"   */
-            
-            //Se crea este objeto para poder guardar el nuevo registro
-            combos combosObj = new combos();
-
-            //Se asignan los valores del nuevo registro a los atributos del objeto
-            //objeto.atributo = variable_recibida_en_este_metodo (CreateCombo);
-
-            combosObj.descripcion = nombre;
-            combosObj.precio = precio;
-            combosObj.imagen = urlArchivoCargado;
-            combosObj.id_estado = id_estado;
-
-            //Se hace el INSERT INTO del registro a la tabla Combos.
-            _DulceSaborContext.combos.Add(combosObj);
-            _DulceSaborContext.SaveChanges();
-
-            /*  FIN GUARDADO DEL NUEVO REGISTRO "COMBO"   */
-
-            /*  INICIO GUARDADO DE TODOS LOS ITEMS(PLATOS) A UN SOLO COMBO   */
-
-            //Lo que se hace es buscar el ID del último combo creado, o sea, el que necesitamos
-            var listadoDeCombos = (from c in _DulceSaborContext.combos
-                                   select c).ToList();
-
-            //Variable donde se asignará el ID del último combo
-            int id_combo = 0;
-
-            //Se recorre toda la consulta hasta encontrar el ID requerido
-            foreach (var item in (IEnumerable<dynamic>)listadoDeCombos)
+            if (archivo != null && nombre != null && platos != null && precio > 0 && id_estado > 0)
             {
-                id_combo = item.id_combo;
-            }
+                /*  INICIO GUARDADO DE LA IMAGEN EN FIREBASE STORAGE   */
 
-            //La variable "platos" es donde están todos los items elegidos para el combo
-            //Lo que contiene es, por ejemplo: 4,5,4, | Cada número es el ID del item, pero hay un problema, el último número termina con una coma
-            //Esto hace que se tome en cuenta el espacio después de la coma y haya un error. Por eso se hace lo siguiente:
-            //platos.TrimEnd(',').Split(); -> .TrimEnd(',') -> Elimina la última coma. -> .Split(',') -> Divide la cadena por comas.
-            //O sea que, en lugar de que 4,5,4, se cuente como una cadena, en realidad se toma como un array de 3 sin la coma final
+                //Leemos el archivo subido
+                Stream archivoASubir = archivo.OpenReadStream();
 
-            //Se elimina la coma final y se divide la cadena. El resultado se está guardando en un Array de Strings
-            string[] numArrayPlatos = platos.TrimEnd(',').Split(',');
+                //Configuramos la conexion hacia FireBase
+                string email = "carlos.murga1@catolica.edu.sv";
+                string clave = "h1n12002";
+                string ruta = "dulcesabor-imagenes.appspot.com";
+                string api_key = "AIzaSyCUmhGjhkkuvkE5S5bnPXjTHIYn9qW5pl4";
 
-            //Los ID's ingresados a numArrayPlatos son String ya que vienen de un text area y llevan coma, entonces, necesitamos convertirlos a INT.
-            //Para eso creamos este nuevo Array que servirá para la conversión. En new int[numArrayPlatos.Length] le estamos indicando el tamaño
-            //que tendrá el array int según la cantidad de items que vayan al combo.
-            int[] numIntPlatos = new int[numArrayPlatos.Length];
+                var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
+                var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
 
-            //¿Para que necesitamos un FOR?
-            //Para recorrer todos los numArrayPlatos (o sea, los ID's de los items), convertirlos string a int y hacer un INSERT INTO a la tabla
-            //por cada item añadido al combo.
-            for (int i = 0; i < numArrayPlatos.Length; i++)
-            {
-                //Se crea un objeto para ayudarnos a ingresar los registros.
-                items_combo_dos items = new items_combo_dos();
+                var cancellation = new CancellationTokenSource();
+                var tokenUser = autenticarFireBase.FirebaseToken;
 
-                //Aquí se hace la conversión
-                numIntPlatos[i] = Int32.Parse(numArrayPlatos[i]);
+                var tareaCargarArchivo = new FirebaseStorage(ruta,
+                    new FirebaseStorageOptions
+                    {
+                        AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
+                        ThrowOnCancel = true
+                    }).Child("Combos").Child(archivo.FileName).PutAsync(archivoASubir, cancellation.Token);
 
-                //Aquí se asignan los valores para cada campo de la tabla.
-                items.id_combo = id_combo;
-                items.id_items_menu = numIntPlatos[i];
+                var urlArchivoCargado = await tareaCargarArchivo;
 
-                //Y, por último, se hace el INSERT INTO por cada item añadido.
-                _DulceSaborContext.items_combo_dos.Add(items);
+                /*  FIN GUARDADO DE LA IMAGEN EN FIREBASE STORAGE   */
+
+                /*  INICIO GUARDADO DEL NUEVO REGISTRO "COMBO"   */
+
+                //Se crea este objeto para poder guardar el nuevo registro
+                combos combosObj = new combos();
+
+                //Se asignan los valores del nuevo registro a los atributos del objeto
+                //objeto.atributo = variable_recibida_en_este_metodo (CreateCombo);
+
+                combosObj.descripcion = nombre;
+                combosObj.precio = precio;
+                combosObj.imagen = urlArchivoCargado;
+                combosObj.id_estado = id_estado;
+
+                //Se hace el INSERT INTO del registro a la tabla Combos.
+                _DulceSaborContext.combos.Add(combosObj);
                 _DulceSaborContext.SaveChanges();
+
+                /*  FIN GUARDADO DEL NUEVO REGISTRO "COMBO"   */
+
+                /*  INICIO GUARDADO DE TODOS LOS ITEMS(PLATOS) A UN SOLO COMBO   */
+
+                //Lo que se hace es buscar el ID del último combo creado, o sea, el que necesitamos
+                var listadoDeCombos = (from c in _DulceSaborContext.combos
+                                       select c).ToList();
+
+                //Variable donde se asignará el ID del último combo
+                int id_combo = 0;
+
+                //Se recorre toda la consulta hasta encontrar el ID requerido
+                foreach (var item in (IEnumerable<dynamic>)listadoDeCombos)
+                {
+                    id_combo = item.id_combo;
+                }
+
+                //La variable "platos" es donde están todos los items elegidos para el combo
+                //Lo que contiene es, por ejemplo: 4,5,4, | Cada número es el ID del item, pero hay un problema, el último número termina con una coma
+                //Esto hace que se tome en cuenta el espacio después de la coma y haya un error. Por eso se hace lo siguiente:
+                //platos.TrimEnd(',').Split(); -> .TrimEnd(',') -> Elimina la última coma. -> .Split(',') -> Divide la cadena por comas.
+                //O sea que, en lugar de que 4,5,4, se cuente como una cadena, en realidad se toma como un array de 3 sin la coma final
+
+                //Se elimina la coma final y se divide la cadena. El resultado se está guardando en un Array de Strings
+                string[] numArrayPlatos = platos.TrimEnd(',').Split(',');
+
+                //Los ID's ingresados a numArrayPlatos son String ya que vienen de un text area y llevan coma, entonces, necesitamos convertirlos a INT.
+                //Para eso creamos este nuevo Array que servirá para la conversión. En new int[numArrayPlatos.Length] le estamos indicando el tamaño
+                //que tendrá el array int según la cantidad de items que vayan al combo.
+                int[] numIntPlatos = new int[numArrayPlatos.Length];
+
+                //¿Para que necesitamos un FOR?
+                //Para recorrer todos los numArrayPlatos (o sea, los ID's de los items), convertirlos string a int y hacer un INSERT INTO a la tabla
+                //por cada item añadido al combo.
+                for (int i = 0; i < numArrayPlatos.Length; i++)
+                {
+                    //Se crea un objeto para ayudarnos a ingresar los registros.
+                    items_combo_dos items = new items_combo_dos();
+
+                    //Aquí se hace la conversión
+                    numIntPlatos[i] = Int32.Parse(numArrayPlatos[i]);
+
+                    //Aquí se asignan los valores para cada campo de la tabla.
+                    items.id_combo = id_combo;
+                    items.id_items_menu = numIntPlatos[i];
+
+                    //Y, por último, se hace el INSERT INTO por cada item añadido.
+                    _DulceSaborContext.items_combo_dos.Add(items);
+                    _DulceSaborContext.SaveChanges();
+                }
+
+                /*  FIN GUARDADO DE TODOS LOS ITEMS(PLATOS) A UN SOLO COMBO   */
+
+                //Al final redirige al método Index, donde está la vista Index.
+                return RedirectToAction("Index");
             }
-
-            /*  FIN GUARDADO DE TODOS LOS ITEMS(PLATOS) A UN SOLO COMBO   */
-
-            //Al final redirige al método Index, donde está la vista Index.
-            return RedirectToAction("Index");
+            else
+            {
+                return View("ErrorCreateCombo");
+            }
         }
 
         public async Task<IActionResult> Details(int? id, int? numPag)

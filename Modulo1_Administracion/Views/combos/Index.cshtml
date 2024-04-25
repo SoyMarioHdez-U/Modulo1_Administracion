@@ -3,7 +3,7 @@
 @model Paginacion<combos>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Combos";
 }
 
 <hr class="hrHorizontal">
@@ -34,7 +34,9 @@
             var plato = document.querySelector(".item_combo").value;
             var desc = document.querySelector(".desc_area");
 
-            desc.append(plato + ",");
+            if (plato != "Seleccione...") {
+                desc.append(plato + ",");
+            }
         }
     </script>
 
@@ -111,8 +113,6 @@
                     </div>
                 </div>
 
-                <a href="#">Agregar nuevo item</a>
-
                 <div class="row mt-3 mb-2">
                     <div class="col-3">
                     </div>
@@ -163,19 +163,48 @@
             @* Botones que controlan la paginación *@
             <nav style="margin-top: 2px;">
                 <ul class="navPaginacion bg-light w-100">
-                    <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio-1)" class="@anteriorDesabilitado">&lt; Anterior</a></li>
-                        <div class="d-flex ">
-                            @for (var i=1; i<=Model.PaginasTotales; i++)
-                            {
-                                var paginaActiva = (i == Model.PaginaInicio) ? "active" : "";
 
-                                <li class="page-item"><a asp-action="Index" asp-route-numpag="@i" class="@paginaActiva">@i</a></li>
+                    @if (Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
+
+                    }
+
+                    @if (!Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a href="#" style="color: gray;">&lt; Anterior</a></li>
+
+                    }
+
+
+                    <div class="d-flex ">
+                        @for (var i=1; i<=Model.PaginasTotales; i++)
+                        {
+                            @if (i == Model.PaginaInicio)
+                            {
+                                <li class="page-item-activo"><a asp-action="Index" asp-route-numpag="@i" style="color: white;">@i</a></li>
                             }
-                        </div>
-                    <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio+1)" class="@siguienteDesabilitado">Siguiente &gt;</a></li>
+
+                            @if (i != Model.PaginaInicio)
+                            {
+                                <li class="page-item"><a asp-action="Index" asp-route-numpag="@i">@i</a></li>
+                            }
+
+                        }
+                    </div>
+
+                    @if (Model.PaginasPosteriores)
+                    {
+                        <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio+1)">Siguiente &gt;</a></li>
+                    }
+
+                    @if (!Model.PaginasPosteriores)
+                    {
+                        <li class="page-item1"><a href="#" style="color: gray;">Siguiente &gt;</a></li>
+                    }
+                    
                 </ul>
             </nav>
+        </div>
     </div>
-</div>
-
 </div>
