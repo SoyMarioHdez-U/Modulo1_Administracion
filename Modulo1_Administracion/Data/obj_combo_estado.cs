@@ -6,5 +6,6 @@
         public string? nombre { get; set; }
         public decimal? precio { get; set; }
         public string estado { get; set; }
+        public int? id_estado { get; set; }
     }
 }

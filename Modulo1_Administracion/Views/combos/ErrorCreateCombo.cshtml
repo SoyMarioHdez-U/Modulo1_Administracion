@@ -2,21 +2,23 @@
     ViewData["Title"] = "Error al crear combo";
 }
 
-<div class="container bg-danger mt-5  pt-3 pb-3 text-center align-content-center ">
-    <h1 class="text-light fw-bold">Oh, Huh?!</h1>
-    <h4 class="text-warning ">Al parecer ha ocurrido un error al momento de crear un nuevo combo</h4>
-</div>
-
-<div class="container bg-secondary pt-3 pb-3 ps-5 pe-5  ">
-    <h5 class="text-light ">A continuación verá una lista de las posibles causas de este error:</h5>
-    <div class="ps-3 pt-2 pb-2 " style="background-color: #D0D3D9;">
-        <span>1. Todos los campos son obligatorios. Esto quiere decir que no se aceptan registros con campos vacíos.</span> <br>
-        <span>2. Es probable de que haya campos que no admitan ciertos tipos de datos. Por ejemplo, el campo "precio" solo admite números y el punto decimal.</span> <br>
-        <span>3. Hubo algún error en la conexión y los datos se corrompieron.</span> <br>
-        <span>4. Hubo algún error interno en el sistema. Si este fuera el caso comuníquese con atención al cliente.</span>
+<div class="container mt-5 justify-content-center ">
+    <div class="contenedor-titulo">
+        <h1 class="text-light fw-bold">Oh, Huh?!</h1>
+        <h4 class="text-warning ">Al parecer ha ocurrido un error al momento de @ViewData["errorMessage"]</h4>
     </div>
 
-    <div class="mt-4 ">
-        <a asp-action="Index" class="form-control" style="background-color: #a60c18; text-decoration: none; width: 14vw; color: white;">Volver a "Crear Combos"</a>
+    <div class="cuerpo bg-secondary">
+        <h5>A continuación verá una lista de las posibles causas de este error:</h5>
+        <div class="errores mb-4 " style="background-color: #D0D3D9;">
+            <span>1. Todos los campos son obligatorios. Esto quiere decir que no se aceptan registros con campos vacíos.</span> <br>
+            <span>2. Es probable que haya campos que no admitan ciertos tipos de datos. Por ejemplo, el campo "precio" solo admite números y el punto decimal.</span> <br>
+            <span>3. Hubo algún error en la conexión y los datos se corrompieron.</span> <br>
+            <span>4. Hubo algún error interno en el sistema. Si este fuera el caso comuníquese con atención al cliente.</span>
+        </div>
+
+        <div class="divBoton">
+            <a asp-action="Index" class="boton">Volver a "Crear Combos"</a>
+        </div>
     </div>
 </div>

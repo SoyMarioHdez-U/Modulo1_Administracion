@@ -154,6 +154,7 @@ namespace Modulo1_Administracion.Controllers
             }
             else
             {
+                ViewData["errorMessage"] = "crear un nuevo combo";
                 return View("ErrorCreateCombo");
             }
         }
@@ -176,7 +177,8 @@ namespace Modulo1_Administracion.Controllers
                              id = c.id_combo,
                              nombre = c.descripcion,
                              precio = c.precio,
-                             estado = e.nombre
+                             estado = e.nombre,
+                             id_estado = e.id_estado
                          }).ToList();
 
             //Se hace el ViewData para usarlo en la vista Details.cshtml, pero este es diferente.
@@ -186,7 +188,8 @@ namespace Modulo1_Administracion.Controllers
                 id_combo = combo.AsEnumerable().FirstOrDefault().id,
                 nombre = combo.AsEnumerable().FirstOrDefault().nombre,
                 precio = combo.AsEnumerable().FirstOrDefault().precio,
-                estado = combo.AsEnumerable().FirstOrDefault().estado
+                estado = combo.AsEnumerable().FirstOrDefault().estado,
+                id_estado = combo.AsEnumerable().FirstOrDefault().id_estado
             };
 
             //Este es un llamado a una tabla, pero no cualquier tabla.
@@ -205,14 +208,28 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCombo(int id, [Bind("id_combo, descripcion, precio, id_estado")] combos combos)
+        public async Task<IActionResult> EditCombo([Bind("id_combo, descripcion, precio, id_estado")] combos combos)
         {
-            //Aquí no hace falta hacer un objeto con sus asignaciones. Ya que es una actualización (también se puede para crear registros)
-            //a una sola tabla. Los datos los toma desde los atributos que están en Bind en la parte de los parámetros de este metodo "EditCombo".
-            _DulceSaborContext.Update(combos);
-            await _DulceSaborContext.SaveChangesAsync();
+            var unCombo = (from c in _DulceSaborContext.combos
+                           where c.id_combo == combos.id_combo
+                           select c).ToList();
 
-            return RedirectToAction(nameof(Index));
+            string nombreCombo = unCombo.AsEnumerable().FirstOrDefault().descripcion;
+
+            if (!string.IsNullOrEmpty(combos.descripcion) && combos.precio > 0)
+            {
+                //Aquí no hace falta hacer un objeto con sus asignaciones. Ya que es una actualización (también se puede para crear registros)
+                //a una sola tabla. Los datos los toma desde los atributos que están en Bind en la parte de los parámetros de este metodo "EditCombo".
+                _DulceSaborContext.Update(combos);
+                await _DulceSaborContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                ViewData["errorMessage"] = "editar el combo \"" + nombreCombo + "\"";
+                return View("ErrorCreateCombo");
+            }
         }
     }
 }
