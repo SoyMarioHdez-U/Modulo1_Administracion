@@ -19,7 +19,7 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpGet]
-        public ActionResult MesasNew()
+        public ActionResult Index_mesa()
         {
 
             var listaDeEstados = (from e in _context.estados
@@ -32,13 +32,47 @@ namespace Modulo1_Administracion.Controllers
                                 join e in _context.estados on m.id_estado equals e.id_estado
                                 select new
                                 {
-                                    id = m.id_mesa,     
-                                    cantidad_personas = m.cantidad_personas,
+                                    id_mesa = m.id_mesa,
+                                    cantidad = m.cantidad_personas,
                                     estado = e.nombre,
                                     nombre_mesa = m.nombre_mesa
                                 }).ToList();
+
+
             ViewData["listadoDeMesas"] = listaDeMesas;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CrearMesa(mesas nuevaMesa)
+        {
+            // Verifica si se ha proporcionado una nueva mesa válida
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Agrega la nueva mesa al contexto de la base de datos
+                    _context.mesas.Add(nuevaMesa);
+
+                    // Guarda los cambios en la base de datos
+                    _context.SaveChanges();
+
+                    // Redirige al usuario a la página de lista de mesas
+                    return RedirectToAction("Index_mesa");
+                }
+                catch (Exception ex)
+                {
+                    // Maneja el error de alguna manera adecuada (por ejemplo, registrándolo, mostrando un mensaje al usuario, etc.)
+                    // Aquí solo se registra el error en la consola
+                    Console.WriteLine("Error al guardar la nueva mesa: " + ex.Message);
+                    return RedirectToAction("Error"); // Redirige a una página de error
+                }
+            }
+            else
+            {
+                // Si el modelo no es válido, vuelve a mostrar el formulario de creación de mesa con los errores de validación
+                return View(nuevaMesa);
+            }
         }
 
 
@@ -134,7 +168,7 @@ namespace Modulo1_Administracion.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(MesasNew));
+                return RedirectToAction(nameof(Index_mesa));
             }
             return View(mesas);
         }
@@ -156,7 +190,7 @@ namespace Modulo1_Administracion.Controllers
             // Guarda los cambios en la base de datos
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(MesasNew));
+            return RedirectToAction(nameof(Index_mesa));
         }
 
 
