@@ -57,10 +57,10 @@ namespace Modulo1_Administracion.Controllers
                 Stream archivoASubir = archivo.OpenReadStream();
 
                 //Configuramos la conexion hacia FireBase
-                string email = "carlos.murga1@catolica.edu.sv";
-                string clave = "h1n12002";
-                string ruta = "dulcesabor-imagenes.appspot.com";
-                string api_key = "AIzaSyCUmhGjhkkuvkE5S5bnPXjTHIYn9qW5pl4";
+                string email = "rodrigo.monterrosa@catolica.edu.sv";
+                string clave = "Sonic2002";
+                string ruta = "prueba-dba43.appspot.com";
+                string api_key = "AIzaSyBZhr-ye38uR6FnjSygen4Mo8Vph7s_HdU";
 
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
                 var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);

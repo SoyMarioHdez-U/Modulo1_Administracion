@@ -15,8 +15,10 @@ namespace Modulo1_Administracion.Models
         public DbSet<items_combo_dos> items_combo_dos { get; set; }
         public DbSet<items_promo> items_promo { get; set; }
         public DbSet<mesas> mesas { get; set; }
+        public DbSet<empleados> empleados { get; set; }
         public DbSet<estados> estados { get; set; }
         public DbSet<obj_items_combo> obj_items_combos { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

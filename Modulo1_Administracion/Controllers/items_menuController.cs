@@ -22,8 +22,8 @@ namespace Modulo1_Administracion.Controllers
             
         }
 
-        [HttpGet]
-        public ActionResult items_menuNew()
+        [HttpGet] // Ni idea porque lo utiliza 
+        public ActionResult items_menuNew() // Porque no utiliza IActionResult
         {
             var listaDeCategorias = (from c in _context.categorias
                                      select c).ToList();
@@ -53,7 +53,7 @@ namespace Modulo1_Administracion.Controllers
         }
 
 
-        [HttpPost]
+        
         public async  Task<ActionResult> CrearItem(items_menu nuevoItem, IFormFile imagen)
         {
             if (imagen != null)
@@ -62,10 +62,10 @@ namespace Modulo1_Administracion.Controllers
                 Stream archivoASubir = imagen.OpenReadStream();
 
                 // Configuramos la conexión hacia Firebase
-                string email = "soymariohdez@gmail.com";
-                string clave = "catolica";
-                string ruta = "dulcesabor-c6f5a.appspot.com";
-                string api_key = "AIzaSyDCBa09cv8YGDb8dc7loaIh-D9eG5XGXjI";
+                string email = "rodrigo.monterrosa@catolica.edu.sv";
+                string clave = "Sonic2002";
+                string ruta = "prueba-dba43.appspot.com";
+                string api_key = "AIzaSyBZhr-ye38uR6FnjSygen4Mo8Vph7s_HdU";
 
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
                 var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
@@ -139,8 +139,7 @@ namespace Modulo1_Administracion.Controllers
         // POST: items_menu/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Create([Bind("id_item_menu,nombre,descripcion,precio,imagen,id_estado,id_categoria")] items_menu items_menu)
         {
             if (ModelState.IsValid)
@@ -188,10 +187,10 @@ namespace Modulo1_Administracion.Controllers
                 Stream archivoASubir = imagen.OpenReadStream();
 
                 // Configuramos la conexión hacia Firebase
-                string email = "soymariohdez@gmail.com";
-                string clave = "catolica";
-                string ruta = "dulcesabor-c6f5a.appspot.com";
-                string api_key = "AIzaSyDCBa09cv8YGDb8dc7loaIh-D9eG5XGXjI";
+                string email = "rodrigo.monterrosa@catolica.edu.sv";
+                string clave = "Sonic2002";
+                string ruta = "prueba-dba43.appspot.com";
+                string api_key = "AIzaSyBZhr-ye38uR6FnjSygen4Mo8Vph7s_HdU";
 
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
                 var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
