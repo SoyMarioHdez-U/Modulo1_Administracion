@@ -30,7 +30,7 @@
     @* INICIO DE LA SECCION CREAR promociones (FORMULARIO) *@
     <script>
         function addPlato() {
-            var plato = document.querySelector(".item_promociones").value;
+            var plato = document.querySelector(".item_promo").value;
             var desc = document.querySelector(".desc_area");
 
             if (plato != "Seleccione...") {
@@ -40,7 +40,7 @@
     </script>
 
     <div class="d-flex justify-content-between">
-        <form asp-action="CreatePromo" method="post" enctype="multipart/form-data">
+        <form asp-action="CreatePromociones" method="post" enctype="multipart/form-data">
             <div class="body-text container mt-4 align-middle" style="width: 135%;">
                 <div class="row align-items-start mb-2">
                     <div class="col-3">
@@ -58,7 +58,7 @@
                     <div class="col">
                         <div class="d-flex">
                             @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Los items seleccionados aparecerán aquí" })  *@
-                            <textarea class="desc_area size-area" id="platos" name="platos" placeholder="Los items seleccionados aparecerán aquí"
+                            <textarea class="desc_area size-area" id="descripcion" name="descripcion" placeholder="Los items seleccionados aparecerán aquí"
                                       id="floatingTextarea"></textarea>
 
                         </div>
@@ -116,7 +116,7 @@
                     </div>
                     <div class="col">
                         @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
-                        <select class="item_promo size-promo" onchange="addPlato()" aria-label="Default select example">
+                        <select class="item_promo size-promo" aria-label="Default select example">
                             <option selected>Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
                             {
@@ -125,6 +125,8 @@
                         </select>
                     </div>
                 </div>
+
+                <a href="#" class="agregarItem" onclick="addPlato()">Agregar nuevo item</a>
 
                 <div class="row mt-3 mb-2">
                     <div class="col-3">

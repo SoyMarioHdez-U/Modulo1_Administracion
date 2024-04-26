@@ -104,7 +104,7 @@ namespace Modulo1_Administracion.Controllers
             /*  INICIO GUARDADO DE TODOS LOS ITEMS(PLATOS) A UNa sola propomocion   */
 
             //Lo que se hace es buscar el ID de la utima promocion creada, o sea, la que necesitamos
-            var listadoDePromociones = (from c in _DulceSaborContext.combos
+            var listadoDePromociones = (from c in _DulceSaborContext.promociones
                                    select c).ToList();
 
             //Variable donde se asignará el ID del último combo
