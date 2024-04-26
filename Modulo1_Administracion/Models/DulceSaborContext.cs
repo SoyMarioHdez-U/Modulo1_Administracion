@@ -13,7 +13,7 @@ namespace Modulo1_Administracion.Models
         public DbSet<combos> combos { get; set; }
         public DbSet<items_combo> items_combo { get; set; }
         public DbSet<items_combo_dos> items_combo_dos { get; set; }
-        public DbSet<items_promo> items_promo { get; set; }
+        public DbSet<items_promociones> items_promo { get; set; }
         public DbSet<mesas> mesas { get; set; }
         public DbSet<empleados> empleados { get; set; }
         public DbSet<estados> estados { get; set; }
@@ -25,7 +25,7 @@ namespace Modulo1_Administracion.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<items_combo>().HasNoKey();
-            modelBuilder.Entity<items_promo>().HasNoKey();
+            modelBuilder.Entity<items_promociones>().HasNoKey();
             // Otras configuraciones de tu modelo
 
             modelBuilder.Entity<obj_items_combo>().HasNoKey();

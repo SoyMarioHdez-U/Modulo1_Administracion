@@ -13,7 +13,7 @@
         <img src="https://firebasestorage.googleapis.com/v0/b/dulcesabor-imagenes.appspot.com/o/hamburguesa.png?alt=media&token=4d72cf41-4b0c-454e-b959-82ee2f77e9d4" alt="">
     </div>
 
-    <div class="tituloTexto align-middle ms-3   ">
+    <div class="tituloTexto align-middle ms-3">
         <h1>Creación de Combos</h1>
         <h6>Agregar nuevos elementos al menú</h6>
     </div>
@@ -37,6 +37,13 @@
             if (plato != "Seleccione...") {
                 desc.append(plato + ",");
             }
+
+            var newDiv = document.createElement("h1");
+            var newContent = document.createTextNode("Hola!¿Qué tal?");
+            newDiv.appendChild(newContent);
+
+            var currentDiv = document.querySelector("tituloTexto");
+            document.body.insertBefore(newDiv, currentDiv);
         }
     </script>
 
@@ -103,7 +110,7 @@
                     </div>
                     <div class="col">
                         @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
-                        <select class="item_combo size-combo" onchange="addPlato()" aria-label="Default select example">
+                        <select class="item_combo size-combo" aria-label="Default select example">
                             <option selected >Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
                             {
@@ -112,6 +119,8 @@
                         </select>
                     </div>
                 </div>
+
+                <a href="#" class="agregarItem" onclick="addPlato()">Agregar nuevo item</a>
 
                 <div class="row mt-3 mb-2">
                     <div class="col-3">

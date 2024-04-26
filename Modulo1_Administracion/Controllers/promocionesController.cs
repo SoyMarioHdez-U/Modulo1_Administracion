@@ -136,14 +136,14 @@ namespace Modulo1_Administracion.Controllers
             for (int i = 0; i < numArrayDescripcion.Length; i++)
             {
                 //Se crea un objeto para ayudarnos a ingresar los registros.
-                items_promo items = new items_promo();
+                items_promociones items = new items_promociones();
 
                 //Aquí se hace la conversión
                 numIntDescripcion[i] = Int32.Parse(numArrayDescripcion[i]);
 
                 //Aquí se asignan los valores para cada campo de la tabla.
                 items.id_promo = id_promo;
-                items.id_item_menu = numIntDescripcion[i];
+                items.id_items_combo = numIntDescripcion[i];
 
                 //Y, por último, se hace el INSERT INTO por cada item añadido.
                 _DulceSaborContext.items_promo.Add(items);

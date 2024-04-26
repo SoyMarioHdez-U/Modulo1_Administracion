@@ -27,6 +27,7 @@ namespace Modulo1_Administracion.Controllers
 
             //Llama a todos los registros de la tabla estados para mostrarlas en el combobox "Estado".
             var listaDeEstados = (from m in _DulceSaborContext.estados
+                                  where m.tipo_estado == "Menu"
                                  select m).ToList();
             ViewData["listadoDeEstados"] = listaDeEstados;
 
@@ -163,6 +164,7 @@ namespace Modulo1_Administracion.Controllers
         {
             //Se hace el llamado a la tabla estados para mostrar todos los estados disponibles en el combobox "Estado:".
             var listaDeEstados = (from m in _DulceSaborContext.estados
+                                  where m.tipo_estado == "Menu"
                                   select m).ToList();
 
             //ViewData creado para poder usarlo en la vista Details.cshtml
@@ -208,13 +210,9 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCombo([Bind("id_combo, descripcion, precio, id_estado")] combos combos)
+        public async Task<IActionResult> EditCombo(int? id, [Bind("id_combo, descripcion, precio, id_estado")] combos combos)
         {
-            var unCombo = (from c in _DulceSaborContext.combos
-                           where c.id_combo == combos.id_combo
-                           select c).ToList();
-
-            string nombreCombo = unCombo.AsEnumerable().FirstOrDefault().descripcion;
+            
 
             if (!string.IsNullOrEmpty(combos.descripcion) && combos.precio > 0)
             {
@@ -227,6 +225,12 @@ namespace Modulo1_Administracion.Controllers
             }
             else
             {
+                var unCombo = (from c in _DulceSaborContext.combos
+                               where c.id_combo == combos.id_combo
+                               select c).ToList();
+
+                string nombreCombo = unCombo.AsEnumerable().FirstOrDefault().descripcion;
+
                 ViewData["errorMessage"] = "editar el combo \"" + nombreCombo + "\"";
                 return View("ErrorCreateCombo");
             }
