@@ -1,16 +1,39 @@
 ﻿@model Modulo1_Administracion.Models.mesas
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif; /* Aplica Montserrat a todo el cuerpo */
+    }
+</style>
+<hr class="hrHorizontal">
 
-<h1>Edit</h1>
+<div class="d-flex ms-5 mt-3">
+    <div class="icono">
+        <img src="" alt="">
+    </div>
 
-<h4>mesas</h4>
+    <div class="tituloTexto align-middle ms-3">
+        <div class="imagen">
+            <a class="imagen"><img src="https://cdn-icons-png.flaticon.com/512/1209/1209474.png" height="70px" width="70px" style="float: left; margin-right: 10px;" /></a>
+        </div>
+        <div>
+            <b><h3 style="font-family: 'Amaranth'">Editar</h3></b>
+            <p style="width: 400px;">Administración de Mesas</p>
+        </div>
+    </div>
+</div>
+
+<hr class="hrHorizontal">
+
+<div style="margin-left: 140px;">
+<h4>Mesas</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Editar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id_mesa" />
             <div class="form-group">
@@ -29,14 +52,15 @@
                 <span asp-validation-for="nombre_mesa" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index_mesa">Volver a la lista</a>
+</div>
 </div>
 
 @section Scripts {

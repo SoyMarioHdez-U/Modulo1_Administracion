@@ -3,11 +3,36 @@
 @{
     ViewData["Title"] = "Details";
 }
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif; /* Aplica Montserrat a todo el cuerpo */
+    }
+</style>
+<hr class="hrHorizontal">
 
-<h1>Details</h1>
+<div class="d-flex ms-5 mt-3">
+    <div class="icono">
+        <img src="" alt="">
+    </div>
 
+    <div class="tituloTexto align-middle ms-3">
+        <div class="imagen">
+            <a class="imagen"><img src="https://cdn-icons-png.flaticon.com/512/1209/1209474.png" height="70px" width="70px" style="float: left; margin-right: 10px;" /></a>
+        </div>
+        <div>
+            <b><h3 style="font-family: 'Amaranth'">Detalles</h3></b>
+            <p style="width: 400px;">Administración de Mesas</p>
+        </div>
+    </div>
+</div>
+
+<hr class="hrHorizontal">
+
+
+<div class="mt-3" style="margin-left: 140px; width: 83%;">
+    <div class="d-flex">
 <div>
-    <h4>mesas</h4>
+    <h4>Mesas</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -31,6 +56,8 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.id_mesa">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model?.id_mesa">Editar</a> |
+    <a asp-action="Index_mesa">Volver a la lista</a>
 </div>
+    </div>
+        </div>
