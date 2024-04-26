@@ -46,31 +46,30 @@ namespace Modulo1_Administracion.Controllers
         [HttpPost]
         public ActionResult CrearMesa(mesas nuevaMesa)
         {
-            // Verifica si se ha proporcionado una nueva mesa válida
+            
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Agrega la nueva mesa al contexto de la base de datos
+                    
                     _context.mesas.Add(nuevaMesa);
 
-                    // Guarda los cambios en la base de datos
+                    
                     _context.SaveChanges();
 
-                    // Redirige al usuario a la página de lista de mesas
+                    
                     return RedirectToAction("Index_mesa");
                 }
                 catch (Exception ex)
                 {
-                    // Maneja el error de alguna manera adecuada (por ejemplo, registrándolo, mostrando un mensaje al usuario, etc.)
-                    // Aquí solo se registra el error en la consola
+                   
                     Console.WriteLine("Error al guardar la nueva mesa: " + ex.Message);
-                    return RedirectToAction("Error"); // Redirige a una página de error
+                    return RedirectToAction("Error"); 
                 }
             }
             else
             {
-                // Si el modelo no es válido, vuelve a mostrar el formulario de creación de mesa con los errores de validación
+                
                 return View(nuevaMesa);
             }
         }
@@ -109,6 +108,7 @@ namespace Modulo1_Administracion.Controllers
         // POST: mesas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_mesa,cantidad_personas,id_estado,nombre_mesa")] mesas mesas)
@@ -173,25 +173,31 @@ namespace Modulo1_Administracion.Controllers
             return View(mesas);
         }
 
-        //POST: Editar estado a inactivo
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditarEstado(int id)
         {
-            var item = await _context.items_menu.FindAsync(id);
-            if (item == null)
+            var mesa = await _context.mesas.FindAsync(id);
+            if (mesa == null)
             {
                 return NotFound();
             }
 
-            // Cambia el valor de id_estado entre 1 y 2
-            item.id_estado = (item.id_estado == 1) ? 2 : 1;
-
-            // Guarda los cambios en la base de datos
+            
+            if (mesa.id_estado == 3)
+            {
+                mesa.id_estado = 4; 
+            }
+            else if (mesa.id_estado == 4)
+            {
+                mesa.id_estado = 3; 
+            }       
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index_mesa));
         }
+
 
 
         // GET: mesas/Delete/5
