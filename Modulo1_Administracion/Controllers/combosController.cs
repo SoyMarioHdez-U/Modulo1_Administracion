@@ -27,6 +27,7 @@ namespace Modulo1_Administracion.Controllers
 
             //Llama a todos los registros de la tabla estados para mostrarlas en el combobox "Estado".
             var listaDeEstados = (from m in _DulceSaborContext.estados
+                                  where m.tipo_estado == "Menu"
                                  select m).ToList();
             ViewData["listadoDeEstados"] = listaDeEstados;
 
@@ -163,6 +164,7 @@ namespace Modulo1_Administracion.Controllers
         {
             //Se hace el llamado a la tabla estados para mostrar todos los estados disponibles en el combobox "Estado:".
             var listaDeEstados = (from m in _DulceSaborContext.estados
+                                  where m.tipo_estado == "Menu"
                                   select m).ToList();
 
             //ViewData creado para poder usarlo en la vista Details.cshtml
