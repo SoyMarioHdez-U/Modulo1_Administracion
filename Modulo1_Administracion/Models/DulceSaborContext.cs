@@ -18,6 +18,8 @@ namespace Modulo1_Administracion.Models
         public DbSet<empleados> empleados { get; set; }
         public DbSet<estados> estados { get; set; }
         public DbSet<obj_items_combo> obj_items_combos { get; set; }
+        public DbSet<obj_items_promo> obj_items_promo { get; set; }
+        public DbSet<promociones> promociones { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,6 +29,7 @@ namespace Modulo1_Administracion.Models
             // Otras configuraciones de tu modelo
 
             modelBuilder.Entity<obj_items_combo>().HasNoKey();
+            modelBuilder.Entity<obj_items_promo>().HasNoKey();
         }
         public DbSet<Modulo1_Administracion.Models.items_menu> items_menu { get; set; } = default!;
     }

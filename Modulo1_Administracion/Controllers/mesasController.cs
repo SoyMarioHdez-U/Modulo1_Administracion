@@ -19,7 +19,7 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpGet]
-        public ActionResult MesasNew()
+        public ActionResult Index_mesa()
         {
 
             var listaDeEstados = (from e in _context.estados
@@ -32,13 +32,46 @@ namespace Modulo1_Administracion.Controllers
                                 join e in _context.estados on m.id_estado equals e.id_estado
                                 select new
                                 {
-                                    id = m.id_mesa,     
-                                    cantidad_personas = m.cantidad_personas,
+                                    id_mesa = m.id_mesa,
+                                    cantidad = m.cantidad_personas,
                                     estado = e.nombre,
                                     nombre_mesa = m.nombre_mesa
                                 }).ToList();
+
+
             ViewData["listadoDeMesas"] = listaDeMesas;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CrearMesa(mesas nuevaMesa)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    
+                    _context.mesas.Add(nuevaMesa);
+
+                    
+                    _context.SaveChanges();
+
+                    
+                    return RedirectToAction("Index_mesa");
+                }
+                catch (Exception ex)
+                {
+                   
+                    Console.WriteLine("Error al guardar la nueva mesa: " + ex.Message);
+                    return RedirectToAction("Error"); 
+                }
+            }
+            else
+            {
+                
+                return View(nuevaMesa);
+            }
         }
 
 
@@ -75,6 +108,7 @@ namespace Modulo1_Administracion.Controllers
         // POST: mesas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id_mesa,cantidad_personas,id_estado,nombre_mesa")] mesas mesas)
@@ -134,30 +168,36 @@ namespace Modulo1_Administracion.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(MesasNew));
+                return RedirectToAction(nameof(Index_mesa));
             }
             return View(mesas);
         }
 
-        //POST: Editar estado a inactivo
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditarEstado(int id)
         {
-            var item = await _context.items_menu.FindAsync(id);
-            if (item == null)
+            var mesa = await _context.mesas.FindAsync(id);
+            if (mesa == null)
             {
                 return NotFound();
             }
 
-            // Cambia el valor de id_estado entre 1 y 2
-            item.id_estado = (item.id_estado == 1) ? 2 : 1;
-
-            // Guarda los cambios en la base de datos
+            
+            if (mesa.id_estado == 3)
+            {
+                mesa.id_estado = 4; 
+            }
+            else if (mesa.id_estado == 4)
+            {
+                mesa.id_estado = 3; 
+            }       
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(MesasNew));
+            return RedirectToAction(nameof(Index_mesa));
         }
+
 
 
         // GET: mesas/Delete/5

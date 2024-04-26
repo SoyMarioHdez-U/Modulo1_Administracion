@@ -1,0 +1,209 @@
+﻿@using Modulo1_Administracion.Data
+
+@model Paginacion<promociones>
+
+@{
+    ViewData["Title"] = "Promociones";
+}
+
+<hr class="hrHorizontal">
+
+<div class="d-flex ms-5 mt-3">
+    <div class="icono">
+        <img src="https://firebasestorage.googleapis.com/v0/b/dulcesabor-imagenes.appspot.com/o/hamburguesa.png?alt=media&token=4d72cf41-4b0c-454e-b959-82ee2f77e9d4" alt="">
+    </div>
+
+    <div class="tituloTexto align-middle ms-3   ">
+        <h1>Creación de Promociones</h1>
+        <h6>Agregar nuevos elementos al menú</h6>
+    </div>
+</div>
+
+<hr class="hrHorizontal">
+
+<div class="mt-3" style="margin-left: 140px; width: 83%;">
+    <div class="d-flex w-100 ">
+        <h4 class="ms-2">Administración de Promociones</h4>
+        <h4 class="mt-2" style="margin-left: 380px;">Listado de promociones</h4>
+    </div>
+
+    @* INICIO DE LA SECCION CREAR promociones (FORMULARIO) *@
+    <script>
+        function addPlato() {
+            var plato = document.querySelector(".item_promo").value;
+            var desc = document.querySelector(".desc_area");
+
+            if (plato != "Seleccione...") {
+                desc.append(plato + ",");
+            }
+        }
+    </script>
+
+    <div class="d-flex justify-content-between">
+        <form asp-action="CreatePromo" method="post" enctype="multipart/form-data">
+            <div class="body-text container mt-4 align-middle" style="width: 115%;">
+                <div class="row align-items-start mb-2">
+                    <div class="col-3">
+                        <h5>Nombre:</h5>
+                    </div>
+                    <div class="col">
+                        <input type="text" id="nombre" name="nombre" placeholder="Promocion PolloCrisp" class="size-text">
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 ">
+                    <div class="col-3">
+                        <h5>Descripción:</h5>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex">
+                            @* @Html.TextArea("descripcion", "", new { @class = "form-control", id = "idDireccion", @placeholder = "Los items seleccionados aparecerán aquí" })  *@
+                            <textarea class="desc_area size-area" id="platos" name="platos" placeholder="Los items seleccionados aparecerán aquí"
+                                      id="floatingTextarea"></textarea>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 ">
+                    <div class="col-3">
+                        <h5>Precio:</h5>
+                    </div>
+                    <div class="col d-flex ">
+                        @* @Html.TextBox("precio", "", new { @class = "size-text" })  *@
+                        <input type="text" id="precio" name="precio" class="size-text" placeholder="10.49">
+                        <h5 class="ms-3 me-3 ">Estado:</h5>
+                        @* @Html.DropDownList("id_estado", ViewData["listadoDeEstados"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
+                        <select class="size-combo" id="id_estado" name="id_estado" aria-label="Default select example">
+                            <option selected style="color: #D0D3D9; font-size: 1.3vw;">Seleccione...</option>
+                            @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
+                            {
+                                <option value="@item.id_estado">@item.nombre</option>
+                            }
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 mb-2">
+                    <div class="col-3">
+                        <h5>Imagen (URL):</h5>
+                    </div>
+                    <div class="col">
+                        <input type="file" name="archivo" id="archivo" class="form-control" />
+                        @* <input asp-for="imagen" type="text" placeholder="https//:assets.elgourmet.com/wp-conte..." class="size-text">  *@
+
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 mb-2">
+                    <div class="col-3">
+                        <h5>Items</h5>
+                    </div>
+                    <div class="col">
+                        @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
+                        <select class="item_promo size-promo" onchange="addPlato()" aria-label="Default select example">
+                            <option selected>Seleccione...</option>
+                            @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
+                            {
+                                <option value="@item.id_item_menu">@item.nombre</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-3 mb-2">
+                    <div class="col-3">
+                    </div>
+                    <div class="col d-flex justify-content-end">
+                        <input type="submit" value="Crear Promocion" class="botones">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        @* FIN DE LA SECCION CREAR PROMO (FORMULARIO) *@
+
+        <hr class="position-absolute " style="height: 59%; top: 25%; left: 51%; border-left: solid #000;" />
+
+        <div class="mt-4" style="width: 46%; ">
+            <div class="overflow-auto" style="height: 236px;">
+                <table class="w-100" style="font-size: 1.3vw;">
+                    <thead>
+                        <tr style="color: white; background-color: #a60c18;">
+                            <th width="8%" scope="col" class="text-center ">Id</th>
+                            <th width="45%" scope="col">Promocion</th>
+                            <th width="30%" scope="col">Precio</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="background-color: white;">
+                                <td scope="row" class="text-center ">@item.id_promo</td>
+                                <td>@item.descripcion</td>
+                                <td>$@item.precio</td>
+                                <td><a asp-action="Details" asp-route-id="@item.id_promo">Detalles</a></td>
+                            </tr>
+                            <tr style="height: 3px;">
+                                <!-- Espacio -->
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @{
+                var anteriorDesabilitado = !Model.PaginasAnteriores ? "disabled" : "";
+                var siguienteDesabilitado = !Model.PaginasPosteriores ? "disabled" : "";
+            }
+
+            @* Botones que controlan la paginación *@
+            <nav>
+                <ul class="navPaginacion bg-light w-100">
+
+                    @if (Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
+
+                    }
+
+                    @if (!Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a href="#" style="color: gray;">&lt; Anterior</a></li>
+
+                    }
+
+
+                    <div class="d-flex ">
+                        @for (var i = 1; i <= Model.PaginasTotales; i++)
+                        {
+                            @if (i == Model.PaginaInicio)
+                            {
+                            <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="Index" asp-route-numpag="@i" style="color: white;">@i</a></li>
+                            }
+
+                            @if (i != Model.PaginaInicio)
+                            {
+                            <li class="page-item"><a asp-action="Index" asp-route-numpag="@i">@i</a></li>
+                            }
+
+                        }
+        </div>
+
+                    @if (Model.PaginasPosteriores)
+                    {
+            <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio+1)">Siguiente &gt;</a></li>
+                    }
+
+                    @if (!Model.PaginasPosteriores)
+                    {
+            <li class="page-item1"><a href="#" style="color: gray;">Siguiente &gt;</a></li>
+                    }
+
+        </ul>
+        </nav>
+    </div>
+</div>
+</div>
