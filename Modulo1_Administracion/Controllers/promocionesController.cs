@@ -15,10 +15,7 @@ namespace Modulo1_Administracion.Controllers
         {
             _DulceSaborContext = context;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
 
         // GET: promociones
         public async Task<IActionResult> Index(int? numPag)
