@@ -181,13 +181,13 @@
             <nav>
                 <ul class="navPaginacion bg-light w-100">
 
-                    if (Model.PaginasAnteriores)
+                    @if (Model.PaginasAnteriores)
                     {
                     <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
 
                     }
 
-                    if (!Model.PaginasAnteriores)
+                    @if (!Model.PaginasAnteriores)
                     {
                     <li class="page-item1"><a href="#" style="color: gray;">&lt; Anterior</a></li>
 
@@ -197,12 +197,12 @@
                     <div class="d-flex ">
                         @for (var i = 1; i <= Model.PaginasTotales; i++)
                         {
-                        if (i == Model.PaginaInicio)
+                        @if (i == Model.PaginaInicio)
                             {
                     <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="Index" asp-route-numpag="@i" style="color: white;">@i</a></li>
                             }
 
-                        if (i != Model.PaginaInicio)
+                        @if (i != Model.PaginaInicio)
                             {
                         <li class="page-item"><a asp-action="Index" asp-route-numpag="@i">@i</a></li>
                             }
