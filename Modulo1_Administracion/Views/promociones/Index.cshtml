@@ -21,7 +21,7 @@
 
 <hr class="hrHorizontal">
 
-<div class="mt-3" style="margin-left: 140px; width: 83%;">
+<div class="mt-3" style="margin-left: 140px; width: 70%;">
     <div class="d-flex w-100 ">
         <h4 class="ms-2">Administración de Promociones</h4>
         <h4 class="mt-2" style="margin-left: 380px;">Listado de promociones</h4>
@@ -78,9 +78,23 @@
                             <option selected style="color: #D0D3D9; font-size: 1.3vw;">Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
                             {
-                                <option value="@item.id_estado">@item.nombre</option>
+                            <option value="@item.id_estado">@item.nombre</option>
                             }
                         </select>
+
+                    </div>
+                </div>
+
+                <div class="row align-items-start mt-3 ">
+                    <div class="col-3">
+                        <h5>Inicio:</h5>
+                    </div>
+                    <div class="col d-flex ">
+                        @* @Html.TextBox("fecha_inicio", "", new { @class = "size-text" })  *@
+                        <input type="text" id="fecha_inicio" name="fecha_inicio" class="size-text" placeholder="27/04/2024">
+                        <h5 class="ms-3 me-3 ">Final:</h5>
+                        @* @Html.TextBox("fecha_final", "", new { @class = "size-text" })  *@
+                        <input type="text" id="fecha_final" name="fecha_final" class="size-text" placeholder="30/04/2024">
 
                     </div>
                 </div>
@@ -106,7 +120,7 @@
                             <option selected>Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
                             {
-                                <option value="@item.id_item_menu">@item.nombre</option>
+                            <option value="@item.id_item_menu">@item.nombre</option>
                             }
                         </select>
                     </div>
@@ -134,21 +148,25 @@
                             <th width="8%" scope="col" class="text-center ">Id</th>
                             <th width="45%" scope="col">Promocion</th>
                             <th width="30%" scope="col">Precio</th>
+                            <th width="30%" scope="col">Inicio</th>
+                            <th width="30%" scope="col">Final</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr style="background-color: white;">
-                                <td scope="row" class="text-center ">@item.id_promo</td>
-                                <td>@item.descripcion</td>
-                                <td>$@item.precio</td>
-                                <td><a asp-action="Details" asp-route-id="@item.id_promo">Detalles</a></td>
-                            </tr>
-                            <tr style="height: 3px;">
-                                <!-- Espacio -->
-                            </tr>
+                        <tr style="background-color: white;">
+                            <td scope="row" class="text-center ">@item.id_promo</td>
+                            <td>@item.descripcion</td>
+                            <td>$@item.precio</td>
+                            <td>@item.fecha_inicio</td>
+                            <td> @item.fecha_final</td>
+                            <td><a asp-action="Details" asp-route-id="@item.id_promo">Detalles</a></td>
+                        </tr>
+                        <tr style="height: 3px;">
+                            <!-- Espacio -->
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -163,15 +181,15 @@
             <nav>
                 <ul class="navPaginacion bg-light w-100">
 
-                    @if (Model.PaginasAnteriores)
+                    if (Model.PaginasAnteriores)
                     {
-                        <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
+                    <li class="page-item1"><a asp-action="Index" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
 
                     }
 
-                    @if (!Model.PaginasAnteriores)
+                    if (!Model.PaginasAnteriores)
                     {
-                        <li class="page-item1"><a href="#" style="color: gray;">&lt; Anterior</a></li>
+                    <li class="page-item1"><a href="#" style="color: gray;">&lt; Anterior</a></li>
 
                     }
 
@@ -179,17 +197,19 @@
                     <div class="d-flex ">
                         @for (var i = 1; i <= Model.PaginasTotales; i++)
                         {
-                            @if (i == Model.PaginaInicio)
+                        if (i == Model.PaginaInicio)
                             {
-                            <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="Index" asp-route-numpag="@i" style="color: white;">@i</a></li>
+                    <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="Index" asp-route-numpag="@i" style="color: white;">@i</a></li>
                             }
 
-                            @if (i != Model.PaginaInicio)
+                        if (i != Model.PaginaInicio)
                             {
-                            <li class="page-item"><a asp-action="Index" asp-route-numpag="@i">@i</a></li>
+                        <li class="page-item"><a asp-action="Index" asp-route-numpag="@i">@i</a></li>
                             }
 
                         }
+                   
+
         </div>
 
                     @if (Model.PaginasPosteriores)
