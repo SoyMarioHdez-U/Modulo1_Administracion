@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Error al crear Promociones";
+}
+
+<div class="container mt-5 justify-content-center ">
+    <div class="contenedor-titulo">
+        <h1 class="text-light fw-bold">Oh, Huh?!</h1>
+        <h4 class="text-warning ">Al parecer ha ocurrido un error al momento de @ViewData["errorMessage"]</h4>
+    </div>
+
+    <div class="cuerpo bg-secondary">
+        <h5>A continuación verá una lista de las posibles causas de este error:</h5>
+        <div class="errores mb-4 " style="background-color: #D0D3D9;">
+            <span>1. Todos los campos son obligatorios. Esto quiere decir que no se aceptan registros con campos vacíos.</span> <br>
+            <span>2. Es probable que haya campos que no admitan ciertos tipos de datos. Por ejemplo, el campo "precio" solo admite números y el punto decimal.</span> <br>
+            <span>3. Hubo algún error en la conexión y los datos se corrompieron.</span> <br>
+            <span>4. Hubo algún error interno en el sistema. Si este fuera el caso comuníquese con atención al cliente.</span>
+        </div>
+
+        <div class="divBoton">
+            <a asp-action="Index" class="boton">Volver a "Crear Promocion"</a>
+        </div>
+    </div>
+</div>

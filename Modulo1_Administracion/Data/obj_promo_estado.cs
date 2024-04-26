@@ -8,6 +8,7 @@
         public DateTime? fecha_inicio { get; set; }
         public DateTime? fecha_final {  get; set; }
         public string estado { get; set; }
+        public int? id_estado { get; set; }
 
     }
 }
