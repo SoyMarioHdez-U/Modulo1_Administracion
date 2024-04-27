@@ -24,8 +24,8 @@ namespace Modulo1_Administracion.Controllers
             
         }
 
-        [HttpGet] // Ni idea porque lo utiliza 
-        public async Task<IActionResult> items_menuNew(int? numPag) // Porque no utiliza IActionResult
+        
+        public async Task<IActionResult> items_menuNew(int? numPag) 
         {
             var listaDeCategorias = (from c in _context.categorias
                                      select c).ToList();
