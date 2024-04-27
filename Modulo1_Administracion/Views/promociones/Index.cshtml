@@ -118,9 +118,9 @@
                         @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
                         <select class="item_promo size-promo" aria-label="Default select example">
                             <option selected>Seleccione...</option>
-                            @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
+                            @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCombos"])
                             {
-                            <option value="@item.id_item_menu">@item.nombre</option>
+                            <option value="@item.id_combo">@item.descripcion</option>
                             }
                         </select>
                     </div>
@@ -160,7 +160,7 @@
                         {
                         <tr style="background-color: white;">
                             <td scope="row" class="text-center ">@item.id_promo</td>
-                            <td>@item.descripcion</td>
+                            <td>@item.nombre</td>
                             <td>$@item.precio</td>
                             <td>@item.fecha_inicio</td>
                             <td> @item.fecha_final</td>

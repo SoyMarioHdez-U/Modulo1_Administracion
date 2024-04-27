@@ -1,6 +1,11 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+@using Modulo1_Administracion.Data
+
+@model Paginacion<v_mesas_estado>
+
 @{
 }
 <style>
@@ -98,8 +103,8 @@
                     @foreach (var item in Model)
                     {
                         <tr style="background-color: white;">
-                            <td scope="row" class="text-center">@item.id_mesa</td> 
-                            <td>@item.cantidad</td>
+                            <td scope="row" class="text-center">@item.id</td>
+                            <td>@item.cantidad_personas</td>
                             <td>@item.estado</td>
                             <td>@item.nombre_mesa</td>
                             <td>
@@ -133,7 +138,7 @@
 
                     @if (Model.PaginasAnteriores)
                     {
-                        <li class="page-item1"><a asp-action="empleadosIndex" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
+                        <li class="page-item1"><a asp-action="Index_mesa" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
 
                     }
 
@@ -151,12 +156,12 @@
                         {
                             @if (i == Model.PaginaInicio)
                             {
-                            <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="empleadosIndex" asp-route-numpag="@i" style="color: white;">@i</a></li>
+                            <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="Index_mesa" asp-route-numpag="@i" style="color: white;">@i</a></li>
                             }
 
                             @if (i != Model.PaginaInicio)
                             {
-                            <li class="page-item"><a asp-action="empleadosIndex" asp-route-numpag="@i">@i</a></li>
+                            <li class="page-item"><a asp-action="Index_mesa" asp-route-numpag="@i">@i</a></li>
                             }
 
                         }
@@ -166,7 +171,7 @@
 
                     @if (Model.PaginasPosteriores)
                     {
-            <li class="page-item1"><a asp-action="empleadosindex" asp-route-numpag="@(Model.PaginaInicio+1)">Siguiente &gt;</a></li>
+            <li class="page-item1"><a asp-action="Index_mesa" asp-route-numpag="@(Model.PaginaInicio+1)">Siguiente &gt;</a></li>
                     }
 
                     @if (!Model.PaginasPosteriores)
