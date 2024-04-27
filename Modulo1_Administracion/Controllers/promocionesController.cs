@@ -49,7 +49,7 @@ namespace Modulo1_Administracion.Controllers
 
         [HttpPost]
         public async Task<ActionResult> CreatePromociones(IFormFile archivo,string descripcion,
-            decimal precio, DateTime fecha_inicio, DateTime fecha_final,string imagen, int id_estado, string nombre)
+            decimal precio, DateTime fecha_inicio, DateTime fecha_final, string imagen, int id_estado, string nombre)
         {
             /*  INICIO GUARDADO DE LA IMAGEN EN FIREBASE STORAGE   */
 
@@ -146,7 +146,7 @@ namespace Modulo1_Administracion.Controllers
                 items.id_items_combo = numIntDescripcion[i];
 
                 //Y, por último, se hace el INSERT INTO por cada item añadido.
-                _DulceSaborContext.items_promo.Add(items);
+                _DulceSaborContext.items_promociones.Add(items);
                 _DulceSaborContext.SaveChanges();
             }
 
@@ -194,7 +194,7 @@ namespace Modulo1_Administracion.Controllers
             //Este es un llamado a una tabla, pero no cualquier tabla.
             //Esta llamando a una "VISTA" ("VIEW") de la base de datos. Para esto, también, se necesita crear una clase como modelo.
             //Como si fuese una tabla real.
-            var listadoDeItemsPromo = (from otc in _DulceSaborContext
+            var listadoDeItemsPromo = (from otc in _DulceSaborContext.v_itemsPromoCombos
 
                                        where otc.id == id
                                        select otc);
