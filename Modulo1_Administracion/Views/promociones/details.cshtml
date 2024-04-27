@@ -124,7 +124,7 @@
 
     <div class="container ms-5 mt-4 align-middle" style="width: 45%;">
         <form asp-action="EditPromo">
-            <input type="hidden" value="@infoPromo.id_promo" name="id_combo" id="id_combo" />
+            <input type="hidden" value="@infoPromo.id_promo" name="id_promo" id="id_promo" />
             <div class="row align-items-start mb-2">
                 <div class="col-3">
                     <h5>Nombre:</h5>
@@ -148,6 +148,20 @@
                             <option value="@item.id_estado">@item.nombre</option>
                             }
                     </select>
+                </div>
+            </div>
+
+            <div class="row align-items-start mt-3 ">
+                <div class="col-3">
+                    <h5>Inicio:</h5>
+                </div>
+                <div class="col d-flex ">
+                        @* @Html.TextBox("fecha_inicio", "", new { @class = "size-text" })  *@
+                    <input type="text" id="fecha_inicio" name="fecha_inicio" class="size-text" value="@infoPromo.fecha_inicio" placeholder="27/04/2024">
+                    <h5 class="ms-3 me-3 ">Final:</h5>
+                        @* @Html.TextBox("fecha_final", "", new { @class = "size-text" })  *@
+                    <input type="text" id="fecha_final" name="fecha_final" class="size-text" value="@infoPromo.fecha_final" placeholder="30/04/2024">
+
                 </div>
             </div>
 
