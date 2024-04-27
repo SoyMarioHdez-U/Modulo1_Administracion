@@ -43,15 +43,6 @@
             if (plato != "Seleccione...") {
                 desc.append(plato + ",");
 
-                var newDiv = document.querySelector(".items");
-                var brEtiqueta = document.createElement("br");
-
-                var newContent = document.createTextNode(numItem + ". " + text);
-                newDiv.appendChild(newContent);
-
-                var currentDiv = document.querySelector("tituloTexto");
-                document.body.insertBefore(newDiv, currentDiv);
-
                 numItem += 1;
             }
         }
