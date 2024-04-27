@@ -35,7 +35,7 @@ namespace Modulo1_Administracion.Controllers
             var listadoDeCombos = (from m in _DulceSaborContext.combos
                                   select m);
 
-            int cantidadRegistros = 7;
+            int cantidadRegistros = 15;
 
             //return View(await
             //Paginacion<combos>.CrearPaginacion( -> Paginacion -> Nombre de la clase -> <combos> -> <nombre del modelo al que se le va a hacer paginacion>
