@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modulo1_Administracion.Models;
 using NuGet.Configuration;
+using Modulo1_Administracion.Data;
 
 namespace Modulo1_Administracion.Controllers
 {
@@ -24,7 +25,7 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpGet] // Ni idea porque lo utiliza 
-        public ActionResult items_menuNew() // Porque no utiliza IActionResult
+        public async Task<IActionResult> items_menuNew(int? numPag) // Porque no utiliza IActionResult
         {
             var listaDeCategorias = (from c in _context.categorias
                                      select c).ToList();
@@ -35,22 +36,14 @@ namespace Modulo1_Administracion.Controllers
                                   select e).ToList();
             ViewData["listadoDeEstados"] = new SelectList(listaDeEstados, "id_estado", "nombre");
 
-            var listadoDeItems = (from e in _context.items_menu
-                                    join m in _context.estados on e.id_estado equals m.id_estado
-                                    select new
-                                    {
-                                        id_item_menu = e.id_item_menu,
-                                        id = e.id_item_menu,
-                                        nombre = e.nombre,
-                                        estado = m.nombre,
-                                        
-                                    }
-                                    ).ToList();
-            ViewData["listadoDeItems"] = listadoDeItems;
+            
+            
+            var listadoDeItems = (from v in _context.v_items_menu
+                                      select v);
 
+            int cantidadRegistros = 6;
 
-
-            return View();
+            return View(await Paginacion<v_items_menu>.CrearPaginacion(listadoDeItems.AsNoTracking(), numPag ?? 1, cantidadRegistros));
         }
 
 
@@ -63,10 +56,10 @@ namespace Modulo1_Administracion.Controllers
                 Stream archivoASubir = imagen.OpenReadStream();
 
                 // Configuramos la conexión hacia Firebase
-                string email = "rodrigo.monterrosa@catolica.edu.sv";
-                string clave = "Sonic2002";
-                string ruta = "prueba-dba43.appspot.com";
-                string api_key = "AIzaSyBZhr-ye38uR6FnjSygen4Mo8Vph7s_HdU";
+                string email = "soymariohdez@gmail.com";
+                string clave = "catolica";
+                string ruta = "dulcesabor-c6f5a.appspot.com";
+                string api_key = "AIzaSyDCBa09cv8YGDb8dc7loaIh-D9eG5XGXjI";
 
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
                 var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);
@@ -188,10 +181,10 @@ namespace Modulo1_Administracion.Controllers
                 Stream archivoASubir = imagen.OpenReadStream();
 
                 // Configuramos la conexión hacia Firebase
-                string email = "rodrigo.monterrosa@catolica.edu.sv";
-                string clave = "Sonic2002";
-                string ruta = "prueba-dba43.appspot.com";
-                string api_key = "AIzaSyBZhr-ye38uR6FnjSygen4Mo8Vph7s_HdU";
+                string email = "soymariohdez@gmail.com";
+                string clave = "catolica";
+                string ruta = "dulcesabor-c6f5a.appspot.com";
+                string api_key = "AIzaSyDCBa09cv8YGDb8dc7loaIh-D9eG5XGXjI";
 
                 var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
                 var autenticarFireBase = await auth.SignInWithEmailAndPasswordAsync(email, clave);

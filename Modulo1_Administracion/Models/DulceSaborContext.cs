@@ -24,6 +24,8 @@ namespace Modulo1_Administracion.Models
         public DbSet<promociones> promociones { get; set; }
         public DbSet<v_itemsPromoCombos> v_itemsPromoCombos { get; set; }
 
+        public DbSet<v_items_menu> v_items_menu { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +36,7 @@ namespace Modulo1_Administracion.Models
             modelBuilder.Entity<obj_items_combo>().HasNoKey();
             modelBuilder.Entity<obj_items_promo>().HasNoKey();
             modelBuilder.Entity<v_empleado_cargo>().HasNoKey();
+            modelBuilder.Entity<v_items_menu>().HasNoKey();
         }
         public DbSet<Modulo1_Administracion.Models.items_menu> items_menu { get; set; } = default!;
     }

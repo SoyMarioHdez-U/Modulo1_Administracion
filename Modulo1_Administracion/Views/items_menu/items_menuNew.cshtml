@@ -98,9 +98,111 @@
 
         @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
 
-        <hr class="position-absolute " style="height: 50%; top: 26%; left: 50.5%; border-left: solid #000;">
+        @* <hr class="position-absolute " style="height: 50%; top: 26%; left: 50.5%; border-left: solid #000;"> *@
+
+        <hr class="position-absolute " style="height: 50%; top: 26%; left: 47.0%; border-left: solid #000;">
 
         <div class="ms-5 mt-4 w-50">
+            <div class="overflow-auto" style="height: 236px;">
+                <h5 style="font-family: 'Amaranth';">Lista de ítems:</h5>
+                <table class="w-100" style="font-size: 1.3vw;">
+                    <thead>
+                        <tr style="color: white; background-color: #a60c18;">
+                            <th width="8%" scope="col" class="text-center ">Id</th>
+                            <th width="45%" scope="col">Nombre</th>
+                            <th width="30%" scope="col">Estado</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="background-color: white;">
+                                <td scope="row" class="text-center">@item.id</td>
+                                <td>@item.nombre</td>
+                                <td>@item.estado</td>
+                                <td>
+                                    @{
+                                        string estadoText = "";
+                                        if (item.estado == "Inactivo")
+                                        {
+                                            estadoText = "Activar";
+                                        }
+                                        else if (item.estado == "Activo")
+                                        {
+                                            estadoText = "Desactivar";
+                                        }
+                                    }
+                                    <a asp-action="Details" asp-route-id="@item.id_item_menu">Detalle</a> |
+                                    <a href="#" onclick="editarEstado(@item.id_item_menu, '@estadoText')">@(estadoText)</a>
+                                    <form id="form-@item.id_item_menu" method="post" asp-action="EditarEstado" asp-route-id="@item.id_item_menu">
+                                        <button type="submit" style="display: none;"></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr style="height: 3px;">
+                                <!-- Espacio -->
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+
+            @{
+                var anteriorDesabilitado = !Model.PaginasAnteriores ? "disabled" : "";
+                var siguienteDesabilitado = !Model.PaginasPosteriores ? "disabled" : "";
+            }
+
+            @* Botones que controlan la paginación *@
+            <nav>
+                <ul class="navPaginacion bg-light w-100">
+
+                    @if (Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a asp-action="items_menuNew" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
+
+                    }
+
+                    @if (!Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a href="#" style="color: gray;">&lt; Anterior</a></li>
+
+                    }
+
+
+                    <div class="d-flex ">
+
+
+                        @for (var i = 1; i <= Model.PaginasTotales; i++)
+                        {
+                            @if (i == Model.PaginaInicio)
+                            {
+                            <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="items_menuNew" asp-route-numpag="@i" style="color: white;">@i</a></li>
+                            }
+
+                            @if (i != Model.PaginaInicio)
+                            {
+                            <li class="page-item"><a asp-action="items_menuNew" asp-route-numpag="@i">@i</a></li>
+                            }
+
+                        }
+
+
+        </div>
+
+                    @if (Model.PaginasPosteriores)
+                    {
+            <li class="page-item1"><a asp-action="items_menuNew" asp-route-numpag="@(Model.PaginaInicio+1)">Siguiente &gt;</a></li>
+                    }
+
+                    @if (!Model.PaginasPosteriores)
+                    {
+            <li class="page-item1"><a href="#" style="color: gray;">Siguiente &gt;</a></li>
+                    }
+
+
+        @* <div class="ms-5 mt-4 w-50">
             <h5 style="font-family: 'Amaranth';">Listado actual de ítems:</h5>
             <table class="w-100" style="font-size: 1.3vw;">
                 <thead>
@@ -154,8 +256,7 @@
                     <li class="page-item"><a href="#">3</a></li>
                     <li class="page-item"><a href="#">4</a></li>
                     <li class="page-item" style="border-right: solid grey; border-width: 1px;"><a href="#">5</a></li>
-        </div>
-        <li class="page-item1"><a href="#">Siguiente &gt;</a></li>
+        </div> *@
         </ul>
         </nav>
     </div>
