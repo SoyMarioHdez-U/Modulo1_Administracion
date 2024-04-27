@@ -21,9 +21,9 @@ namespace Modulo1_Administracion.Controllers
         public async Task<IActionResult> Index(int? numPag)
         {
             //Llama a todos los registros de la tabla items_menu para mostrarlas en el combobox "Items".
-            var listaDePlatos = (from m in _DulceSaborContext.items_menu
+            var listaDeCombos = (from m in _DulceSaborContext.combos
                                  select m).ToList();
-            ViewData["listadoDePlatos"] = listaDePlatos;
+            ViewData["listadoDeCombos"] = listaDeCombos;
 
             //Llama a todos los registros de la tabla estados para mostrarlas en el combobox "Estado".
             var listaDeEstados = (from m in _DulceSaborContext.estados
@@ -172,7 +172,7 @@ namespace Modulo1_Administracion.Controllers
                          select new
                          {
                              id = c.id_promo,
-                             nombre = c.descripcion,
+                             nombre = c.nombre,
                              precio = c.precio,
                              fecha_inicio = c.fecha_inicio,
                              fecha_final = c.fecha_final,
@@ -209,7 +209,7 @@ namespace Modulo1_Administracion.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> EditPromo(int id, [Bind("id_promo, descripcion, precio,fecha_inicio,fecha_final, id_estado")] promociones promociones)
+        public async Task<IActionResult> EditPromo(int? id, [Bind("id_promo, nombre, descripcion, precio, fecha_inicio, fecha_final, id_estado")] promociones promociones)
         {
             //Aquí no hace falta hacer un objeto con sus asignaciones. Ya que es una actualización (también se puede para crear registros)
             //a una sola tabla. Los datos los toma desde los atributos que están en Bind en la parte de los parámetros de este metodo "EditPromo".
