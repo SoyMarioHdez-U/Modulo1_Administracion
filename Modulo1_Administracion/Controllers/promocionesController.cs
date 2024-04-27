@@ -194,12 +194,12 @@ namespace Modulo1_Administracion.Controllers
             //Este es un llamado a una tabla, pero no cualquier tabla.
             //Esta llamando a una "VISTA" ("VIEW") de la base de datos. Para esto, también, se necesita crear una clase como modelo.
             //Como si fuese una tabla real.
-            var listadoDeItemsPromo = (from otc in _DulceSaborContext.v_itemsPromoCombos
+            var listadoDeItemsPromo = (from otc in _DulceSaborContext
 
                                        where otc.id == id
-                                        select otc);
+                                       select otc);
 
-            //VieWData creado para poder usarlo en la vista Details.cshtml
+            ////VieWData creado para poder usarlo en la vista Details.cshtml
             ViewData["listadoDeItemsPromociones"] = listadoDeItemsPromo;
 
             int cantidadRegistros = 6;

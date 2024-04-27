@@ -152,6 +152,15 @@ table a {
     color: black;
     align-items: center;
 }
+
+.items
+{
+    width: 38.5%;
+    height: 20%;
+    margin-left: 10vw;
+    padding: 2vw;
+    font-size: 2vw;
+}
 /*FIN PAGINA COMBOS*/
 
 /*INICIO PAGINA ERRORCOMBO*/
