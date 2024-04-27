@@ -38,6 +38,7 @@ namespace Modulo1_Administracion.Models
             modelBuilder.Entity<obj_items_promo>().HasNoKey();
             modelBuilder.Entity<v_empleado_cargo>().HasNoKey();
             modelBuilder.Entity<v_mesas_estado>().HasNoKey();
+            modelBuilder.Entity<v_items_menu>().HasNoKey();
         }
         public DbSet<Modulo1_Administracion.Models.items_menu> items_menu { get; set; } = default!;
     }
