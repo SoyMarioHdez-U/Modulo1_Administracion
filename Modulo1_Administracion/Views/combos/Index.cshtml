@@ -29,27 +29,37 @@
 
     @* INICIO DE LA SECCION CREAR COMBO (FORMULARIO) *@
     <script>
+        var numItem = 1;
+
         function addPlato() 
         {
             var plato = document.querySelector(".item_combo").value;
             var desc = document.querySelector(".desc_area");
 
+            var select = document.getElementById("item_combo"),
+                value = select.value,
+                text = select.options[select.selectedIndex].innerText;
+
             if (plato != "Seleccione...") {
                 desc.append(plato + ",");
+
+                var newDiv = document.querySelector(".items");
+                var brEtiqueta = document.createElement("br");
+
+                var newContent = document.createTextNode(numItem + ". " + text);
+                newDiv.appendChild(newContent);
+
+                var currentDiv = document.querySelector("tituloTexto");
+                document.body.insertBefore(newDiv, currentDiv);
+
+                numItem += 1;
             }
-
-            var newDiv = document.createElement("h1");
-            var newContent = document.createTextNode("Hola!¿Qué tal?");
-            newDiv.appendChild(newContent);
-
-            var currentDiv = document.querySelector("tituloTexto");
-            document.body.insertBefore(newDiv, currentDiv);
         }
     </script>
 
-    <div class="d-flex justify-content-between">
+    <div class="primer-class d-flex justify-content-between">
         <form asp-action="CreateCombo" method="post" enctype="multipart/form-data">
-            <div class="body-text container mt-4 align-middle" style="width: 115%;">
+            <div class="container mt-4 align-middle" style="width: 115%;">
                 <div class="row align-items-start mb-2">
                     <div class="col-3">
                         <h5>Nombre:</h5>
@@ -110,7 +120,7 @@
                     </div>
                     <div class="col">
                         @* @Html.DropDownList("id_combo", ViewData["listadoDePlatos"] as SelectList, "Seleccione...", new { @class = "size-combo" })  *@
-                        <select class="item_combo size-combo" aria-label="Default select example">
+                        <select class="item_combo size-combo" id="item_combo" aria-label="Default select example">
                             <option selected >Seleccione...</option>
                             @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDePlatos"])
                             {
@@ -121,6 +131,9 @@
                 </div>
 
                 <a href="#" class="agregarItem" onclick="addPlato()">Agregar nuevo item</a>
+
+                <div class="items bg-danger">
+                </div>
 
                 <div class="row mt-3 mb-2">
                     <div class="col-3">
