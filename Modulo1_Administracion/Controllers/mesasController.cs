@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Modulo1_Administracion.Data;
 using Modulo1_Administracion.Models;
 
 namespace Modulo1_Administracion.Controllers
@@ -18,8 +19,8 @@ namespace Modulo1_Administracion.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public ActionResult Index_mesa()
+
+        public async Task<IActionResult> Index_mesa(int? numPag)
         {
 
             var listaDeEstados = (from e in _context.estados
@@ -28,19 +29,12 @@ namespace Modulo1_Administracion.Controllers
             ViewData["listadoDeEstados"] = new SelectList(listaDeEstados, "id_estado", "nombre");
 
 
-            var listaDeMesas = (from m in _context.mesas
-                                join e in _context.estados on m.id_estado equals e.id_estado
-                                select new
-                                {
-                                    id_mesa = m.id_mesa,
-                                    cantidad = m.cantidad_personas,
-                                    estado = e.nombre,
-                                    nombre_mesa = m.nombre_mesa
-                                }).ToList();
+            var listadoDeMesas = (from v in _context.v_mesa_estado
+                                  select v);
 
+            int cantidadRegistros = 7;
 
-            ViewData["listadoDeMesas"] = listaDeMesas;
-            return View();
+            return View(await Paginacion<v_mesas_estado>.CrearPaginacion(listadoDeMesas.AsNoTracking(), numPag ?? 1, cantidadRegistros));
         }
 
         [HttpPost]
