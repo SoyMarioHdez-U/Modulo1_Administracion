@@ -130,7 +130,17 @@
                     <h5>Nombre:</h5>
                 </div>
                 <div class="col">
-                    <input type="text" id="descripcion" name="descripcion" placeholder="Combo PolloCrisp" class="size-text" value="@infoCombo.nombre">
+                    <input type="text" id="nombre" name="nombre" placeholder="Combo PolloCrisp" class="size-text" value="@infoCombo.nombre">
+                </div>
+            </div>
+
+            <div class="row align-items-start mb-2">
+                <div class="col-3">
+                    <h5>Descripción:</h5>
+                </div>
+                <div class="col">
+                    <textarea class="desc_area size-area" id="descripcion" name="descripcion" placeholder="Los items seleccionados aparecerán aquí"
+                              id="floatingTextarea">@infoCombo.descripcion</textarea>
                 </div>
             </div>
 
@@ -139,7 +149,7 @@
                     <h5>Precio:</h5>
                 </div>
                 <div class="col d-flex ">
-                    <input type="number" id="precio" name="precio" class="size-text" placeholder="10.49" value="@infoCombo.precio">
+                    <input type="text" id="precio" name="precio" class="size-text" placeholder="10.49" value="@infoCombo.precio">
                     <h5 class="ms-3 me-3 ">Estado:</h5>
                     <select class="size-combo" id="id_estado" name="id_estado" aria-label="Default select example">
                         <option value="@infoCombo.id_estado" selected style="color: #D0D3D9; font-size: 1.3vw;">@infoCombo.estado</option>

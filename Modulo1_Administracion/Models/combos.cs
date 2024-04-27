@@ -9,5 +9,6 @@ namespace Modulo1_Administracion.Models
         public decimal? precio { get; set; }
         public string? imagen { get; set; }
         public int? id_estado { get; set; }
+        public string? nombre { get; set; }
     }
 }

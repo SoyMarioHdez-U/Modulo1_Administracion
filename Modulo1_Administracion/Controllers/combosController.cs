@@ -32,7 +32,7 @@ namespace Modulo1_Administracion.Controllers
             ViewData["listadoDeEstados"] = listaDeEstados;
 
             //Llama a todos los registros de la tabla combos para mostrarlas en la tabla de la vista index de combos.
-            var listadoDeCombos = (from c in _DulceSaborContext.combo_dos
+            var listadoDeCombosDos = (from c in _DulceSaborContext.combos
                                   select c);
 
             int cantidadRegistros = 15;
@@ -44,7 +44,7 @@ namespace Modulo1_Administracion.Controllers
             //))
 
             //La clase "Paginacion" funciona para todos los controladores, solo copien el código del return View y modifiquen lo de "listadoDeCombos".
-            return View(await Paginacion<combo_dos>.CrearPaginacion(listadoDeCombos.AsNoTracking(), numPag?? 1, cantidadRegistros));
+            return View(await Paginacion<combos>.CrearPaginacion(listadoDeCombosDos.AsNoTracking(), numPag?? 1, cantidadRegistros));
         }
 
         [HttpPost]
@@ -83,7 +83,7 @@ namespace Modulo1_Administracion.Controllers
                 /*  INICIO GUARDADO DEL NUEVO REGISTRO "COMBO"   */
 
                 //Se crea este objeto para poder guardar el nuevo registro
-                combo_dos combosObj = new combo_dos();
+                combos combosObj = new combos();
 
                 //Se asignan los valores del nuevo registro a los atributos del objeto
                 //objeto.atributo = variable_recibida_en_este_metodo (CreateCombo);
@@ -95,7 +95,7 @@ namespace Modulo1_Administracion.Controllers
                 combosObj.id_estado = id_estado;
 
                 //Se hace el INSERT INTO del registro a la tabla Combos.
-                _DulceSaborContext.combo_dos.Add(combosObj);
+                _DulceSaborContext.combos.Add(combosObj);
                 _DulceSaborContext.SaveChanges();
 
                 /*  FIN GUARDADO DEL NUEVO REGISTRO "COMBO"   */
@@ -172,7 +172,7 @@ namespace Modulo1_Administracion.Controllers
             ViewData["listadoDeEstados"] = listaDeEstados;
 
             //Se llama al registro del cual se requieren sus campos
-            var combo = (from c in _DulceSaborContext.combo_dos
+            var combo = (from c in _DulceSaborContext.combos
                          .Where(c => c.id_combo == id)
                          join e in _DulceSaborContext.estados on c.id_estado equals e.id_estado
                          select new
@@ -213,7 +213,7 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCombo(int? id, [Bind("id_combo, nombre, descripcion, precio, id_estado")] combo_dos combos)
+        public async Task<IActionResult> EditCombo(int? id, [Bind("id_combo, descripcion, precio, id_estado, nombre")] combos combos)
         {
             
 
@@ -228,7 +228,7 @@ namespace Modulo1_Administracion.Controllers
             }
             else
             {
-                var unCombo = (from c in _DulceSaborContext.combo_dos
+                var unCombo = (from c in _DulceSaborContext.combos
                                where c.id_combo == combos.id_combo
                                select c).ToList();
 
