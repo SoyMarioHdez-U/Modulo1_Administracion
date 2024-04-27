@@ -34,7 +34,7 @@ namespace Modulo1_Administracion.Controllers
 
             int cantidadRegistros = 5;
 
-            return View(await Paginacion<v_mesas_estado>.CrearPaginacion(listadoDeMesas.AsNoTracking(), numPag ?? 1, cantidadRegistros));
+            return View(await Paginacion<v_mesas_estado>.CrearPaginacion(listadoDeMesas.AsNoTracking(), numPag?? 1, cantidadRegistros));
         }
 
         [HttpPost]
