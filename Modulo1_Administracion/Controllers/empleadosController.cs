@@ -181,42 +181,42 @@ namespace Modulo1_Administracion.Controllers
         }
 
         // GET: empleados/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: empleados/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id_empleado,nombre,apellido,direccion,telefono,correo,id_cargo,id_estado")] empleados empleados)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(empleados);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(empleados);
-        }
+        //// POST: empleados/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("id_empleado,nombre,apellido,direccion,telefono,correo,id_cargo,id_estado")] empleados empleados)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(empleados);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(empleados);
+        //}
 
         // GET: empleados/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var empleados = await _context.empleados.FindAsync(id);
-            if (empleados == null)
-            {
-                return NotFound();
-            }
-            return View(empleados);
-        }
+        //    var empleados = await _context.empleados.FindAsync(id);
+        //    if (empleados == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(empleados);
+        //}
 
         // POST: empleados/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -225,32 +225,9 @@ namespace Modulo1_Administracion.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("id_empleado,nombre,apellido,direccion,telefono,correo,id_cargo,id_estado")] empleados empleados)
         {
-            if (id != empleados.id_empleado)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(empleados);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!empleadosExists(empleados.id_empleado))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(empleadosIndex));
-            }
-            return View(empleados);
+            _context.Update(empleados);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(empleadosIndex));
         }
 
         // GET: empleados/Delete/5
