@@ -57,20 +57,20 @@ namespace Modulo1_Administracion.Controllers
                 return NotFound();
             }
 
-            // Cambia el estado del empleado
-            if (empleado.id_estado == 3)
+            
+            if (empleado.id_estado == 5)
             {
-                empleado.id_estado = 4;
+                empleado.id_estado = 6;
             }
-            else if (empleado.id_estado == 4)
+            else if (empleado.id_estado == 6)
             {
-                empleado.id_estado = 3;
+                empleado.id_estado = 5;
             }
 
-            // Guarda los cambios en la base de datos
+            
             await _context.SaveChangesAsync();
 
-            // Redirige a la acción "Details"
+            
             return RedirectToAction(nameof(empleadosIndex));
         }
 

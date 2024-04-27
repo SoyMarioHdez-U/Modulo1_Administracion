@@ -79,23 +79,15 @@
                     @Html.DisplayFor(model => model.id_estado)
                 </dd>
 
-@*                 <div>
-                    <form id="form-@Model?.id_empleado" method="post" asp-action="EditarEstado" asp-route-id="@Model?.id_empleado">
-                        <input type="hidden" name="id_estado" value="@Model?.id_estado" />
-
-                        <input type="submit" value="Dar de Alta" class="botones">
-                    </form>
-                </div> *@
-
                 <div>
-                    @if (Model?.id_estado == 4)
+                    @if (Model?.id_estado == 6)
                     {
                         <form id="form-@Model?.id_empleado" method="post" asp-action="EditarEstado" asp-route-id="@Model?.id_empleado">
                             <input type="hidden" name="id_estado" value="@Model?.id_estado" />
                             <input type="submit" value="Dar de Alta" class="botones">
                         </form>
                     }
-                    else if (Model?.id_estado == 3)
+                    else if (Model?.id_estado == 5)
                     {
                         <form id="form-@Model?.id_empleado" method="post" asp-action="EditarEstado" asp-route-id="@Model?.id_empleado">
                             <input type="hidden" name="id_estado" value="@Model?.id_estado" />
