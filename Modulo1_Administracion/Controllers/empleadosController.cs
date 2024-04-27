@@ -109,21 +109,75 @@ namespace Modulo1_Administracion.Controllers
         }
 
         // GET: empleados/Details/5
-        public async Task<IActionResult> Details(int? id)
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var empleados = await _context.empleados
+        //        .FirstOrDefaultAsync(m => m.id_empleado == id);
+        //    if (empleados == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(empleados);
+        //}
+
+
+        public async Task<IActionResult> Details(int? id, int? numPag)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //Se hace el llamado a la tabla estados para mostrar todos los estados disponibles en el combobox "Estado:".
+            var listaDeEstados = (from es in _context.estados
+                                  where es.tipo_estado == "Trabajo"
+                                  select es).ToList();
 
-            var empleados = await _context.empleados
-                .FirstOrDefaultAsync(m => m.id_empleado == id);
-            if (empleados == null)
-            {
-                return NotFound();
-            }
+            var listaDeCargos = (from c in _context.cargos
+                                  
+                                  select c).ToList();
 
-            return View(empleados);
+            //ViewData creado para poder usarlo en la vista Details.cshtml
+            ViewData["listadoDeEstados"] = listaDeEstados;
+            ViewData["listadoDeCargos"] = listaDeCargos;
+
+            //Se llama al registro del cual se requieren sus campos
+            var emp = (from e in _context.empleados
+                         .Where(e => e.id_empleado == id)
+                         join es in _context.estados on e.id_estado equals es.id_estado
+                       join c in _context.cargos on e.id_cargo equals c.id_cargo
+                       select new
+                         {
+                             id = e.id_empleado,
+                             nombre = e.nombre,
+                             apellido = e.apellido,
+                             direccion = e.direccion,
+                             telefono = e.telefono,
+                             correo = e.correo,
+                             cargo = c.cargo,
+                             id_cargo = e.id_cargo,
+                             estado = es.nombre,
+                             id_estado = e.id_estado,
+                         }).ToList();
+
+            //Se hace el ViewData para usarlo en la vista Details.cshtml, pero este es diferente.
+            //Ya que la consulta solo es de un registro podemos hacer un objeto para usar sus atributos más fácil en la vista.
+            ViewData["infoEmp"] = new obj_empleados_cargos()
+            {
+                id_empleado = emp.AsEnumerable().FirstOrDefault().id,
+                nombre = emp.AsEnumerable().FirstOrDefault().nombre,
+                apellido = emp.AsEnumerable().FirstOrDefault().apellido,
+                direccion= emp.AsEnumerable().FirstOrDefault().direccion,
+                telefono = emp.AsEnumerable().FirstOrDefault().telefono,
+                correo = emp.AsEnumerable().FirstOrDefault().correo,
+                cargo = emp.AsEnumerable().FirstOrDefault().cargo,
+                id_cargo = emp.AsEnumerable().FirstOrDefault().id_cargo,
+                estado = emp.AsEnumerable().FirstOrDefault().estado,
+                id_estado = emp.AsEnumerable().FirstOrDefault().id_estado
+            };
+
+            return View();
         }
 
         // GET: empleados/Create

@@ -1,7 +1,8 @@
-﻿@model Modulo1_Administracion.Models.empleados
+﻿@using Modulo1_Administracion.Data
 
 @{
     ViewData["Title"] = "Detalles";
+    var infoEmp = ViewData["infoEmp"] as obj_empleados_cargos;
 }
 
 <style>
@@ -30,7 +31,87 @@
 
 <hr class="hrHorizontal">
 
-<div class="mt-3" style="margin-left: 140px; width: 83%;">
+
+<hr class="position-absolute " style="height: 55%; top: 25%; left: 48%; border-left: solid #000;">
+
+<div class="container ms-5 mt-4 align-middle" style="width: 45%;">
+    <form asp-action="Edit">
+        <input type="hidden" value="@infoEmp.id_empleado" name="id_emplado" id="id_empleado" />
+        <div class="row align-items-start mb-2">
+            <div class="col-3">
+                <h5>Nombre:</h5>
+            </div>
+            <div class="col">
+                <input type="text" id="nombre" name="nombre" placeholder="..." class="size-text" value="@infoEmp.nombre">
+            </div>
+        </div>
+        <div class="row align-items-start mb-2">
+            <div class="col-3">
+                <h5>Apellido:</h5>
+            </div>
+            <div class="col">
+                <input type="text" id="apellido" name="apellido" placeholder="..." class="size-text" value="@infoEmp.apellido">
+            </div>
+        </div>
+
+        <div class="row align-items-start mb-2">
+            <div class="col-3">
+                <h5>Dirección:</h5>
+            </div>
+            <div class="col">
+                <input type="text" id="direccion" name="direccion" placeholder="..." class="size-text" value="@infoEmp.direccion">
+            </div>
+        </div>
+
+        <div class="row align-items-start mb-2">
+            <div class="col-3">
+                <h5>Teléfono:</h5>
+            </div>
+            <div class="col">
+                <input type="text" id="telefono" name="telefono" placeholder="..." class="size-text" value="@infoEmp.telefono">
+            </div>
+        </div>
+
+        <div class="row align-items-start mb-2">
+            <div class="col-3">
+                <h5>Correo:</h5>
+            </div>
+            <div class="col">
+                <input type="text" id="correo" name="correo" placeholder="..." class="size-text" value="@infoEmp.correo">
+            </div>
+        </div>
+
+        <div class="col d-flex ">
+            <select class="size-combo" id="id_cargo" name="id_cargo" aria-label="Default select example">
+                <option value="@infoEmp.id_cargo" selected style="color: #D0D3D9; font-size: 1.3vw;">@infoEmp.cargo</option>
+                @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCargos"])
+                {
+                    <option value="@item.id_cargo">@item.cargo</option>
+                }
+            </select>
+        </div>
+
+        <div class="col d-flex ">
+            <select class="size-combo" id="id_estado" name="id_estado" aria-label="Default select example">
+                <option value="@infoEmp.id_estado" selected style="color: #D0D3D9; font-size: 1.3vw;">@infoEmp.estado</option>
+                @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
+                {
+                    <option value="@item.id_estado">@item.nombre</option>
+                }
+            </select>
+        </div>
+
+        <div class="row mt-3 mb-2">
+            <div class="col-3">
+            </div>
+            <div class="col d-flex justify-content-end">
+                <input type="submit" value="Editar combo" class="botones">
+            </div>
+        </div>
+    </form>
+</div>
+
+@* <div class="mt-3" style="margin-left: 140px; width: 83%;">
     <div class="d-flex">
         <div>
             <h4>Empleado</h4>
@@ -110,4 +191,4 @@
 
 
     </div>
-</div>
+</div> *@
