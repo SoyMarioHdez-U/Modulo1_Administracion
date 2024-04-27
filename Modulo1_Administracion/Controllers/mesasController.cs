@@ -29,10 +29,10 @@ namespace Modulo1_Administracion.Controllers
             ViewData["listadoDeEstados"] = new SelectList(listaDeEstados, "id_estado", "nombre");
 
 
-            var listadoDeMesas = (from v in _context.v_mesa_estado
+            var listadoDeMesas = (from v in _context.v_mesas_estado
                                   select v);
 
-            int cantidadRegistros = 7;
+            int cantidadRegistros = 5;
 
             return View(await Paginacion<v_mesas_estado>.CrearPaginacion(listadoDeMesas.AsNoTracking(), numPag ?? 1, cantidadRegistros));
         }

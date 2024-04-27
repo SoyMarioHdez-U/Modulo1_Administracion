@@ -23,7 +23,7 @@ namespace Modulo1_Administracion.Models
         public DbSet<obj_items_promo> obj_items_promo { get; set; }
         public DbSet<promociones> promociones { get; set; }
         public DbSet<v_itemsPromoCombos> v_itemsPromoCombos { get; set; }
-        public DbSet<v_mesas_estado> v_mesa_estado { get; set; }
+        public DbSet<v_mesas_estado> v_mesas_estado { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -128,17 +128,52 @@
 
                 </tbody>
             </table>
-            <nav style="margin-top: 2px;">
+            <nav>
                 <ul class="navPaginacion bg-light w-100">
-                    <li class="page-item1"><a href="#">&lt; Anterior</a></li>
+
+                    @if (Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a asp-action="empleadosIndex" asp-route-numpag="@(Model.PaginaInicio-1)">&lt; Anterior</a></li>
+
+                    }
+
+                    @if (!Model.PaginasAnteriores)
+                    {
+                        <li class="page-item1"><a href="#" style="color: gray;">&lt; Anterior</a></li>
+
+                    }
+
+
                     <div class="d-flex ">
-                    <li class="page-item"><a href="#">1</a></li>
-                    <li class="page-item"><a href="#">2</a></li>
-                    <li class="page-item"><a href="#">3</a></li>
-                    <li class="page-item"><a href="#">4</a></li>
-                    <li class="page-item" style="border-right: solid grey; border-width: 1px;"><a href="#">5</a></li>
+
+
+                        @for (var i = 1; i <= Model.PaginasTotales; i++)
+                        {
+                            @if (i == Model.PaginaInicio)
+                            {
+                            <li class="page-item-activo" style="background-color: #a60c18;"><a asp-action="empleadosIndex" asp-route-numpag="@i" style="color: white;">@i</a></li>
+                            }
+
+                            @if (i != Model.PaginaInicio)
+                            {
+                            <li class="page-item"><a asp-action="empleadosIndex" asp-route-numpag="@i">@i</a></li>
+                            }
+
+                        }
+
+
         </div>
-        <li class="page-item1"><a href="#">Siguiente &gt;</a></li>
+
+                    @if (Model.PaginasPosteriores)
+                    {
+            <li class="page-item1"><a asp-action="empleadosindex" asp-route-numpag="@(Model.PaginaInicio+1)">Siguiente &gt;</a></li>
+                    }
+
+                    @if (!Model.PaginasPosteriores)
+                    {
+            <li class="page-item1"><a href="#" style="color: gray;">Siguiente &gt;</a></li>
+                    }
+
         </ul>
         </nav>
         </div>
