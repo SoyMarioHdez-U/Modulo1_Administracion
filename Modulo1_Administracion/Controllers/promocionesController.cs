@@ -194,7 +194,7 @@ namespace Modulo1_Administracion.Controllers
             //Este es un llamado a una tabla, pero no cualquier tabla.
             //Esta llamando a una "VISTA" ("VIEW") de la base de datos. Para esto, también, se necesita crear una clase como modelo.
             //Como si fuese una tabla real.
-            var listadoDeItemsPromo = (from otc in _DulceSaborContext
+            var listadoDeItemsPromo = (from otc in _DulceSaborContext.v_itemsPromoCombos
 
                                        where otc.id == id
                                        select otc);

@@ -37,6 +37,8 @@ namespace Modulo1_Administracion.Controllers
             return View(await Paginacion<v_mesas_estado>.CrearPaginacion(listadoDeMesas.AsNoTracking(), numPag ?? 1, cantidadRegistros));
         }
 
+
+
         [HttpPost]
         public ActionResult CrearMesa(mesas nuevaMesa)
         {
