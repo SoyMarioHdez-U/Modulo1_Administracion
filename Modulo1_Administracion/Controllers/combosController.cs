@@ -32,8 +32,8 @@ namespace Modulo1_Administracion.Controllers
             ViewData["listadoDeEstados"] = listaDeEstados;
 
             //Llama a todos los registros de la tabla combos para mostrarlas en la tabla de la vista index de combos.
-            var listadoDeCombos = (from m in _DulceSaborContext.combos
-                                  select m);
+            var listadoDeCombos = (from c in _DulceSaborContext.combo_dos
+                                  select c);
 
             int cantidadRegistros = 15;
 
@@ -44,13 +44,13 @@ namespace Modulo1_Administracion.Controllers
             //))
 
             //La clase "Paginacion" funciona para todos los controladores, solo copien el código del return View y modifiquen lo de "listadoDeCombos".
-            return View(await Paginacion<combos>.CrearPaginacion(listadoDeCombos.AsNoTracking(), numPag?? 1, cantidadRegistros));
+            return View(await Paginacion<combo_dos>.CrearPaginacion(listadoDeCombos.AsNoTracking(), numPag?? 1, cantidadRegistros));
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCombo(IFormFile archivo, string nombre, string platos, decimal precio, int id_estado)
+        public async Task<ActionResult> CreateCombo(IFormFile archivo, string nombre, string descripcion, string platos, decimal precio, int id_estado)
         {
-            if (archivo != null && nombre != null && platos != null && precio > 0 && id_estado > 0)
+            if (archivo != null && nombre != null && descripcion != null && platos != null && precio > 0 && id_estado > 0)
             {
                 /*  INICIO GUARDADO DE LA IMAGEN EN FIREBASE STORAGE   */
 
@@ -83,18 +83,19 @@ namespace Modulo1_Administracion.Controllers
                 /*  INICIO GUARDADO DEL NUEVO REGISTRO "COMBO"   */
 
                 //Se crea este objeto para poder guardar el nuevo registro
-                combos combosObj = new combos();
+                combo_dos combosObj = new combo_dos();
 
                 //Se asignan los valores del nuevo registro a los atributos del objeto
                 //objeto.atributo = variable_recibida_en_este_metodo (CreateCombo);
 
-                combosObj.descripcion = nombre;
+                combosObj.nombre = nombre;
+                combosObj.descripcion = descripcion;
                 combosObj.precio = precio;
                 combosObj.imagen = urlArchivoCargado;
                 combosObj.id_estado = id_estado;
 
                 //Se hace el INSERT INTO del registro a la tabla Combos.
-                _DulceSaborContext.combos.Add(combosObj);
+                _DulceSaborContext.combo_dos.Add(combosObj);
                 _DulceSaborContext.SaveChanges();
 
                 /*  FIN GUARDADO DEL NUEVO REGISTRO "COMBO"   */
@@ -171,13 +172,14 @@ namespace Modulo1_Administracion.Controllers
             ViewData["listadoDeEstados"] = listaDeEstados;
 
             //Se llama al registro del cual se requieren sus campos
-            var combo = (from c in _DulceSaborContext.combos
+            var combo = (from c in _DulceSaborContext.combo_dos
                          .Where(c => c.id_combo == id)
                          join e in _DulceSaborContext.estados on c.id_estado equals e.id_estado
                          select new
                          {
                              id = c.id_combo,
-                             nombre = c.descripcion,
+                             nombre = c.nombre,
+                             descripcion = c.descripcion,
                              precio = c.precio,
                              estado = e.nombre,
                              id_estado = e.id_estado
@@ -189,6 +191,7 @@ namespace Modulo1_Administracion.Controllers
             {
                 id_combo = combo.AsEnumerable().FirstOrDefault().id,
                 nombre = combo.AsEnumerable().FirstOrDefault().nombre,
+                descripcion = combo.AsEnumerable().FirstOrDefault().descripcion,
                 precio = combo.AsEnumerable().FirstOrDefault().precio,
                 estado = combo.AsEnumerable().FirstOrDefault().estado,
                 id_estado = combo.AsEnumerable().FirstOrDefault().id_estado
@@ -210,11 +213,11 @@ namespace Modulo1_Administracion.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditCombo(int? id, [Bind("id_combo, descripcion, precio, id_estado")] combos combos)
+        public async Task<IActionResult> EditCombo(int? id, [Bind("id_combo, nombre, descripcion, precio, id_estado")] combo_dos combos)
         {
             
 
-            if (!string.IsNullOrEmpty(combos.descripcion) && combos.precio > 0)
+            if (!string.IsNullOrEmpty(combos.nombre) && !string.IsNullOrEmpty(combos.descripcion) && combos.precio > 0)
             {
                 //Aquí no hace falta hacer un objeto con sus asignaciones. Ya que es una actualización (también se puede para crear registros)
                 //a una sola tabla. Los datos los toma desde los atributos que están en Bind en la parte de los parámetros de este metodo "EditCombo".
@@ -225,7 +228,7 @@ namespace Modulo1_Administracion.Controllers
             }
             else
             {
-                var unCombo = (from c in _DulceSaborContext.combos
+                var unCombo = (from c in _DulceSaborContext.combo_dos
                                where c.id_combo == combos.id_combo
                                select c).ToList();
 

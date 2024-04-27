@@ -1,6 +1,6 @@
 ﻿@using Modulo1_Administracion.Data
 
-@model Paginacion<combos>
+@model Paginacion<combo_dos>
 
 @{
     ViewData["Title"] = "Combos";
@@ -29,11 +29,13 @@
 
     @* INICIO DE LA SECCION CREAR COMBO (FORMULARIO) *@
     <script>
+        var numItem = 1;
 
         function addPlato() 
         {
             var plato = document.querySelector(".item_combo").value;
             var desc = document.querySelector(".desc_area");
+            var desc2 = document.querySelector(".desc-usuario");
 
             var select = document.getElementById("item_combo"),
                 value = select.value,
@@ -43,6 +45,10 @@
                 desc.append(plato + ",");
 
 
+                desc2.append(numItem + ". " + text + "\n");
+
+
+                numItem = numItem + 1;
             }
         }
     </script>
@@ -122,9 +128,6 @@
 
                 <a href="#" class="agregarItem" onclick="addPlato()">Agregar nuevo item</a>
 
-                <div class="items bg-danger">
-                </div>
-
                 <div class="row mt-3 mb-2">
                     <div class="col-3">
                     </div>
@@ -132,12 +135,22 @@
                         <input type="submit" value="Crear combo" class="botones">
                     </div>
                 </div>
+
+
+                <div class="row mt-3 mb-2">
+                    <div class="col-3">
+                    </div>
+                    <div class="col">
+                        <textarea class="size-area-2 desc-usuario" placeholder="Los items seleccionados aparecerán aquí"
+                                  id="floatingTextarea"></textarea>
+                    </div>
+                </div>
             </div>
         </form>
 
         @* FIN DE LA SECCION CREAR COMBO (FORMULARIO) *@
 
-        <hr class="position-absolute " style="height: 59%; top: 25%; left: 51%; border-left: solid #000;"/>
+        <hr class="position-absolute " style="height: 51%; top: 25%; left: 51%; border-left: solid #000;"/>
 
         <div class="mt-4" style="width: 46%; ">
             <div class="overflow-auto" style="height: 236px;">

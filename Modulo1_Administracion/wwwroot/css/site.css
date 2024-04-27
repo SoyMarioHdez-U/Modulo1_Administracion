@@ -155,11 +155,18 @@ table a {
 
 .items
 {
-    width: 38.5%;
+    width: 100%;
     height: 20%;
-    margin-left: 10vw;
     padding: 2vw;
     font-size: 2vw;
+}
+
+.size-area-2 {
+    width: 100%;
+    height: 50px;
+    border-style: none;
+    font-size: 1.24vw;
+    padding-left: 15px;
 }
 /*FIN PAGINA COMBOS*/
 

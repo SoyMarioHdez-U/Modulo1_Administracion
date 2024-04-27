@@ -12,6 +12,7 @@ namespace Modulo1_Administracion.Models
         public DbSet<cargos> cargos { get; set; }
         public DbSet<categorias> categorias { get; set; }
         public DbSet<combos> combos { get; set; }
+        public DbSet<combos> combo_dos { get; set; }
         public DbSet<items_combo> items_combo { get; set; }
         public DbSet<items_combo_dos> items_combo_dos { get; set; }
         public DbSet<items_promociones> items_promociones { get; set; }
