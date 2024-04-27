@@ -18,6 +18,7 @@ namespace Modulo1_Administracion.Models
         public DbSet<mesas> mesas { get; set; }
         public DbSet<empleados> empleados { get; set; }
         public DbSet<estados> estados { get; set; }
+        public DbSet<v_empleado_cargo> v_empleado_cargo { get; set; }
         public DbSet<obj_items_combo> obj_items_combos { get; set; }
         public DbSet<obj_items_promo> obj_items_promo { get; set; }
         public DbSet<promociones> promociones { get; set; }
@@ -32,6 +33,7 @@ namespace Modulo1_Administracion.Models
 
             modelBuilder.Entity<obj_items_combo>().HasNoKey();
             modelBuilder.Entity<obj_items_promo>().HasNoKey();
+            modelBuilder.Entity<v_empleado_cargo>().HasNoKey();
         }
         public DbSet<Modulo1_Administracion.Models.items_menu> items_menu { get; set; } = default!;
     }

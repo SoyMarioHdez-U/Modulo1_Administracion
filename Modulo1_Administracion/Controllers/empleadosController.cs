@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modulo1_Administracion.Models;
+using Modulo1_Administracion.Data;
 
 namespace Modulo1_Administracion.Controllers
 {
@@ -19,7 +20,7 @@ namespace Modulo1_Administracion.Controllers
             _context = context;
         }
 
-        public ActionResult empleadosIndex() // Porque no utiliza IActionResult
+        public async Task<IActionResult> empleadosIndex(int? numPag) // Porque no utiliza IActionResult
         {
             var listaDeCargos = (from c in _context.cargos
                                  select c).ToList();
@@ -30,22 +31,13 @@ namespace Modulo1_Administracion.Controllers
                                   select e).ToList();
             ViewData["listadoDeEstados"] = new SelectList(listaDeEstados, "id_estado", "nombre");
 
-            var listadoDeEmpleados = (from e in _context.empleados
-                                      join c in _context.cargos on e.id_cargo equals c.id_cargo
-                                      join es in _context.estados on e.id_estado equals es.id_estado
-                                      select new
-                                      {
-                                          id_empleado = e.id_empleado,
-                                          id = e.id_empleado,
-                                          nombre = e.nombre + " " + e.apellido,
-                                          cargo = c.cargo,
-                                          estado = es.nombre,
 
-                                      }
-                                    ).ToList();
-            ViewData["listadoDeEmpleados"] = listadoDeEmpleados;
+            var listadoDeEmpleados = (from v in _context.v_empleado_cargo
+                                      select v);
 
-            return View();
+            int cantidadRegistros = 7;
+
+            return View(await Paginacion<v_empleado_cargo>.CrearPaginacion(listadoDeEmpleados.AsNoTracking(), numPag ?? 1, cantidadRegistros));
         }
         public ActionResult CrearEmpleado(empleados nuevoEmpleado) // Porque no utiliza IActionResult
         {
