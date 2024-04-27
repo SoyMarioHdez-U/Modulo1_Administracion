@@ -1,10 +1,10 @@
 ﻿@using Modulo1_Administracion.Data
 
-@model Paginacion<obj_items_promo>
+@model Paginacion<v_itemsPromoCombos>
 
 @{
     ViewData["Title"] = "Detalles de la PROMOCION";
-    var infoPromo= ViewData["infoPromo"] as obj_promo_estado;
+    var infoPromo = ViewData["infoPromo"] as bj_promo_estado;
 }
 
 <hr class="hrHorizontal">
@@ -52,12 +52,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeItemspPromo"])
+                        @foreach (var item in Model)
                         {
                             <tr style="background-color: white;">
-                                <td scope="row" class="text-center ">@item.id_plato</td>
-                                <td>@item.nombre</td>
-                                <td>@item.cantidad_platos</td>
+                                <td scope="row" class="text-center ">@item.id</td>
+                                <td>@item.combo</td>
+                                <td>@item.precio</td>
                             </tr>
 
                             <tr style="height: 3px;">

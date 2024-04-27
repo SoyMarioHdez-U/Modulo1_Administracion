@@ -181,7 +181,7 @@ namespace Modulo1_Administracion.Controllers
 
             //Se hace el ViewData para usarlo en la vista Details.cshtml, pero este es diferente.
             //Ya que la consulta solo es de un registro podemos hacer un objeto para usar sus atributos más fácil en la vista.
-            ViewData["infoPromo"] = new obj_promo_estado()
+            ViewData["infoPromo"] = new bj_promo_estado()
             {
                 id_promo = promo.AsEnumerable().FirstOrDefault().id,
                 nombre = promo.AsEnumerable().FirstOrDefault().nombre,
@@ -194,8 +194,9 @@ namespace Modulo1_Administracion.Controllers
             //Este es un llamado a una tabla, pero no cualquier tabla.
             //Esta llamando a una "VISTA" ("VIEW") de la base de datos. Para esto, también, se necesita crear una clase como modelo.
             //Como si fuese una tabla real.
-            var listadoDeItemsPromo = (from otc in _DulceSaborContext.obj_items_promo
-                                        where otc.id_promo == id
+            var listadoDeItemsPromo = (from otc in _DulceSaborContext.v_itemsPromoCombos
+
+                                       where otc.id == id
                                         select otc);
 
             //VieWData creado para poder usarlo en la vista Details.cshtml
@@ -203,7 +204,7 @@ namespace Modulo1_Administracion.Controllers
 
             int cantidadRegistros = 6;
 
-            return View(await Paginacion<obj_items_promo>.CrearPaginacion(listadoDeItemsPromo.AsNoTracking(), numPag ?? 1, cantidadRegistros));
+            return View(await Paginacion<v_itemsPromoCombos>.CrearPaginacion(listadoDeItemsPromo.AsNoTracking(), numPag ?? 1, cantidadRegistros));
         }
 
 
