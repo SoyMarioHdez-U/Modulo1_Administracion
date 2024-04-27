@@ -32,11 +32,11 @@
 <hr class="hrHorizontal">
 
 
-<hr class="position-absolute " style="height: 55%; top: 25%; left: 48%; border-left: solid #000;">
+<hr class="position-absolute " style="height: 55%; top: 25%; left: 50%; border-left: solid #000;">
 
 <div class="container ms-5 mt-4 align-middle" style="width: 45%;">
     <form asp-action="Edit">
-        <input type="hidden" value="@infoEmp.id_empleado" name="id_emplado" id="id_empleado" />
+        <input type="hidden" name="id_empleado" id="id_empleado" value="@infoEmp.id_empleado" />
         <div class="row align-items-start mb-2">
             <div class="col-3">
                 <h5>Nombre:</h5>
@@ -68,7 +68,7 @@
                 <h5>Teléfono:</h5>
             </div>
             <div class="col">
-                <input type="text" id="telefono" name="telefono" placeholder="..." class="size-text" value="@infoEmp.telefono">
+                <input type="number" id="telefono" name="telefono" placeholder="..." class="size-text" value="@infoEmp.telefono">
             </div>
         </div>
 
@@ -81,25 +81,37 @@
             </div>
         </div>
 
-        <div class="col d-flex ">
-            <select class="size-combo" id="id_cargo" name="id_cargo" aria-label="Default select example">
-                <option value="@infoEmp.id_cargo" selected style="color: #D0D3D9; font-size: 1.3vw;">@infoEmp.cargo</option>
-                @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCargos"])
-                {
-                    <option value="@item.id_cargo">@item.cargo</option>
-                }
-            </select>
+
+        <div class="row align-items-start mb-2">
+            <div class="col-3">
+                <h5>Cargo:</h5>
+            </div>
+            <div class="col">
+                <select class="size-combo" id="id_cargo" name="id_cargo" aria-label="Default select example">
+                    <option value="@infoEmp.id_cargo" selected style="color: #D0D3D9; font-size: 1.3vw;">@infoEmp.cargo</option>
+                    @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeCargos"])
+                    {
+                        <option value="@item.id_cargo">@item.cargo</option>
+                    }
+                </select>
+            </div>
         </div>
 
-        <div class="col d-flex ">
-            <select class="size-combo" id="id_estado" name="id_estado" aria-label="Default select example">
-                <option value="@infoEmp.id_estado" selected style="color: #D0D3D9; font-size: 1.3vw;">@infoEmp.estado</option>
-                @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
-                {
-                    <option value="@item.id_estado">@item.nombre</option>
-                }
-            </select>
+        <div class="row align-items-start mb-2">
+            <div class="col-3">
+                <h5>Estado:</h5>
+            </div>
+            <div class="col">
+                <select class="size-combo" id="id_estado" name="id_estado" aria-label="Default select example">
+                    <option value="@infoEmp.id_estado" selected style="color: #D0D3D9; font-size: 1.3vw;">@infoEmp.estado</option>
+                    @foreach (var item in (IEnumerable<dynamic>)ViewData["listadoDeEstados"])
+                    {
+                        <option value="@item.id_estado">@item.nombre</option>
+                    }
+                </select>
+            </div>
         </div>
+
 
         <div class="row mt-3 mb-2">
             <div class="col-3">

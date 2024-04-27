@@ -37,7 +37,7 @@ namespace Modulo1_Administracion.Models
 
             modelBuilder.Entity<obj_items_combo>().HasNoKey();
             modelBuilder.Entity<obj_items_promo>().HasNoKey();
-            modelBuilder.Entity<obj_empleados_cargos>().HasNoKey();
+            
             modelBuilder.Entity<v_empleado_cargo>().HasNoKey();
             modelBuilder.Entity<v_mesas_estado>().HasNoKey();
             modelBuilder.Entity<v_items_menu>().HasNoKey();
